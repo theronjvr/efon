@@ -137,33 +137,33 @@
                 });
             }
 
-            select.addEventListener("change", () => {
-                let selectedPrice = 0;
+select.addEventListener("change", () => {
+    const selectedValue = select.value;
 
-                if (select.value !== "none") {
-                    const selectedOption =
-                        (type === "Hybrid"
-                            ? (moduleMap["Combat"] || []).find(opt => opt.id === select.value) ||
-                              (moduleMap["Service"] || []).find(opt => opt.id === select.value)
-                            : (moduleMap[type] || []).find(opt => opt.id === select.value));
+    if (selectedValue !== "none") {
+        const selectedOption =
+            type === "Hybrid"
+                ? (moduleMap["Combat"] || []).find(opt => opt.id === selectedValue) ||
+                  (moduleMap["Service"] || []).find(opt => opt.id === selectedValue)
+                : (moduleMap[type] || []).find(opt => opt.id === selectedValue);
 
-                    description.textContent = selectedOption?.description || "Select a module";
-                    selectedPrice = selectedOption?.price || 0;
-                } else {
-                    description.textContent = "(none)";
-                }
+        description.textContent = selectedOption?.description || "Select a module";
+        selectedPrice = selectedOption?.price || 0;
+    } else {
+        description.textContent = "(none)";
+    }
 
-                const currentIndex = selectedModules.findIndex(item => item.label === labelText);
-                if (currentIndex >= 0) {
-                    selectedModules[currentIndex] = { label: labelText, value: select.value };
-                } else {
-                    selectedModules.push({ label: labelText, value: select.value });
-                }
+    const currentIndex = selectedModules.findIndex(item => item.label === labelText);
+    if (currentIndex >= 0) {
+        selectedModules[currentIndex] = { label: labelText, value: selectedValue };
+    } else {
+        selectedModules.push({ label: labelText, value: selectedValue });
+    }
 
-                updatePrice(selectedModules);
-                updateSummary(selectedModules);
-            });
-
+    // Update price and summary
+    updatePrice(selectedModules);
+    updateSummary(selectedModules);
+});
             container.appendChild(label);
             container.appendChild(select);
             container.appendChild(description);
