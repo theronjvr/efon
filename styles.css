@@ -12,27 +12,6 @@ body {
       background-position: center; /* Center the image */ 
       /* Additional properties for background if needed */ 
    } 
-.product-link {
-      display: block;
-      margin: 10px 0;
-      text-decoration: none;
-      color: blue;
-      position: relative;
-   }
-.product-link:hover .product-image {
-      display: block;
-   }
-.product-image {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 200px;
-      width: auto;
-      max-height: 300px;
-      border: 1px solid #ccc;
-      background-color: #fff;
-      z-index: 1000;
-   }
 h2 {
       margin-top: 30px;
    }
