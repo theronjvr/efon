@@ -1,75 +1,92 @@
 <!DOCTYPE html>
-<!-- saved from url=(0042)https://theronjvr.github.io/efon/selector/ -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Selector</title>
+    <title>Product Index</title>
     <style>
-        .product {
-            display: inline-block;
-            margin: 20px;
-            text-align: center;
+        body {
+            font-family: Arial, sans-serif;
         }
-        .product img {
-            width: 150px;
-            height: 150px;
-            cursor: pointer;
+        .product-link {
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: blue;
+            position: relative;
         }
-        .product p {
-            margin-top: 10px;
+        .product-link:hover .product-image {
+            display: block;
+        }
+        .product-image {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 200px;
+            width: auto;
+            max-height: 300px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
-    <h1>Product Selector</h1>
-    <div id="productContainer"><div class="product">
-                    <img src="./index_files/Mse-droid.png" alt="MSE Advanced" data-id="1">
-                    <p>MSE Advanced</p>
-                </div><div class="product">
-                    <img src="./index_files/Probot-droid.png" alt="Probot Advanced II" data-id="2">
-                    <p>Probot Advanced II</p>
-                </div><div class="product">
-                    <img src="./index_files/Le-repair-droid.jpg" alt="LE Repair Droid Advanced" data-id="3">
-                    <p>LE Repair Droid Advanced</p>
-                </div></div>
+    <h1>Efon's Droids Build-A-Droid</h1>
+    <div id="productList">Loading...</div>
 
     <script>
-        // Function to fetch and parse product data from an XML file
-        async function fetchProducts() {
+        // Fetch product data from an external XML file
+        async function fetchProductData() {
             const response = await fetch('products.xml');
             const text = await response.text();
             const productDoc = new DOMParser().parseFromString(text, "application/xml");
             return Array.from(productDoc.getElementsByTagName("product"));
         }
 
-        // Function to display products dynamically
+        // Generate product links with module counts
         async function displayProducts() {
-            const products = await fetchProducts();
-            const productContainer = document.getElementById('productContainer');
+            const productList = document.getElementById("productList");
+            const products = await fetchProductData();
+
+            if (products.length === 0) {
+                productList.textContent = "No products found.";
+                return;
+            }
+
+            productList.innerHTML = ""; // Clear loading message
 
             products.forEach(product => {
-                const productId = product.getAttribute('id');
-                const name = product.getElementsByTagName('name')[0].textContent;
-                const image = product.getElementsByTagName('image')[0].textContent;
+                const productId = product.getAttribute("id");
+                const productName = product.getElementsByTagName("name")[0].textContent;
+                const productImage = product.getElementsByTagName("image")[0].textContent;
 
-                const productDiv = document.createElement('div');
-                productDiv.className = 'product';
-                productDiv.innerHTML = `
-                    <img src="${image}" alt="${name}" data-id="${productId}" />
-                    <p>${name}</p>
-                `;
-
-                // Add an event listener to redirect to the selector page with the product ID
-                productDiv.querySelector('img').addEventListener('click', () => {
-                    window.location.href = `selector.html?productId=${productId}`;
+                // Parse module counts
+                const maxModules = product.getElementsByTagName("maxModules")[0].children;
+                const moduleCounts = { C: 0, S: 0, H: 0, A: 0, P: 0 };
+                Array.from(maxModules).forEach(slot => {
+                    const type = slot.tagName[0]; // Use first letter of tag name
+                    moduleCounts[type] = parseInt(slot.textContent);
                 });
 
-                productContainer.appendChild(productDiv);
+                // Create link for product
+                const link = document.createElement("a");
+                link.href = `selector.html?productId=${productId}`;
+                link.className = "product-link";
+                link.textContent = `${productName} - C:${moduleCounts.C}, S:${moduleCounts.S}, H:${moduleCounts.H}, A:${moduleCounts.A}, P:${moduleCounts.P}`;
+
+                // Add hover image
+                const image = document.createElement("img");
+                image.src = productImage;
+                image.alt = productName;
+                image.className = "product-image";
+
+                link.appendChild(image);
+                productList.appendChild(link);
             });
         }
 
-        // Call displayProducts function to load and display products when the page is ready
         displayProducts();
     </script>
-
-<scribe-shadow id="crxjs-ext" style="position: fixed; width: 0px; height: 0px; top: 0px; left: 0px; z-index: 2147483647; overflow: visible; visibility: visible;"><template shadowrootmode="open"><div id="root-scribe-elem" style="position: fixed; width: 0px; height: 0px; top: 0px; left: 0px; overflow: visible; color: rgb(15, 23, 42);"><div role="region" aria-label="Notifications (F8)" tabindex="-1" style="pointer-events: none;"><ol tabindex="-1" class="fixed bottom-auto right-0 top-0 z-[99999] flex max-h-screen w-[400px] max-w-full p-4"></ol></div></div><link rel="stylesheet" href="chrome-extension://okfkdaglfjjjfefdcppliegebpoegaii/assets/style.css"></template></scribe-shadow></body></html>
+</body>
+</html>
