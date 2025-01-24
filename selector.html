@@ -221,11 +221,21 @@ function updateSummary(selectedModules) {
     const productName = document.getElementById("productName").textContent;
     const totalPrice = document.getElementById("totalPrice").textContent;
 
+    // Build the additional scores summary
+    let additionalScores = "";
+    if (totalItemStorage > 0) {
+        additionalScores += ` Total Item Storage: ${totalItemStorage} items.`;
+    }
+    if (handSamplingScore > 0) {
+        additionalScores += ` Hand Sampling Score: ${handSamplingScore}.`;
+    }
+    if (creatureHarvestingScore > 0) {
+        additionalScores += ` Creature Harvesting Score: ${creatureHarvestingScore}.`;
+    }
+
     // Update the summary field
-    summaryField.value = `I would like to purchase a ${productName} with the following modules: ${moduleSummary}. Total Price: ${totalPrice} Republic Credits. Total Item Storage: ${totalItemStorage} items. Hand Sampling Bonus: ${handSamplingScore}. Creature Harvesting Bonus: ${creatureHarvestingScore}.`;
+    summaryField.value = `I would like to purchase a ${productName} with the following modules: ${moduleSummary}. Total Price: ${totalPrice} Republic Credits.${additionalScores}`;
 }
-
-
 
         async function initialize() {
             const summaryField = document.getElementById("summaryField");
