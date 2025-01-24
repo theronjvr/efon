@@ -29,11 +29,21 @@
             background-color: #fff;
             z-index: 1000;
         }
+        h2 {
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
-    <h1>Efon's Droids Build-A-Droid</h1>
-    <div id="productList">Loading...</div>
+    <h1>Product Index</h1>
+    <div id="combatProducts">
+        <h2>Combat Products</h2>
+        <div id="combatList">Loading...</div>
+    </div>
+    <div id="utilityProducts">
+        <h2>Utility Products</h2>
+        <div id="utilityList">Loading...</div>
+    </div>
 
     <script>
         // Fetch product data from an external XML file
@@ -44,22 +54,27 @@
             return Array.from(productDoc.getElementsByTagName("product"));
         }
 
-        // Generate product links with module counts
+        // Generate product links grouped by type
         async function displayProducts() {
-            const productList = document.getElementById("productList");
+            const combatList = document.getElementById("combatList");
+            const utilityList = document.getElementById("utilityList");
             const products = await fetchProductData();
 
             if (products.length === 0) {
-                productList.textContent = "No products found.";
+                combatList.textContent = "No combat products found.";
+                utilityList.textContent = "No utility products found.";
                 return;
             }
 
-            productList.innerHTML = ""; // Clear loading message
+            // Clear loading messages
+            combatList.innerHTML = "";
+            utilityList.innerHTML = "";
 
             products.forEach(product => {
                 const productId = product.getAttribute("id");
                 const productName = product.getElementsByTagName("name")[0].textContent;
                 const productImage = product.getElementsByTagName("image")[0].textContent;
+                const productType = product.getElementsByTagName("type")[0].textContent;
 
                 // Parse module counts
                 const maxModules = product.getElementsByTagName("maxModules")[0].children;
@@ -82,7 +97,13 @@
                 image.className = "product-image";
 
                 link.appendChild(image);
-                productList.appendChild(link);
+
+                // Append link to the appropriate list
+                if (productType === "Combat") {
+                    combatList.appendChild(link);
+                } else if (productType === "Utility") {
+                    utilityList.appendChild(link);
+                }
             });
         }
 
