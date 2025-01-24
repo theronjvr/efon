@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Module Selector</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
+        /* Page-Specific CSS */
         .product-image {
             width: 200px;
             height: auto;
@@ -37,11 +39,14 @@
     </style>
 </head>
 <body>
-    <h1 id="productName">Loading...</h1>
+    <header id="header-id">
+        <h1>Module Selector</h1>
+    </header>
+    <h2 id="productName">Loading...</h2>
     <img id="productImage" class="product-image" alt="Product Image" />
     <div id="moduleSelectors"></div>
     <div id="priceContainer">
-        <h2>Total Price: <span id="totalPrice">0</span> Republic Credits</h2>
+        <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
     </div>
     <div id="summaryContainer">
         <h3>Selection Summary</h3>
@@ -106,7 +111,7 @@
             noneOption.textContent = "(none)";
             select.appendChild(noneOption);
 
-            // If module type is Hybrid, include Combat and Service options
+            // Add module options based on type
             if (type === 'Hybrid') {
                 const combatOptions = moduleMap["Combat"] || [];
                 const serviceOptions = moduleMap["Service"] || [];
@@ -137,33 +142,33 @@
                 });
             }
 
-select.addEventListener("change", () => {
-    const selectedValue = select.value;
+            select.addEventListener("change", () => {
+                let selectedPrice = 0;
 
-    if (selectedValue !== "none") {
-        const selectedOption =
-            type === "Hybrid"
-                ? (moduleMap["Combat"] || []).find(opt => opt.id === selectedValue) ||
-                  (moduleMap["Service"] || []).find(opt => opt.id === selectedValue)
-                : (moduleMap[type] || []).find(opt => opt.id === selectedValue);
+                if (select.value !== "none") {
+                    const selectedOption =
+                        type === "Hybrid"
+                            ? (moduleMap["Combat"] || []).find(opt => opt.id === select.value) ||
+                              (moduleMap["Service"] || []).find(opt => opt.id === select.value)
+                            : (moduleMap[type] || []).find(opt => opt.id === select.value);
 
-        description.textContent = selectedOption?.description || "Select a module";
-        selectedPrice = selectedOption?.price || 0;
-    } else {
-        description.textContent = "(none)";
-    }
+                    description.textContent = selectedOption?.description || "Select a module";
+                    selectedPrice = selectedOption?.price || 0;
+                } else {
+                    description.textContent = "(none)";
+                }
 
-    const currentIndex = selectedModules.findIndex(item => item.label === labelText);
-    if (currentIndex >= 0) {
-        selectedModules[currentIndex] = { label: labelText, value: selectedValue };
-    } else {
-        selectedModules.push({ label: labelText, value: selectedValue });
-    }
+                const currentIndex = selectedModules.findIndex(item => item.label === labelText);
+                if (currentIndex >= 0) {
+                    selectedModules[currentIndex] = { label: labelText, value: select.value };
+                } else {
+                    selectedModules.push({ label: labelText, value: select.value });
+                }
 
-    // Update price and summary
-    updatePrice(selectedModules);
-    updateSummary(selectedModules);
-});
+                updatePrice(selectedModules);
+                updateSummary(selectedModules);
+            });
+
             container.appendChild(label);
             container.appendChild(select);
             container.appendChild(description);
@@ -236,7 +241,6 @@ function updateSummary(selectedModules) {
     // Update the summary field
     summaryField.value = `I would like to purchase a ${productName} with the following modules: ${moduleSummary}. Total Price: ${totalPrice} Republic Credits.${additionalScores}`;
 }
-
         async function initialize() {
             const summaryField = document.getElementById("summaryField");
             const products = await fetchProductData();
