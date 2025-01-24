@@ -1,18 +1,23 @@
 body {    
    background-color: #333;
    color: white;
-   padding: 20px;
-   font-family: Arial, sans-serif;    text-align: center;
+   width: 100%;
+   font-family: Arial, sans-serif;
+   text-align: center;
+   }
+#Content { 
+   width: 960px; 
+   text-align: left; 
+   margin: 0px auto;
    }
 #header-id { 
       /* Set the height or other necessary styles for your header */ 
       height: 100px; 
-      width: 600px;
       background-image: url('https://theronjvr.github.io/efon/images/title.png'); 
-      background-size: cover; /* Adjust the image size to cover the header */ 
       background-position: left; 
       /* Additional properties for background if needed */ 
    } 
 h2 {
       margin-top: 30px;
    }
+
