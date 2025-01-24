@@ -25,7 +25,7 @@
     </product>
     <product id="3">
         <name>LE Repair Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/LE.jpg</image>
+        <image>https://theronjvr.github.io/efon/images/LE.png</image>
         <basePrice>20000</basePrice>
         <maxModules>
             <Combat>0</Combat>
