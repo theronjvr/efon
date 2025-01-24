@@ -15,7 +15,7 @@
     <product id="2">
         <name>Probot Advanced II</name>
         <image>https://theronjvr.github.io/efon/images/Probot.png</image>
-        <type>Utility</type>
+        <type>Combat</type>
         <basePrice>30000</basePrice>
         <maxModules>
             <Combat>9</Combat>
