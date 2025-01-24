@@ -8,6 +8,13 @@
     <link rel="icon" type="image/png" href="https://theronjvr.github.io/efon/icon.png">
     <style>
         /* Page-Specific CSS */
+        #header-id {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
         .product-image {
             width: 200px;
             height: auto;
@@ -41,17 +48,19 @@
 </head>
 <body>
     <header id="header-id">
-        <h1>Module Selector</h1>
     </header>
-    <h2 id="productName">Loading...</h2>
-    <img id="productImage" class="product-image" alt="Product Image" />
-    <div id="moduleSelectors"></div>
-    <div id="priceContainer">
-        <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
-    </div>
-    <div id="summaryContainer">
-        <h3>Selection Summary</h3>
-        <textarea id="summaryField" readonly></textarea>
+
+    <div class="content">
+        <h2 id="productName">Loading...</h2>
+        <img id="productImage" class="product-image" alt="Product Image" />
+        <div id="moduleSelectors"></div>
+        <div id="priceContainer">
+            <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
+        </div>
+        <div id="summaryContainer">
+            <h3>Selection Summary</h3>
+            <textarea id="summaryField" readonly></textarea>
+        </div>
     </div>
 
     <script>
@@ -189,59 +198,58 @@
         }
 
         // Update summary
-function updateSummary(selectedModules) {
-    const filteredModules = selectedModules.filter(module => module.value !== "none");
+        function updateSummary(selectedModules) {
+            const filteredModules = selectedModules.filter(module => module.value !== "none");
 
-    // Group modules by type
-    const moduleCounts = {};
-    filteredModules.forEach(module => {
-        if (!moduleCounts[module.value]) {
-            moduleCounts[module.value] = { count: 0, label: module.value };
+            const moduleCounts = {};
+            filteredModules.forEach(module => {
+                if (!moduleCounts[module.value]) {
+                    moduleCounts[module.value] = { count: 0, label: module.value };
+                }
+                moduleCounts[module.value].count++;
+            });
+
+            // Compute special scores
+            let totalItemStorage = 0;
+            if (moduleCounts["Item Storage"]) {
+                const count = moduleCounts["Item Storage"].count;
+                totalItemStorage = count === 1 ? 10 : 30; // 10 for 1 module, 30 for 2 or more
+            }
+
+            let handSamplingScore = 0;
+            if (moduleCounts["Hand Sampling (Mining)"]) {
+                handSamplingScore = moduleCounts["Hand Sampling (Mining)"].count * 10; // 10 points per module
+            }
+
+            let creatureHarvestingScore = 0;
+            if (moduleCounts["Creature Harvest"]) {
+                creatureHarvestingScore = moduleCounts["Creature Harvest"].count * 20; // 20 points per module
+            }
+
+            // Build module summary
+            const moduleSummary = Object.values(moduleCounts)
+                .map(module => `${module.count} ${module.label}${module.count > 1 ? "s" : ""}`)
+                .join(", ");
+
+            // Build additional scores summary
+            let additionalScores = "";
+            if (totalItemStorage > 0) {
+                additionalScores += ` Total Item Storage: ${totalItemStorage} items.`;
+            }
+            if (handSamplingScore > 0) {
+                additionalScores += ` Hand Sampling Score: ${handSamplingScore}.`;
+            }
+            if (creatureHarvestingScore > 0) {
+                additionalScores += ` Creature Harvesting Score: ${creatureHarvestingScore}.`;
+            }
+
+            const productName = document.getElementById("productName").textContent;
+            const totalPrice = document.getElementById("totalPrice").textContent;
+
+            // Update the summary field
+            summaryField.value = `I would like to purchase a ${productName} with the following modules: ${moduleSummary}. Total Price: ${totalPrice} Republic Credits.${additionalScores}`;
         }
-        moduleCounts[module.value].count++;
-    });
 
-    // Compute special scores
-    let totalItemStorage = 0;
-    if (moduleCounts["Item Storage"]) {
-        const count = moduleCounts["Item Storage"].count;
-        totalItemStorage = count === 1 ? 10 : 30; // 10 for 1 module, 30 for 2 or more
-    }
-
-    let handSamplingScore = 0;
-    if (moduleCounts["Hand Sampling (Mining)"]) {
-        handSamplingScore = moduleCounts["Hand Sampling (Mining)"].count * 10; // 10 points per module
-    }
-
-    let creatureHarvestingScore = 0;
-    if (moduleCounts["Creature Harvest"]) {
-        creatureHarvestingScore = moduleCounts["Creature Harvest"].count * 20; // 20 points per module
-    }
-
-    // Generate module summary
-    const moduleSummary = Object.values(moduleCounts)
-        .map(module => `${module.count} ${module.label}${module.count > 1 ? "s" : ""}`)
-        .join(", ");
-
-    // Get product details
-    const productName = document.getElementById("productName").textContent;
-    const totalPrice = document.getElementById("totalPrice").textContent;
-
-    // Build the additional scores summary
-    let additionalScores = "";
-    if (totalItemStorage > 0) {
-        additionalScores += ` Total Item Storage: ${totalItemStorage} items.`;
-    }
-    if (handSamplingScore > 0) {
-        additionalScores += ` Hand Sampling Score: ${handSamplingScore}.`;
-    }
-    if (creatureHarvestingScore > 0) {
-        additionalScores += ` Creature Harvesting Score: ${creatureHarvestingScore}.`;
-    }
-
-    // Update the summary field
-    summaryField.value = `I would like to purchase a ${productName} with the following modules: ${moduleSummary}. Total Price: ${totalPrice} Republic Credits.${additionalScores}`;
-}
         async function initialize() {
             const summaryField = document.getElementById("summaryField");
             const products = await fetchProductData();
