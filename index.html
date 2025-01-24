@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)https://theronjvr.github.io/efon/selector/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Selector</title>
+    <style>
+        .product {
+            display: inline-block;
+            margin: 20px;
+            text-align: center;
+        }
+        .product img {
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+        }
+        .product p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product Selector</h1>
+    <div id="productContainer"><div class="product">
+                    <img src="./index_files/Mse-droid.png" alt="MSE Advanced" data-id="1">
+                    <p>MSE Advanced</p>
+                </div><div class="product">
+                    <img src="./index_files/Probot-droid.png" alt="Probot Advanced II" data-id="2">
+                    <p>Probot Advanced II</p>
+                </div><div class="product">
+                    <img src="./index_files/Le-repair-droid.jpg" alt="LE Repair Droid Advanced" data-id="3">
+                    <p>LE Repair Droid Advanced</p>
+                </div></div>
+
+    <script>
+        // Function to fetch and parse product data from an XML file
+        async function fetchProducts() {
+            const response = await fetch('products.xml');
+            const text = await response.text();
+            const productDoc = new DOMParser().parseFromString(text, "application/xml");
+            return Array.from(productDoc.getElementsByTagName("product"));
+        }
+
+        // Function to display products dynamically
+        async function displayProducts() {
+            const products = await fetchProducts();
+            const productContainer = document.getElementById('productContainer');
+
+            products.forEach(product => {
+                const productId = product.getAttribute('id');
+                const name = product.getElementsByTagName('name')[0].textContent;
+                const image = product.getElementsByTagName('image')[0].textContent;
+
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+                productDiv.innerHTML = `
+                    <img src="${image}" alt="${name}" data-id="${productId}" />
+                    <p>${name}</p>
+                `;
+
+                // Add an event listener to redirect to the selector page with the product ID
+                productDiv.querySelector('img').addEventListener('click', () => {
+                    window.location.href = `selector.html?productId=${productId}`;
+                });
+
+                productContainer.appendChild(productDiv);
+            });
+        }
+
+        // Call displayProducts function to load and display products when the page is ready
+        displayProducts();
+    </script>
+
+<scribe-shadow id="crxjs-ext" style="position: fixed; width: 0px; height: 0px; top: 0px; left: 0px; z-index: 2147483647; overflow: visible; visibility: visible;"><template shadowrootmode="open"><div id="root-scribe-elem" style="position: fixed; width: 0px; height: 0px; top: 0px; left: 0px; overflow: visible; color: rgb(15, 23, 42);"><div role="region" aria-label="Notifications (F8)" tabindex="-1" style="pointer-events: none;"><ol tabindex="-1" class="fixed bottom-auto right-0 top-0 z-[99999] flex max-h-screen w-[400px] max-w-full p-4"></ol></div></div><link rel="stylesheet" href="chrome-extension://okfkdaglfjjjfefdcppliegebpoegaii/assets/style.css"></template></scribe-shadow></body></html>
