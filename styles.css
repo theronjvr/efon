@@ -7,9 +7,10 @@ body {
 #header-id { 
       /* Set the height or other necessary styles for your header */ 
       height: 100px; 
+      width: 600px;
       background-image: url('https://theronjvr.github.io/efon/images/title.png'); 
       background-size: cover; /* Adjust the image size to cover the header */ 
-      background-position: center; /* Center the image */ 
+      background-position: left; 
       /* Additional properties for background if needed */ 
    } 
 h2 {
