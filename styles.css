@@ -1,8 +1,15 @@
-   #header { 
+body {    
+   background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+]
+   #header-id { 
       /* Set the height or other necessary styles for your header */ 
       height: 100px; 
-      background-image: url('path/to/your/image.jpg'); 
+      background-image: url('https://theronjvr.github.io/efon/images/title.png'); 
       background-size: cover; /* Adjust the image size to cover the header */ 
       background-position: center; /* Center the image */ 
       /* Additional properties for background if needed */ 
     } 
+
