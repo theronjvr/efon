@@ -9,13 +9,14 @@
         <option id="Combat - Torture Panel" description="Special toxin darts combat attack. Select 2 to cap level." price="2500">Combat - Torture Panel</option>
     </type>
     <type id="Service">
-        <option id="Auto Repair" description="Repair droid damage to itself and any other droid within 30 meters." price="5000">Auto Repair</option>
+        <option id="Item Storage" description="Allows droid to store items. Select one for 10 storage or 2 for cap of 30." price="7500">Item Storage MAX</option>
+        <option id="Hand Sampling (Mining)" description="Increases yield of hand sampled resources by 10. Select 6 to cap." price="5000">Hand Sampling (Mining)</option>
+        <option id="Creature Harvest" description="Increases yield of meat/hide/bones by 20. Select 6 to cap." price="5000">Creature Harvest</option>
         <option id="Crafting - Clothing" description="Allows droid owner to craft all known clothing schematics from anywhere." price="5000">Crafting - Clothing</option>
         <option id="Crafting - Foods" description="Allows droid owner to craft all known food schematics from anywhere." price="5000">Crafting - Foods</option>
         <option id="Crafting - Ship Components" description="Allows droid owner to craft all known ship schematics from anywhere." price="5000">Crafting - Ship Components</option>
         <option id="Crafting - Structures" description="Allows droid owner to craft all known structure schematics from anywhere." price="5000">Crafting - Structures</option>
         <option id="Crafting - Weapons" description="Allows droid owner to craft all known weapon schematics from anywhere." price="5000">Crafting - Weapons</option>
-        <option id="Creature Harvest" description="Increases yield of meat/hide/bones by 20. Select 6 to cap." price="5000">Creature Harvest</option>
         <option id="Detonation Module" description="Explosive damage when detonated. Smuggler/BH Only. Bonus dmg in MSE." price="5000">Detonation Module</option>        
         <option id="Data/Astromech 1" description="Stores schematics or waypoints. Lvl 1 cert in R-Series droids." price="500">Data/Astromech 1</option>
         <option id="Data/Astromech 2" description="Stores schematics or waypoints. Lvl 2 cert in R-Series droids." price="1000">Data/Astromech 2</option>
@@ -23,20 +24,19 @@
         <option id="Data/Astromech 4" description="Stores schematics or waypoints. Lvl 4 cert in R-Series droids." price="2000">Data/Astromech 4</option>
         <option id="Data/Astromech 5" description="Stores schematics or waypoints. Lvl 5 cert in R-Series droids." price="4000">Data/Astromech 5</option>
         <option id="Data/Astromech 6" description="Stores schematics or waypoints. Lvl 6 cert in R-Series droids." price="5000">Data/Astromech 6</option>
+        <option id="Auto Repair" description="Repair droid damage to itself and any other droid within 30 meters." price="5000">Auto Repair</option>
         <option id="Effect - Avian" description="Programmable visual effect for entertainers." price="2500">Effect - Avian</option>
         <option id="Effect - Confetti" description="Programmable visual effect for entertainers." price="2500">Effect - Confetti</option>
         <option id="Effect - Dancing Jawa" description="Programmable visual effect for entertainers." price="2500">Effect - Dancing Jawa</option>
         <option id="Effect - Electric Fog" description="Programmable visual effect for entertainers." price="2500">Effect - Electric Fog</option>
         <option id="Effect - Foam" description="Programmable visual effect for entertainers." price="2500">Effect - Foam</option>
         <option id="Effect - Mind Bloom" description="Programmable visual effect for entertainers." price="2500">Effect - Mind Bloom</option>            
-        <option id="Hand Sampling (Mining)" description="Increases yield of hand sampled resources by 10. Select 6 to cap." price="5000">Hand Sampling (Mining)</option>
-        <option id="Item Storage MAX" description="Allows droid to store items. Select one for 10 storage or 2 for cap of 30." price="7500">Item Storage MAX</option>
         <option id="Merchant Barker" description="Plays programmable message to passersby and allows download of waypoint." price="5000">Merchant Barker</option>
         <option id="Playback" description="Allows musician to record and play 30 seconds of music for accompaniment in a group." price="5000">Playback</option>
         <option id="Structure Maintenance MAX" description="Enables maintenance payment for owned structures galaxy wide." price="5000">Structure Maintenance MAX</option>
     </type>
     <type id="Armor">
-        <option id="Max Armor" description="Increases CL and HP of droid. Select 2 to cap." price="2500">Max Armor</option>
+        <option id="Armor" description="Increases CL and HP of droid. Select 2 to cap." price="2500">Max Armor</option>
         <option id="No Armor" description="Friendly AI assistant." price="0">No Armor</option>
     </type>
     <type id="Personality">
