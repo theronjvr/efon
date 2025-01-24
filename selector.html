@@ -183,26 +183,38 @@
         }
 
         // Update summary
-        function updateSummary(selectedModules) {
-            const filteredModules = selectedModules.filter(module => module.value !== "none");
+function updateSummary(selectedModules) {
+    const filteredModules = selectedModules.filter(module => module.value !== "none");
 
-            const moduleCounts = {};
-            filteredModules.forEach(module => {
-                if (!moduleCounts[module.value]) {
-                    moduleCounts[module.value] = { count: 0, label: module.value };
-                }
-                moduleCounts[module.value].count++;
-            });
-
-            const moduleSummary = Object.values(moduleCounts)
-                .map(module => `${module.count} ${module.label}${module.count > 1 ? "s" : ""}`)
-                .join(", ");
-
-            const productName = document.getElementById("productName").textContent;
-            const totalPrice = document.getElementById("totalPrice").textContent;
-
-            summaryField.value = `I would like to purchase a ${productName} with the following modules: ${moduleSummary}. Total Price: ${totalPrice} Republic Credits.`;
+    // Group modules by type
+    const moduleCounts = {};
+    filteredModules.forEach(module => {
+        if (!moduleCounts[module.value]) {
+            moduleCounts[module.value] = { count: 0, label: module.value };
         }
+        moduleCounts[module.value].count++;
+    });
+
+    // Compute total item storage score
+    let totalItemStorage = 0;
+    if (moduleCounts["Item Storage"]) {
+        const count = moduleCounts["Item Storage"].count;
+        totalItemStorage = count === 1 ? 10 : 30; // 10 for 1 module, 30 for 2 or more
+    }
+
+    // Generate module summary
+    const moduleSummary = Object.values(moduleCounts)
+        .map(module => `${module.count} ${module.label}${module.count > 1 ? "s" : ""}`)
+        .join(", ");
+
+    // Get product details
+    const productName = document.getElementById("productName").textContent;
+    const totalPrice = document.getElementById("totalPrice").textContent;
+
+    // Update the summary field
+    summaryField.value = `I would like to purchase a ${productName} with the following modules: ${moduleSummary}. Total Price: ${totalPrice} Republic Credits. Total Item Storage: ${totalItemStorage} items.`;
+}
+
 
         async function initialize() {
             const summaryField = document.getElementById("summaryField");
