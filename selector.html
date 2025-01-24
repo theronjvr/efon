@@ -195,11 +195,21 @@ function updateSummary(selectedModules) {
         moduleCounts[module.value].count++;
     });
 
-    // Compute total item storage score
+    // Compute special scores
     let totalItemStorage = 0;
     if (moduleCounts["Item Storage"]) {
         const count = moduleCounts["Item Storage"].count;
         totalItemStorage = count === 1 ? 10 : 30; // 10 for 1 module, 30 for 2 or more
+    }
+
+    let handSamplingScore = 0;
+    if (moduleCounts["Hand Sampling (Mining)"]) {
+        handSamplingScore = moduleCounts["Hand Sampling (Mining)"].count * 10; // 10 points per module
+    }
+
+    let creatureHarvestingScore = 0;
+    if (moduleCounts["Creature Harvest"]) {
+        creatureHarvestingScore = moduleCounts["Creature Harvest"].count * 20; // 20 points per module
     }
 
     // Generate module summary
@@ -212,8 +222,9 @@ function updateSummary(selectedModules) {
     const totalPrice = document.getElementById("totalPrice").textContent;
 
     // Update the summary field
-    summaryField.value = `I would like to purchase a ${productName} with the following modules: ${moduleSummary}. Total Price: ${totalPrice} Republic Credits. Total Item Storage: ${totalItemStorage} items.`;
+    summaryField.value = `I would like to purchase a ${productName} with the following modules: ${moduleSummary}. Total Price: ${totalPrice} Republic Credits. Total Item Storage: ${totalItemStorage} items. Hand Sampling Bonus: ${handSamplingScore}. Creature Harvesting Bonus: ${creatureHarvestingScore}.`;
 }
+
 
 
         async function initialize() {
