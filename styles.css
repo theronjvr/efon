@@ -11,10 +11,11 @@ body {
    margin: 0px auto;
    }
 #header-id { 
-      /* Set the height or other necessary styles for your header */ 
-      height: 100px; 
-      background-image: url('https://theronjvr.github.io/efon/images/title.png'); 
-      background-position: left; 
+   /* Set the height or other necessary styles for your header */ 
+   height: 100px; 
+   background-image: url('https://theronjvr.github.io/efon/images/title.png'); 
+   background-position: left; 
+   background-repeat: no-repeat;
       /* Additional properties for background if needed */ 
    } 
 h2 {
