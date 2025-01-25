@@ -70,25 +70,39 @@
         #copyButton:hover {
             background-color: #0056b3;
         }
+
+        .scores {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .scores div {
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
     <header id="header-id">
     </header>
+
     <div class="content">
-        <h1>Efon's Build-A-Droid</h1>
-        <p>Select modules to add functionality to your droid. Select a module from the dropdown to see description of module function. Price and summary below will update with each selection.</p>
         <h2 id="productName">Loading...</h2>
         <img id="productImage" class="product-image" alt="Product Image" />
         <div id="moduleSelectors"></div>
         <div id="priceContainer">
             <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
         </div>
+        <div id="scores" class="scores">
+            <div id="itemStorageScore" style="display: none;">Item Storage Score: <span id="itemStorageValue">0</span> items</div>
+            <div id="handSamplingScore" style="display: none;">Hand Sampling Score: <span id="handSamplingValue">0</span></div>
+            <div id="creatureHarvestingScore" style="display: none;">Creature Harvesting Score: <span id="creatureHarvestingValue">0</span></div>
+            <div id="detonationScore" style="display: none;">Detonation Score: <span id="detonationValue">0</span></div>
+        </div>
         <div id="summaryContainer">
             <h3>Order Summary</h3>
-            <p>Copy the text below and send via <a href="https://discord.com">Discord</a> or in-game holomail to <b>Efon'Ahazi</b>.</p>
+            <p>Copy the text below and send via Discord or in-game holomail to Efon'Ahazi.</p>
             <textarea id="summaryField" readonly></textarea>
-        </br>
             <button id="copyButton">Copy to Clipboard</button>
         </div>
     </div>
@@ -96,6 +110,7 @@
     <script>
         let modulePrices = {};
         let basePrice = 0;
+        let productId = null;
 
         // Fetch product data from an external XML file
         async function fetchProductData() {
@@ -152,52 +167,16 @@
             select.appendChild(noneOption);
 
             // Add module options based on type
-            if (type === 'Hybrid') {
-                const combatOptions = moduleMap["Combat"] || [];
-                const serviceOptions = moduleMap["Service"] || [];
-
-                combatOptions.forEach(option => {
-                    const opt = document.createElement("option");
-                    opt.value = option.id;
-                    opt.textContent = option.id;
-                    select.appendChild(opt);
-                    modulePrices[option.id] = option.price;
-                });
-
-                serviceOptions.forEach(option => {
-                    const opt = document.createElement("option");
-                    opt.value = option.id;
-                    opt.textContent = option.id;
-                    select.appendChild(opt);
-                    modulePrices[option.id] = option.price;
-                });
-            } else {
-                const options = moduleMap[type] || [];
-                options.forEach(option => {
-                    const opt = document.createElement("option");
-                    opt.value = option.id;
-                    opt.textContent = option.id;
-                    select.appendChild(opt);
-                    modulePrices[option.id] = option.price;
-                });
-            }
+            const options = moduleMap[type] || [];
+            options.forEach(option => {
+                const opt = document.createElement("option");
+                opt.value = option.id;
+                opt.textContent = option.id;
+                select.appendChild(opt);
+                modulePrices[option.id] = option.price;
+            });
 
             select.addEventListener("change", () => {
-                let selectedPrice = 0;
-
-                if (select.value !== "none") {
-                    const selectedOption =
-                        type === "Hybrid"
-                            ? (moduleMap["Combat"] || []).find(opt => opt.id === select.value) ||
-                              (moduleMap["Service"] || []).find(opt => opt.id === select.value)
-                            : (moduleMap[type] || []).find(opt => opt.id === select.value);
-
-                    description.textContent = selectedOption?.description || "Select a module";
-                    selectedPrice = selectedOption?.price || 0;
-                } else {
-                    description.textContent = "(none)";
-                }
-
                 const currentIndex = selectedModules.findIndex(item => item.label === labelText);
                 if (currentIndex >= 0) {
                     selectedModules[currentIndex] = { label: labelText, value: select.value };
@@ -206,6 +185,7 @@
                 }
 
                 updatePrice(selectedModules);
+                updateScores(selectedModules);
                 updateSummary(selectedModules);
             });
 
@@ -225,6 +205,39 @@
             const totalPrice = basePrice + moduleTotal;
             const formattedPrice = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalPrice);
             document.getElementById("totalPrice").textContent = formattedPrice;
+        }
+
+        // Update scores
+        function updateScores(selectedModules) {
+            const moduleCounts = selectedModules.reduce((counts, module) => {
+                counts[module.value] = (counts[module.value] || 0) + 1;
+                return counts;
+            }, {});
+
+            // Calculate scores
+            const itemStorage = moduleCounts["Item Storage"] ? (moduleCounts["Item Storage"] === 1 ? 10 : 30) : 0;
+            const handSampling = moduleCounts["Hand Sampling (Mining)"] ? moduleCounts["Hand Sampling (Mining)"] * 10 : 0;
+            const creatureHarvesting = moduleCounts["Creature Harvest"] ? moduleCounts["Creature Harvest"] * 20 : 0;
+            const detonation = moduleCounts["Detonation Module"]
+                ? moduleCounts["Detonation Module"] * (productId === "29" || productId === "30" ? 40 : 30)
+                : 0;
+
+            // Update DOM
+            const updateScoreDisplay = (id, value) => {
+                const container = document.getElementById(id);
+                const valueSpan = document.getElementById(`${id}Value`);
+                if (value > 0) {
+                    container.style.display = "block";
+                    valueSpan.textContent = value;
+                } else {
+                    container.style.display = "none";
+                }
+            };
+
+            updateScoreDisplay("itemStorageScore", itemStorage);
+            updateScoreDisplay("handSamplingScore", handSampling);
+            updateScoreDisplay("creatureHarvestingScore", creatureHarvesting);
+            updateScoreDisplay("detonationScore", detonation);
         }
 
         // Update summary
@@ -250,7 +263,7 @@
         }
 
         // Copy text to clipboard
-        document.getElementById("copyButton").addEventListener("click", function () {
+        document.getElementById("copyButton").addEventListener("click", () => {
             const summaryField = document.getElementById("summaryField");
             summaryField.select();
             summaryField.setSelectionRange(0, 99999); // For mobile compatibility
@@ -265,7 +278,7 @@
             const products = await fetchProductData();
             const moduleMap = await fetchModules();
             const urlParams = new URLSearchParams(window.location.search);
-            const productId = urlParams.get("productId");
+            productId = urlParams.get("productId");
 
             if (!productId) {
                 document.getElementById("productName").textContent = "Product not found.";
