@@ -106,7 +106,7 @@
     <product id="9">
         <name>CZ-Protocol Droid*</name>
         <image>https://theronjvr.github.io/efon/images/CZ.png</image>
-        <basePrice>20000</basePrice>
+        <basePrice>70000</basePrice>
         <type>Combat</type>
         <maxModules>
             <Combat>9</Combat>
@@ -211,7 +211,7 @@
         <name>FX-7 Droid*</name>
         <image>https://theronjvr.github.io/efon/images/FX.png</image>
         <type>Combat</type>
-        <basePrice>50000</basePrice>
+        <basePrice>70000</basePrice>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -236,7 +236,7 @@
     <product id="19">
         <name>Guavian Death Gang AT-ST Droid*</name>
         <image>https://theronjvr.github.io/efon/images/ATST.png</image>
-        <basePrice>50000</basePrice>
+        <basePrice>70000</basePrice>
         <type>Combat</type>
         <maxModules>
             <Combat>0</Combat>
@@ -263,7 +263,7 @@
         <name>K-2 Droid (Imp/Rebel/Neutral)*</name>
         <image>https://theronjvr.github.io/efon/images/K2.png</image>
         <type>Combat</type>
-        <basePrice>50000</basePrice>
+        <basePrice>70000</basePrice>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
