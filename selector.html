@@ -103,7 +103,7 @@
             <h3>Order Summary</h3>
             <p>Copy the text below and send via Discord or in-game holomail to Efon'Ahazi.</p>
             <textarea id="summaryField" readonly></textarea>
-            <button id="copyButton">Copy to Clipboard</button>
+        </br> <button id="copyButton">Copy to Clipboard</button>
         </div>
     </div>
 
@@ -238,7 +238,7 @@
             }, {});
 
             const itemStorage = moduleCounts["Item Storage"] ? (moduleCounts["Item Storage"] === 1 ? 10 : 30) : 0;
-            const handSampling = moduleCounts["Hand Sampling (Mining)"] ? moduleCounts["Hand Sampling (Mining)"] * 10 : 0;
+            const handSampling = moduleCounts["Hand Sampling"] ? moduleCounts["Hand Sampling"] * 10 : 0;
             const creatureHarvesting = moduleCounts["Creature Harvest"] ? moduleCounts["Creature Harvest"] * 20 : 0;
             const detonation = moduleCounts["Detonation"]
                 ? moduleCounts["Detonation"] * (productId === "29" || productId === "30" ? 40 : 30)
@@ -301,7 +301,18 @@
             document.getElementById("summaryField").value = summary;
         }
 
-        // Initialize the page
+        // Copy to clipboard
+        document.getElementById("copyButton").addEventListener("click", () => {
+            const summaryField = document.getElementById("summaryField");
+            summaryField.select();
+            summaryField.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(summaryField.value).then(() => {
+                alert("Order summary copied to clipboard!");
+            }).catch(err => {
+                alert("Failed to copy: " + err);
+            });
+        });
+
         async function initialize() {
             const products = await fetchProductData();
             const moduleMap = await fetchModules();
