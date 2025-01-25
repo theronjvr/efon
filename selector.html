@@ -291,14 +291,18 @@
             const productName = document.getElementById("productName").textContent;
             const totalPrice = document.getElementById("totalPrice").textContent;
 
-            const summary = [
+            let summary = [
                 `I would like to purchase a ${productName} with the following modules:`,
                 moduleSummary,
                 ...scoreSummary,
                 `Total Price: ${totalPrice} Republic Credits.`,
-            ].join("\n");
+            ];
 
-            document.getElementById("summaryField").value = summary;
+            if (productName.endsWith('*')) {
+                summary.push("Single-use schematic droids are priced assuming schematic is provided by customer before construction.");
+            }
+
+            document.getElementById("summaryField").value = summary.join("\n");
         }
 
         // Copy to clipboard
