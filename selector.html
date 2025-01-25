@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="https://theronjvr.github.io/efon/icon.png">
     <style>
-        /* Page-Specific CSS */
         #header-id {
             background-color: #333;
             color: white;
@@ -15,34 +14,61 @@
             text-align: center;
         }
 
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         .product-image {
             width: 200px;
             height: auto;
             margin-bottom: 20px;
         }
+
         .module-container {
             margin: 10px 0;
             display: flex;
             align-items: center;
         }
+
         .module-label {
             display: inline-block;
             width: 150px;
         }
+
         .module-description {
             margin-left: 20px;
             font-style: italic;
             color: gray;
         }
+
         #priceContainer {
             margin-top: 20px;
         }
+
         #summaryContainer {
             margin-top: 20px;
         }
+
         #summaryField {
-            width: 100%;
+            width: 500px;
             height: 100px;
+        }
+
+        #copyButton {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        #copyButton:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -58,8 +84,10 @@
             <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
         </div>
         <div id="summaryContainer">
-            <h3>Selection Summary</h3>
+            <h3>Order Summary</h3>
+            <p>Copy the text below and send via Discord or in-game holomail to Efon'Ahazi.</p>
             <textarea id="summaryField" readonly></textarea>
+            <button id="copyButton">Copy to Clipboard</button>
         </div>
     </div>
 
@@ -209,49 +237,29 @@
                 moduleCounts[module.value].count++;
             });
 
-            // Compute special scores
-            let totalItemStorage = 0;
-            if (moduleCounts["Item Storage"]) {
-                const count = moduleCounts["Item Storage"].count;
-                totalItemStorage = count === 1 ? 10 : 30; // 10 for 1 module, 30 for 2 or more
-            }
-
-            let handSamplingScore = 0;
-            if (moduleCounts["Hand Sampling (Mining)"]) {
-                handSamplingScore = moduleCounts["Hand Sampling (Mining)"].count * 10; // 10 points per module
-            }
-
-            let creatureHarvestingScore = 0;
-            if (moduleCounts["Creature Harvest"]) {
-                creatureHarvestingScore = moduleCounts["Creature Harvest"].count * 20; // 20 points per module
-            }
-
-            // Build module summary
             const moduleSummary = Object.values(moduleCounts)
                 .map(module => `${module.count} ${module.label}${module.count > 1 ? "s" : ""}`)
                 .join(", ");
 
-            // Build additional scores summary
-            let additionalScores = "";
-            if (totalItemStorage > 0) {
-                additionalScores += ` Total Item Storage: ${totalItemStorage} items.`;
-            }
-            if (handSamplingScore > 0) {
-                additionalScores += ` Hand Sampling Score: ${handSamplingScore}.`;
-            }
-            if (creatureHarvestingScore > 0) {
-                additionalScores += ` Creature Harvesting Score: ${creatureHarvestingScore}.`;
-            }
-
             const productName = document.getElementById("productName").textContent;
             const totalPrice = document.getElementById("totalPrice").textContent;
 
-            // Update the summary field
-            summaryField.value = `I would like to purchase a ${productName} with the following modules: ${moduleSummary}. Total Price: ${totalPrice} Republic Credits.${additionalScores}`;
+            document.getElementById("summaryField").value = `I would like to purchase a ${productName} with the following modules: ${moduleSummary}. Total Price: ${totalPrice} Republic Credits.`;
         }
 
-        async function initialize() {
+        // Copy text to clipboard
+        document.getElementById("copyButton").addEventListener("click", function () {
             const summaryField = document.getElementById("summaryField");
+            summaryField.select();
+            summaryField.setSelectionRange(0, 99999); // For mobile compatibility
+            navigator.clipboard.writeText(summaryField.value).then(() => {
+                alert("Order summary copied to clipboard!");
+            }).catch(err => {
+                alert("Failed to copy: " + err);
+            });
+        });
+
+        async function initialize() {
             const products = await fetchProductData();
             const moduleMap = await fetchModules();
             const urlParams = new URLSearchParams(window.location.search);
