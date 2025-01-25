@@ -15,26 +15,55 @@
             text-align: center;
         }
 
-        .product-link {
-            display: block;
-            margin: 10px 0;
-            text-decoration: none;
-            color: blue;
-            position: relative;
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        .product-link:hover .product-image {
-            display: block;
+
+        .category-section {
+            margin-bottom: 40px;
         }
+
+        .category-section h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .product-card {
+            text-align: center;
+        }
+
         .product-image {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 200px;
-            width: auto;
-            max-height: 300px;
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
             border: 1px solid #ccc;
+            padding: 5px;
             background-color: #fff;
-            z-index: 1000;
+            border-radius: 5px;
+            transition: transform 0.2s;
+        }
+
+        .product-image:hover {
+            transform: scale(1.1);
+        }
+
+        .product-name {
+            font-weight: bold;
+            margin: 10px 0 5px;
+        }
+
+        .product-stats {
+            font-size: 0.9em;
+            color: #555;
         }
     </style>
 </head>
@@ -45,13 +74,15 @@
     <div class="content">
         <h1>Efon's Build-A-Droid</h1>
         <p>Select a droid</p>
-        <div id="combatProducts">
+
+        <div id="combatProducts" class="category-section">
             <h3>Combat Droids</h3>
-            <div id="combatList">Loading...</div>
+            <div id="combatList" class="product-grid">Loading...</div>
         </div>
-        <div id="utilityProducts">
+
+        <div id="utilityProducts" class="category-section">
             <h3>Utility Droids</h3>
-            <div id="utilityList">Loading...</div>
+            <div id="utilityList" class="product-grid">Loading...</div>
         </div>
     </div>
 
@@ -64,7 +95,7 @@
             return Array.from(productDoc.getElementsByTagName("product"));
         }
 
-        // Generate product links grouped by type
+        // Generate product cards grouped by type
         async function displayProducts() {
             const combatList = document.getElementById("combatList");
             const utilityList = document.getElementById("utilityList");
@@ -94,25 +125,36 @@
                     moduleCounts[type] = parseInt(slot.textContent);
                 });
 
-                // Create link for product
-                const link = document.createElement("a");
-                link.href = `selector.html?productId=${productId}`;
-                link.className = "product-link";
-                link.textContent = `${productName} - C:${moduleCounts.C}, S:${moduleCounts.S}, H:${moduleCounts.H}, A:${moduleCounts.A}, P:${moduleCounts.P}`;
+                // Create product card
+                const card = document.createElement("div");
+                card.className = "product-card";
 
-                // Add hover image
                 const image = document.createElement("img");
                 image.src = productImage;
                 image.alt = productName;
                 image.className = "product-image";
 
-                link.appendChild(image);
+                const name = document.createElement("div");
+                name.className = "product-name";
+                name.textContent = productName;
 
-                // Append link to the appropriate list
+                const stats = document.createElement("div");
+                stats.className = "product-stats";
+                stats.textContent = `C:${moduleCounts.C}, S:${moduleCounts.S}, H:${moduleCounts.H}, A:${moduleCounts.A}, P:${moduleCounts.P}`;
+
+                const link = document.createElement("a");
+                link.href = `selector.html?productId=${productId}`;
+                link.appendChild(image);
+                link.appendChild(name);
+                link.appendChild(stats);
+
+                card.appendChild(link);
+
+                // Append card to the appropriate list
                 if (productType === "Combat") {
-                    combatList.appendChild(link);
+                    combatList.appendChild(card);
                 } else if (productType === "Utility") {
-                    utilityList.appendChild(link);
+                    utilityList.appendChild(card);
                 }
             });
         }
