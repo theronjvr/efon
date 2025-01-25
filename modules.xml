@@ -17,7 +17,7 @@
         <option id="Crafting - Ship Components" description="Allows droid owner to craft all known ship schematics from anywhere." price="5000">Crafting - Ship Components</option>
         <option id="Crafting - Structures" description="Allows droid owner to craft all known structure schematics from anywhere." price="5000">Crafting - Structures</option>
         <option id="Crafting - Weapons" description="Allows droid owner to craft all known weapon schematics from anywhere." price="5000">Crafting - Weapons</option>
-        <option id="Detonation Module" description="Explosive damage when detonated. Smuggler/BH Only. Bonus dmg in MSE." price="5000">Detonation Module</option>        
+        <option id="Detonation" description="Explosive damage when detonated. Smuggler/BH Only. Bonus dmg in MSE." price="5000">Detonation</option>        
         <option id="Data/Astromech 1" description="Stores schematics or waypoints. Lvl 1 cert in R-Series droids." price="500">Data/Astromech 1</option>
         <option id="Data/Astromech 2" description="Stores schematics or waypoints. Lvl 2 cert in R-Series droids." price="1000">Data/Astromech 2</option>
         <option id="Data/Astromech 3" description="Stores schematics or waypoints. Lvl 3 cert in R-Series droids." price="1500">Data/Astromech 3</option>
