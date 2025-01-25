@@ -103,7 +103,7 @@
             <h3>Order Summary</h3>
             <p>Copy the text below and send via Discord or in-game holomail to Efon'Ahazi.</p>
             <textarea id="summaryField" readonly></textarea>
-            <button id="copyButton">Copy to Clipboard</button>
+        </br><button id="copyButton">Copy to Clipboard</button>
         </div>
     </div>
 
@@ -249,10 +249,12 @@
             const updateScoreDisplay = (id, value) => {
                 const container = document.getElementById(id);
                 const valueSpan = document.getElementById(`${id}Value`);
-                if (value > 0) {
+
+                // Ensure the container and valueSpan exist before updating
+                if (valueSpan && value > 0) {
                     container.style.display = "block";
                     valueSpan.textContent = value;
-                } else {
+                } else if (container && valueSpan) {
                     container.style.display = "none";
                 }
             };
