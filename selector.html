@@ -80,6 +80,12 @@
         .scores div {
             margin-bottom: 5px;
         }
+            /* New fix to prevent drifting of select elements */
+        select {
+            width: 100%; /* Makes the select element take full width of its container */
+            max-width: 300px; /* Limits maximum width to avoid excessive space */
+            min-width: 150px; /* Ensures the select element won't shrink too small */
+        }
     </style>
 </head>
 <body>
@@ -87,23 +93,19 @@
     </header>
 
     <div class="content">
+        <h1>Efon's Build-A-Droid</h1>
+        <p>Use this page to select functionality for your droid. Module slots are customized for the droid you've chosen, simply select a module from the corresponding drop-down and a description of the module's function will appear. When all modules you want are selected, simply copy the text from the summary and send it along to Efon'Ahazi to get your droid built. Thank you for your business!</p>
         <h2 id="productName">Loading...</h2>
         <img id="productImage" class="product-image" alt="Product Image" />
         <div id="moduleSelectors"></div>
         <div id="priceContainer">
             <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
         </div>
-        <div id="scores" class="scores">
-            <div id="itemStorageScore" style="display: none;">Item Storage Score: <span id="itemStorageValue">0</span> items</div>
-            <div id="handSamplingScore" style="display: none;">Hand Sampling Score: <span id="handSamplingValue">0</span></div>
-            <div id="creatureHarvestingScore" style="display: none;">Creature Harvesting Score: <span id="creatureHarvestingValue">0</span></div>
-            <div id="detonationScore" style="display: none;">Detonation Score: <span id="detonationValue">0</span></div>
-        </div>
         <div id="summaryContainer">
             <h3>Order Summary</h3>
-            <p>Copy the text below and send via Discord or in-game holomail to Efon'Ahazi.</p>
+            <p>Copy the text below and send via <a href="https://discord.com">Discord</a> or in-game holomail to <b>Efon'Ahazi</b>.</p>
             <textarea id="summaryField" readonly></textarea>
-            <button id="copyButton">Copy to Clipboard</button>
+        </br><button id="copyButton">Copy to Clipboard</button>
         </div>
     </div>
 
@@ -281,10 +283,10 @@
             const { itemStorage, handSampling, creatureHarvesting, detonation } = scores;
 
             const scoreSummary = [];
-            if (itemStorage > 0) scoreSummary.push(`Item Storage Score: ${itemStorage}`);
-            if (handSampling > 0) scoreSummary.push(`Hand Sampling Score: ${handSampling}`);
-            if (creatureHarvesting > 0) scoreSummary.push(`Creature Harvesting Score: ${creatureHarvesting}`);
-            if (detonation > 0) scoreSummary.push(`Detonation Score: ${detonation}`);
+            if (itemStorage > 0) scoreSummary.push(`Item Storage: ${itemStorage}`);
+            if (handSampling > 0) scoreSummary.push(`Hand Sampling Bonus: ${handSampling}`);
+            if (creatureHarvesting > 0) scoreSummary.push(`Creature Harvesting Bonus: ${creatureHarvesting}`);
+            if (detonation > 0) scoreSummary.push(`Detonation Power: ${detonation}`);
 
             const moduleSummary = Object.values(moduleCounts)
                 .map(module => `${module.count} ${module.label}${module.count > 1 ? "s" : ""}`)
