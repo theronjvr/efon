@@ -3,7 +3,7 @@
         <name>8D8 Droid</name>
         <image>https://theronjvr.github.io/efon/images/8D8.png</image>
         <type>Utility</type>
-        <basePrice>15000</basePrice>
+        <basePrice>20000</basePrice>
         <maxModules>
             <Combat>0</Combat>
             <Service>2</Service>
@@ -67,7 +67,7 @@
     <product id="6">
         <name>Binary Load Lifter Droid</name>
         <image>https://theronjvr.github.io/efon/images/BLL.png</image>
-        <basePrice>65000</basePrice>
+        <basePrice>60000</basePrice>
         <type>Utility</type>
         <maxModules>
             <Combat>0</Combat>
@@ -80,7 +80,7 @@
     <product id="7">
         <name>Binary Load Lifter Droid Advanced</name>
         <image>https://theronjvr.github.io/efon/images/BLL.png</image>
-        <basePrice>65000</basePrice>
+        <basePrice>60000</basePrice>
         <type>Utility</type>
         <maxModules>
             <Combat>0</Combat>
@@ -104,7 +104,7 @@
         </maxModules>
     </product>
     <product id="9">
-        <name>CZ-Protocol Droid</name>
+        <name>CZ-Protocol Droid*</name>
         <image>https://theronjvr.github.io/efon/images/CZ.png</image>
         <basePrice>20000</basePrice>
         <type>Combat</type>
@@ -120,7 +120,7 @@
         <name>Droideka</name>
         <image>https://theronjvr.github.io/efon/images/Droideka.png</image>
         <type>Combat</type>
-        <basePrice>25000</basePrice>
+        <basePrice>30000</basePrice>
         <maxModules>
             <Combat>6</Combat>
             <Service>0</Service>
@@ -133,7 +133,7 @@
         <name>Droideka Advanced</name>
         <image>https://theronjvr.github.io/efon/images/Droideka.png</image>
         <type>Combat</type>
-        <basePrice>25000</basePrice>
+        <basePrice>30000</basePrice>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -146,7 +146,7 @@
         <name>Dwarf Spider Droid</name>
         <image>https://theronjvr.github.io/efon/images/DSD.png</image>
         <type>Combat</type>
-        <basePrice>20000</basePrice>
+        <basePrice>30000</basePrice>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -159,7 +159,7 @@
         <name>Dwarf Spider Droid Advanced</name>
         <image>https://theronjvr.github.io/efon/images/DSD.png</image>
         <type>Combat</type>
-        <basePrice>20000</basePrice>
+        <basePrice>30000</basePrice>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -208,7 +208,7 @@
         </maxModules>
     </product>
     <product id="17">
-        <name>FX-7 Droid</name>
+        <name>FX-7 Droid*</name>
         <image>https://theronjvr.github.io/efon/images/FX.png</image>
         <type>Combat</type>
         <basePrice>50000</basePrice>
@@ -224,7 +224,7 @@
         <name>Guardian Mark II</name>
         <image>https://theronjvr.github.io/efon/images/Guardian.png</image>
         <type>Combat</type>
-        <basePrice>20000</basePrice>
+        <basePrice>40000</basePrice>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -234,7 +234,7 @@
         </maxModules>
     </product>
     <product id="19">
-        <name>Guavian Death Gang AT-ST Droid</name>
+        <name>Guavian Death Gang AT-ST Droid*</name>
         <image>https://theronjvr.github.io/efon/images/ATST.png</image>
         <basePrice>50000</basePrice>
         <type>Combat</type>
@@ -260,7 +260,7 @@
         </maxModules>
     </product>
         <product id="21">
-        <name>K-2 Droid (Imp/Rebel/Neutral)</name>
+        <name>K-2 Droid (Imp/Rebel/Neutral)*</name>
         <image>https://theronjvr.github.io/efon/images/K2.png</image>
         <type>Combat</type>
         <basePrice>50000</basePrice>
@@ -315,7 +315,7 @@
         <name>Magnaguard</name>
         <image>https://theronjvr.github.io/efon/images/Magnaguard.png</image>
         <type>Combat</type>
-        <basePrice>20000</basePrice>
+        <basePrice>40000</basePrice>
         <maxModules>
             <Combat>6</Combat>
             <Service>0</Service>
@@ -354,7 +354,7 @@
         <name>MK3 Mining Droid</name>
         <image>https://theronjvr.github.io/efon/images/MK.png</image>
         <type>Utility</type>
-        <basePrice>20000</basePrice>
+        <basePrice>30000</basePrice>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -432,7 +432,7 @@
         <name>Probot Droid</name>
         <image>https://theronjvr.github.io/efon/images/Probot.png</image>
         <type>Combat</type>
-        <basePrice>30000</basePrice>
+        <basePrice>25000</basePrice>
         <maxModules>
             <Combat>3</Combat>
             <Service>0</Service>
@@ -471,7 +471,7 @@
         <name>Protocol Droid</name>
         <image>https://theronjvr.github.io/efon/images/Protocol.png</image>
         <type>Utility</type>
-        <basePrice>25000</basePrice>
+        <basePrice>30000</basePrice>
         <maxModules>
             <Combat>0</Combat>
             <Service>1</Service>
@@ -484,7 +484,7 @@
         <name>Protocol Droid Advanced</name>
         <image>https://theronjvr.github.io/efon/images/Protocol.png</image>
         <type>Utility</type>
-        <basePrice>25000</basePrice>
+        <basePrice>30000</basePrice>
         <maxModules>
             <Combat>0</Combat>
             <Service>2</Service>
@@ -523,7 +523,7 @@
         <name>R3 Droid</name>
         <image>https://theronjvr.github.io/efon/images/R3.png</image>
         <type>Utility</type>
-        <basePrice>25000</basePrice>
+        <basePrice>30000</basePrice>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -536,7 +536,7 @@
         <name>R3 Droid Advanced</name>
         <image>https://theronjvr.github.io/efon/images/R3.png</image>
         <type>Utility</type>
-        <basePrice>25000</basePrice>
+        <basePrice>30000</basePrice>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -548,7 +548,7 @@
     <product id="43">
         <name>R4 Droid</name>
         <image>https://theronjvr.github.io/efon/images/R4.png</image>
-        <basePrice>15000</basePrice>
+        <basePrice>20000</basePrice>
         <type>Utility</type>
         <maxModules>
             <Combat>0</Combat>
@@ -561,7 +561,7 @@
         <product id="44">
         <name>R4 Droid Advanced</name>
         <image>https://theronjvr.github.io/efon/images/R4.png</image>
-        <basePrice>15000</basePrice>
+        <basePrice>20000</basePrice>
         <type>Utility</type>
         <maxModules>
             <Combat>0</Combat>
@@ -601,7 +601,7 @@
         <name>Super Battle Droid</name>
         <image>https://theronjvr.github.io/efon/images/SB.png</image>
         <type>Combat</type>
-        <basePrice>25000</basePrice>
+        <basePrice>50000</basePrice>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -665,7 +665,7 @@
     <product id="52">
         <name>WED Treadwell Droid</name>
         <image>https://theronjvr.github.io/efon/images/WED.png</image>
-        <basePrice>20000</basePrice>
+        <basePrice>15000</basePrice>
         <type>Utility</type>
         <maxModules>
             <Combat>0</Combat>
@@ -678,7 +678,7 @@
     <product id="53">
         <name>WED Treadwell Droid Advanced</name>
         <image>https://theronjvr.github.io/efon/images/WED.png</image>
-        <basePrice>20000</basePrice>
+        <basePrice>15000</basePrice>
         <type>Utility</type>
         <maxModules>
             <Combat>0</Combat>
