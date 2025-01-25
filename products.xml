@@ -1,6 +1,6 @@
 <products>
-    <product id="1">
-        <name>MSE Advanced</name>
+    <product id="98">
+        <name>MSE Droid Advanced</name>
         <image>https://theronjvr.github.io/efon/images/MSE.png</image>
         <type>Utility</type>
         <basePrice>10000</basePrice>
@@ -12,7 +12,7 @@
             <Personality>0</Personality>
         </maxModules>
     </product>
-    <product id="2">
+    <product id="99">
         <name>Probot Advanced II</name>
         <image>https://theronjvr.github.io/efon/images/Probot.png</image>
         <type>Combat</type>
@@ -25,7 +25,7 @@
             <Personality>0</Personality>
         </maxModules>
     </product>
-    <product id="3">
+    <product id="97">
         <name>LE Repair Droid Advanced</name>
         <image>https://theronjvr.github.io/efon/images/LE.png</image>
         <basePrice>20000</basePrice>
