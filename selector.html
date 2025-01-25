@@ -94,16 +94,16 @@
             <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
         </div>
         <div id="scores" class="scores">
-            <div id="itemStorageScore" style="display: none;">Item Storage Score: <span id="itemStorageValue">0</span> items</div>
-            <div id="handSamplingScore" style="display: none;">Hand Sampling Score: <span id="handSamplingValue">0</span></div>
-            <div id="creatureHarvestingScore" style="display: none;">Creature Harvesting Score: <span id="creatureHarvestingValue">0</span></div>
-            <div id="detonationScore" style="display: none;">Detonation Score: <span id="detonationValue">0</span></div>
+            <div id="itemStorageScore" style="display: none;">Item Storage: <span id="itemStorageValue">0</span> items</div>
+            <div id="handSamplingScore" style="display: none;">Hand Sampling Bonus: <span id="handSamplingValue">0</span></div>
+            <div id="creatureHarvestingScore" style="display: none;">Creature Harvesting Bonus: <span id="creatureHarvestingValue">0</span></div>
+            <div id="detonationScore" style="display: none;">Detonation Power: <span id="detonationValue">0</span></div>
         </div>
         <div id="summaryContainer">
             <h3>Order Summary</h3>
-            <p>Copy the text below and send via Discord or in-game holomail to Efon'Ahazi.</p>
+            <p>Copy the text below and send via Discord or in-game holomail to <b>Efon'Ahazi</b>.</p>
             <textarea id="summaryField" readonly></textarea>
-            <button id="copyButton">Copy to Clipboard</button>
+        </br><button id="copyButton">Copy to Clipboard</button>
         </div>
     </div>
 
@@ -225,7 +225,7 @@
             document.getElementById("totalPrice").textContent = formattedPrice;
         }
 
-        // Update scores
+        // Update scores and ensure they are shown in the summary
         function updateScores(selectedModules) {
             const moduleCounts = selectedModules.reduce((counts, module) => {
                 counts[module.value] = (counts[module.value] || 0) + 1;
@@ -256,6 +256,13 @@
             updateScoreDisplay("handSamplingScore", handSampling);
             updateScoreDisplay("creatureHarvestingScore", creatureHarvesting);
             updateScoreDisplay("detonationScore", detonation);
+
+            return {
+                itemStorage,
+                handSampling,
+                creatureHarvesting,
+                detonation,
+            };
         }
 
         // Update summary
@@ -271,17 +278,15 @@
             });
 
             // Get scores
-            const detonationScore = document.getElementById("detonationValue").textContent || 0;
-            const itemStorageScore = document.getElementById("itemStorageValue").textContent || 0;
-            const handSamplingScore = document.getElementById("handSamplingValue").textContent || 0;
-            const creatureHarvestingScore = document.getElementById("creatureHarvestingValue").textContent || 0;
+            const scores = updateScores(selectedModules);
+            const { itemStorage, handSampling, creatureHarvesting, detonation } = scores;
 
             // Build score summary
             const scoreSummary = [];
-            if (itemStorageScore > 0) scoreSummary.push(`Item Storage Score: ${itemStorageScore}`);
-            if (handSamplingScore > 0) scoreSummary.push(`Hand Sampling Score: ${handSamplingScore}`);
-            if (creatureHarvestingScore > 0) scoreSummary.push(`Creature Harvesting Score: ${creatureHarvestingScore}`);
-            if (detonationScore > 0) scoreSummary.push(`Detonation Score: ${detonationScore}`);
+            if (itemStorage > 0) scoreSummary.push(`Item Storage Score: ${itemStorage}`);
+            if (handSampling > 0) scoreSummary.push(`Hand Sampling Score: ${handSampling}`);
+            if (creatureHarvesting > 0) scoreSummary.push(`Creature Harvesting Score: ${creatureHarvesting}`);
+            if (detonation > 0) scoreSummary.push(`Detonation Score: ${detonation}`);
 
             // Build module summary
             const moduleSummary = Object.values(moduleCounts)
@@ -362,3 +367,4 @@
     </script>
 </body>
 </html>
+
