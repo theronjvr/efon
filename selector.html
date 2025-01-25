@@ -94,16 +94,16 @@
             <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
         </div>
         <div id="scores" class="scores">
-            <div id="itemStorageScore" style="display: none;">Item Storage: <span id="itemStorageValue">0</span> items</div>
-            <div id="handSamplingScore" style="display: none;">Hand Sampling Bonus: <span id="handSamplingValue">0</span></div>
-            <div id="creatureHarvestingScore" style="display: none;">Creature Harvesting Bonus: <span id="creatureHarvestingValue">0</span></div>
-            <div id="detonationScore" style="display: none;">Detonation Power: <span id="detonationValue">0</span></div>
+            <div id="itemStorageScore" style="display: none;">Item Storage Score: <span id="itemStorageValue">0</span> items</div>
+            <div id="handSamplingScore" style="display: none;">Hand Sampling Score: <span id="handSamplingValue">0</span></div>
+            <div id="creatureHarvestingScore" style="display: none;">Creature Harvesting Score: <span id="creatureHarvestingValue">0</span></div>
+            <div id="detonationScore" style="display: none;">Detonation Score: <span id="detonationValue">0</span></div>
         </div>
         <div id="summaryContainer">
             <h3>Order Summary</h3>
-            <p>Copy the text below and send via Discord or in-game holomail to <b>Efon'Ahazi</b>.</p>
+            <p>Copy the text below and send via Discord or in-game holomail to Efon'Ahazi.</p>
             <textarea id="summaryField" readonly></textarea>
-        </br><button id="copyButton">Copy to Clipboard</button>
+            <button id="copyButton">Copy to Clipboard</button>
         </div>
     </div>
 
@@ -202,9 +202,7 @@
 
                 description.textContent = selectedOption?.description || "Select a module";
 
-                updatePrice(selectedModules);
-                updateScores(selectedModules);
-                updateSummary(selectedModules);
+                updateAll(selectedModules);
             });
 
             container.appendChild(label);
@@ -212,6 +210,13 @@
             container.appendChild(description);
 
             return container;
+        }
+
+        // Update all fields: price, scores, and summary
+        function updateAll(selectedModules) {
+            updatePrice(selectedModules);
+            updateScores(selectedModules);
+            updateSummary(selectedModules);
         }
 
         // Update total price
@@ -225,14 +230,13 @@
             document.getElementById("totalPrice").textContent = formattedPrice;
         }
 
-        // Update scores and ensure they are shown in the summary
+        // Update scores
         function updateScores(selectedModules) {
             const moduleCounts = selectedModules.reduce((counts, module) => {
                 counts[module.value] = (counts[module.value] || 0) + 1;
                 return counts;
             }, {});
 
-            // Calculate scores
             const itemStorage = moduleCounts["Item Storage"] ? (moduleCounts["Item Storage"] === 1 ? 10 : 30) : 0;
             const handSampling = moduleCounts["Hand Sampling (Mining)"] ? moduleCounts["Hand Sampling (Mining)"] * 10 : 0;
             const creatureHarvesting = moduleCounts["Creature Harvest"] ? moduleCounts["Creature Harvest"] * 20 : 0;
@@ -240,7 +244,6 @@
                 ? moduleCounts["Detonation"] * (productId === "29" || productId === "30" ? 40 : 30)
                 : 0;
 
-            // Update DOM
             const updateScoreDisplay = (id, value) => {
                 const container = document.getElementById(id);
                 const valueSpan = document.getElementById(`${id}Value`);
@@ -257,12 +260,7 @@
             updateScoreDisplay("creatureHarvestingScore", creatureHarvesting);
             updateScoreDisplay("detonationScore", detonation);
 
-            return {
-                itemStorage,
-                handSampling,
-                creatureHarvesting,
-                detonation,
-            };
+            return { itemStorage, handSampling, creatureHarvesting, detonation };
         }
 
         // Update summary
@@ -277,18 +275,15 @@
                 moduleCounts[module.value].count++;
             });
 
-            // Get scores
             const scores = updateScores(selectedModules);
             const { itemStorage, handSampling, creatureHarvesting, detonation } = scores;
 
-            // Build score summary
             const scoreSummary = [];
             if (itemStorage > 0) scoreSummary.push(`Item Storage Score: ${itemStorage}`);
             if (handSampling > 0) scoreSummary.push(`Hand Sampling Score: ${handSampling}`);
             if (creatureHarvesting > 0) scoreSummary.push(`Creature Harvesting Score: ${creatureHarvesting}`);
             if (detonation > 0) scoreSummary.push(`Detonation Score: ${detonation}`);
 
-            // Build module summary
             const moduleSummary = Object.values(moduleCounts)
                 .map(module => `${module.count} ${module.label}${module.count > 1 ? "s" : ""}`)
                 .join(", ");
@@ -301,25 +296,12 @@
                 moduleSummary,
                 ...scoreSummary,
                 `Total Price: ${totalPrice} Republic Credits.`,
-            ]
-                .filter(line => line.trim().length > 0)
-                .join("\n");
+            ].join("\n");
 
             document.getElementById("summaryField").value = summary;
         }
 
-        // Copy text to clipboard
-        document.getElementById("copyButton").addEventListener("click", () => {
-            const summaryField = document.getElementById("summaryField");
-            summaryField.select();
-            summaryField.setSelectionRange(0, 99999); // For mobile compatibility
-            navigator.clipboard.writeText(summaryField.value).then(() => {
-                alert("Order summary copied to clipboard!");
-            }).catch(err => {
-                alert("Failed to copy: " + err);
-            });
-        });
-
+        // Initialize the page
         async function initialize() {
             const products = await fetchProductData();
             const moduleMap = await fetchModules();
@@ -367,4 +349,3 @@
     </script>
 </body>
 </html>
-
