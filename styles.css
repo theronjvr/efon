@@ -6,7 +6,7 @@ body {
    font-family: Arial, sans-serif;
    text-align: center;
    }
-#Content { 
+.content { 
    max-width: 1200px;
    text-align: left; 
    margin: 0px auto;
