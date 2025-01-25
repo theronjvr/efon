@@ -404,7 +404,7 @@
     </product>
     <product id="32">
         <name>Power Droid</name>
-        <image>https://theronjvr.github.io/efon/images/Power.png</image>
+        <image>https://theronjvr.github.io/efon/images/power.png</image>
         <type>Utility</type>
         <basePrice>45000</basePrice>
         <maxModules>
@@ -417,7 +417,7 @@
     </product>
     <product id="33">
         <name>Power Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/Power.png</image>
+        <image>https://theronjvr.github.io/efon/images/power.png</image>
         <type>Utility</type>
         <basePrice>45000</basePrice>
         <maxModules>
@@ -467,37 +467,35 @@
             <Personality>0</Personality>
         </maxModules>
     </product>
-
-    // still to do
     <product id="37">
-        <name>MSE Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/MSE.png</image>
+        <name>Protocol Droid</name>
+        <image>https://theronjvr.github.io/efon/images/Protocol.png</image>
         <type>Utility</type>
-        <basePrice>10000</basePrice>
+        <basePrice>25000</basePrice>
+        <maxModules>
+            <Combat>0</Combat>
+            <Service>1</Service>
+            <Hybrid>0</Hybrid>
+            <Armor>0</Armor>
+            <Personality>1</Personality>
+        </maxModules>
+    </product>
+    <product id="38">
+        <name>Protocol Droid Advanced</name>
+        <image>https://theronjvr.github.io/efon/images/Protocol.png</image>
+        <type>Utility</type>
+        <basePrice>25000</basePrice>
         <maxModules>
             <Combat>0</Combat>
             <Service>2</Service>
             <Hybrid>0</Hybrid>
             <Armor>1</Armor>
-            <Personality>0</Personality>
-        </maxModules>
-    </product>
-    <product id="38">
-        <name>Probot Advanced II</name>
-        <image>https://theronjvr.github.io/efon/images/Probot.png</image>
-        <type>Combat</type>
-        <basePrice>30000</basePrice>
-        <maxModules>
-            <Combat>9</Combat>
-            <Service>0</Service>
-            <Hybrid>3</Hybrid>
-            <Armor>2</Armor>
-            <Personality>0</Personality>
+            <Personality>1</Personality>
         </maxModules>
     </product>
     <product id="39">
-        <name>LE Repair Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/LE.png</image>
+        <name>R2 Droid</name>
+        <image>https://theronjvr.github.io/efon/images/R2.png</image>
         <basePrice>20000</basePrice>
         <type>Utility</type>
         <maxModules>
@@ -505,170 +503,157 @@
             <Service>0</Service>
             <Hybrid>3</Hybrid>
             <Armor>0</Armor>
-            <Personality>1</Personality>
+            <Personality>0</Personality>
         </maxModules>
     </product>
     <product id="40">
-        <name>MSE Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/MSE.png</image>
+        <name>R2 Droid Advanced</name>
+        <image>https://theronjvr.github.io/efon/images/R2.png</image>
+        <basePrice>20000</basePrice>
         <type>Utility</type>
-        <basePrice>10000</basePrice>
         <maxModules>
             <Combat>0</Combat>
-            <Service>2</Service>
-            <Hybrid>0</Hybrid>
-            <Armor>1</Armor>
+            <Service>0</Service>
+            <Hybrid>5</Hybrid>
+            <Armor>2</Armor>
             <Personality>0</Personality>
         </maxModules>
     </product>
         <product id="41">
-        <name>MSE Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/MSE.png</image>
+        <name>R3 Droid</name>
+        <image>https://theronjvr.github.io/efon/images/R3.png</image>
         <type>Utility</type>
-        <basePrice>10000</basePrice>
+        <basePrice>25000</basePrice>
         <maxModules>
             <Combat>0</Combat>
-            <Service>2</Service>
-            <Hybrid>0</Hybrid>
-            <Armor>1</Armor>
+            <Service>0</Service>
+            <Hybrid>3</Hybrid>
+            <Armor>0</Armor>
             <Personality>0</Personality>
         </maxModules>
     </product>
     <product id="42">
-        <name>Probot Advanced II</name>
-        <image>https://theronjvr.github.io/efon/images/Probot.png</image>
-        <type>Combat</type>
-        <basePrice>30000</basePrice>
+        <name>R3 Droid Advanced</name>
+        <image>https://theronjvr.github.io/efon/images/R3.png</image>
+        <type>Utility</type>
+        <basePrice>25000</basePrice>
         <maxModules>
-            <Combat>9</Combat>
+            <Combat>0</Combat>
             <Service>0</Service>
-            <Hybrid>3</Hybrid>
+            <Hybrid>6</Hybrid>
             <Armor>2</Armor>
             <Personality>0</Personality>
         </maxModules>
     </product>
     <product id="43">
-        <name>LE Repair Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/LE.png</image>
-        <basePrice>20000</basePrice>
+        <name>R4 Droid</name>
+        <image>https://theronjvr.github.io/efon/images/R4.png</image>
+        <basePrice>15000</basePrice>
+        <type>Utility</type>
+        <maxModules>
+            <Combat>0</Combat>
+            <Service>0</Service>
+            <Hybrid>1</Hybrid>
+            <Armor>0</Armor>
+            <Personality>0</Personality>
+        </maxModules>
+    </product>
+        <product id="44">
+        <name>R4 Droid Advanced</name>
+        <image>https://theronjvr.github.io/efon/images/R4.png</image>
+        <basePrice>15000</basePrice>
         <type>Utility</type>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
             <Hybrid>3</Hybrid>
-            <Armor>0</Armor>
-            <Personality>1</Personality>
-        </maxModules>
-    </product>
-        <product id="44">
-        <name>MSE Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/MSE.png</image>
-        <type>Utility</type>
-        <basePrice>10000</basePrice>
-        <maxModules>
-            <Combat>0</Combat>
-            <Service>2</Service>
-            <Hybrid>0</Hybrid>
-            <Armor>1</Armor>
+            <Armor>2</Armor>
             <Personality>0</Personality>
         </maxModules>
     </product>
     <product id="45">
-        <name>Probot Advanced II</name>
-        <image>https://theronjvr.github.io/efon/images/Probot.png</image>
-        <type>Combat</type>
-        <basePrice>30000</basePrice>
+        <name>R5 Droid</name>
+        <image>https://theronjvr.github.io/efon/images/R5.png</image>
+        <basePrice>15000</basePrice>
+        <type>Utility</type>
         <maxModules>
-            <Combat>9</Combat>
+            <Combat>0</Combat>
             <Service>0</Service>
-            <Hybrid>3</Hybrid>
-            <Armor>2</Armor>
+            <Hybrid>1</Hybrid>
+            <Armor>0</Armor>
             <Personality>0</Personality>
         </maxModules>
     </product>
     <product id="46">
-        <name>LE Repair Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/LE.png</image>
-        <basePrice>20000</basePrice>
+        <name>R5 Droid Advanced</name>
+        <image>https://theronjvr.github.io/efon/images/R5.png</image>
+        <basePrice>15000</basePrice>
         <type>Utility</type>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
-            <Hybrid>3</Hybrid>
-            <Armor>0</Armor>
-            <Personality>1</Personality>
-        </maxModules>
-    </product>
-    <product id="47">
-        <name>MSE Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/MSE.png</image>
-        <type>Utility</type>
-        <basePrice>10000</basePrice>
-        <maxModules>
-            <Combat>0</Combat>
-            <Service>2</Service>
-            <Hybrid>0</Hybrid>
+            <Hybrid>2</Hybrid>
             <Armor>1</Armor>
             <Personality>0</Personality>
         </maxModules>
     </product>
-    <product id="48">
-        <name>Probot Advanced II</name>
-        <image>https://theronjvr.github.io/efon/images/Probot.png</image>
+    <product id="47">
+        <name>Super Battle Droid</name>
+        <image>https://theronjvr.github.io/efon/images/SB.png</image>
         <type>Combat</type>
-        <basePrice>30000</basePrice>
+        <basePrice>25000</basePrice>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
             <Hybrid>3</Hybrid>
             <Armor>2</Armor>
-            <Personality>0</Personality>
+            <Personality>1</Personality>
         </maxModules>
     </product>
-    <product id="49">
-        <name>LE Repair Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/LE.png</image>
+    <product id="48">
+        <name>Surgical Droid</name>
+        <image>https://theronjvr.github.io/efon/images/Surgical.png</image>
         <basePrice>20000</basePrice>
         <type>Utility</type>
         <maxModules>
             <Combat>0</Combat>
-            <Service>0</Service>
-            <Hybrid>3</Hybrid>
+            <Service>2</Service>
+            <Hybrid>0</Hybrid>
             <Armor>0</Armor>
+            <Personality>1</Personality>
+        </maxModules>
+    </product>
+    <product id="49">
+        <name>Surgical Droid Advanced</name>
+        <image>https://theronjvr.github.io/efon/images/Surgical.png</image>
+        <basePrice>20000</basePrice>
+        <type>Utility</type>
+        <maxModules>
+            <Combat>0</Combat>
+            <Service>3</Service>
+            <Hybrid>0</Hybrid>
+            <Armor>1</Armor>
             <Personality>1</Personality>
         </maxModules>
     </product>
     <product id="50">
-        <name>MSE Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/MSE.png</image>
-        <type>Utility</type>
-        <basePrice>10000</basePrice>
+        <name>Union Sentry Droid</name>
+        <image>https://theronjvr.github.io/efon/images/Union.png</image>
+        <type>Combat</type>
+        <basePrice>20000</basePrice>
         <maxModules>
-            <Combat>0</Combat>
-            <Service>2</Service>
-            <Hybrid>0</Hybrid>
-            <Armor>1</Armor>
+            <Combat>6</Combat>
+            <Service>0</Service>
+            <Hybrid>3</Hybrid>
+            <Armor>2</Armor>
             <Personality>0</Personality>
         </maxModules>
     </product>
         <product id="51">
-        <name>MSE Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/MSE.png</image>
-        <type>Utility</type>
-        <basePrice>10000</basePrice>
-        <maxModules>
-            <Combat>0</Combat>
-            <Service>2</Service>
-            <Hybrid>0</Hybrid>
-            <Armor>1</Armor>
-            <Personality>0</Personality>
-        </maxModules>
-    </product>
-    <product id="52">
-        <name>Probot Advanced II</name>
-        <image>https://theronjvr.github.io/efon/images/Probot.png</image>
+        <name>Union Sentry Droid Advanced</name>
+        <image>https://theronjvr.github.io/efon/images/Union.png</image>
         <type>Combat</type>
-        <basePrice>30000</basePrice>
+        <basePrice>20000</basePrice>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -677,17 +662,30 @@
             <Personality>0</Personality>
         </maxModules>
     </product>
-    <product id="53">
-        <name>LE Repair Droid Advanced</name>
-        <image>https://theronjvr.github.io/efon/images/LE.png</image>
+    <product id="52">
+        <name>WED Treadwell Droid</name>
+        <image>https://theronjvr.github.io/efon/images/WED.png</image>
         <basePrice>20000</basePrice>
         <type>Utility</type>
         <maxModules>
             <Combat>0</Combat>
-            <Service>0</Service>
-            <Hybrid>3</Hybrid>
+            <Service>1</Service>
+            <Hybrid>0</Hybrid>
             <Armor>0</Armor>
-            <Personality>1</Personality>
+            <Personality>0</Personality>
+        </maxModules>
+    </product>
+    <product id="53">
+        <name>WED Treadwell Droid Advanced</name>
+        <image>https://theronjvr.github.io/efon/images/WED.png</image>
+        <basePrice>20000</basePrice>
+        <type>Utility</type>
+        <maxModules>
+            <Combat>0</Combat>
+            <Service>2</Service>
+            <Hybrid>0</Hybrid>
+            <Armor>1</Armor>
+            <Personality>0</Personality>
         </maxModules>
     </product>
 </products>
