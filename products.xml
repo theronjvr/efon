@@ -239,10 +239,10 @@
         <basePrice>70000</basePrice>
         <type>Combat</type>
         <maxModules>
-            <Combat>0</Combat>
+            <Combat>9</Combat>
             <Service>0</Service>
             <Hybrid>3</Hybrid>
-            <Armor>0</Armor>
+            <Armor>2</Armor>
             <Personality>1</Personality>
         </maxModules>
     </product>
