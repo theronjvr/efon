@@ -28,6 +28,7 @@ body {
 h1 {
   font-family: "Cooper Black", Arial, sans-serif; /* Added fallback */
   text-transform: lowercase;
+  font-style: italic;
 }
 
 h2 {
