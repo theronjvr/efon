@@ -60,5 +60,5 @@ a:active {
 }
 
 #header-id {
-  /* Add styles here if needed */
+  text-align: center; /* Center align content inside body */
 }
