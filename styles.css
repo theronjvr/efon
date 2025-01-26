@@ -44,22 +44,22 @@ h2 {
 }
 
 a:link {
-  color: #333399;
+  color: #88888b;
 }
 
 /* visited link */
 a:visited {
-  color: #333399;
+  color: #88888b;
 }
 
 /* mouse over link */
 a:hover {
-  color: #636363;
+  color: #333399;
 }
 
 /* selected link */
 a:active {
-  color: #333399;
+  color: #88888b;
 }
 
 #copyright {
