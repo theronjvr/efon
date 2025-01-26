@@ -61,7 +61,12 @@ a:hover {
 a:active {
   color: #88888b;
 }
-
+.banner-ad {
+  text-align: center; /* Center align content inside body */
+}
+a.banner-ad {
+ stroke: none; /* Center align content inside body */
+}
 #copyright {
   color: #d3d3d3;
   font-size: 0.8em;
