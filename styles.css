@@ -1,35 +1,35 @@
-html, body {
-  height: 100%; /* Ensure the body and html elements take full height */
-  margin: 0; /* Remove default margin */
+html {
+  background-image: url(/images/pg_bkg.png);
+  background-repeat: repeat;
+  background-color: #333; /* Fallback color if image fails to load */
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit; /* Inherit box-sizing to all elements */
 }
 
 body {
-  display: flex;
-  justify-content: center; /* Centers content horizontally */
-  align-items: center; /* Centers content vertically */
-  background-color: #333;
   color: white;
   max-width: 1200px;
-  padding: 20px;
+  display: flex;
+  justify-content: center; /* Centers content horizontally */
+  padding: 0 20px;
   font-family: Arial, sans-serif;
-  text-align: center; /* Center text inside the body */
-  box-sizing: border-box; /* Ensure consistent sizing */
+  background-color: #333;
+  text-align: center; /* Center align content inside body */
 }
 
 .content {
   max-width: 1200px;
-  text-align: left; /* Align content text to the left */
+  text-align: left;
   margin: 0 auto;
   padding: 20px;
-  background: rgba(0, 0, 0, 0.8); /* Optional background for better readability */
-  border-radius: 10px; /* Add rounded corners for aesthetics */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Add slight shadow for depth */
 }
 
 h1 {
   font-family: "Cooper Black", Arial, sans-serif; /* Added fallback */
   text-transform: lowercase;
-  font-style: italic;
 }
 
 h2 {
