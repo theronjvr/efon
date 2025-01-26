@@ -1,31 +1,39 @@
 html {
-  background-image: url(/images/pg_bkg.png);
-  background-repeat: repeat; 
+  background-image: url(https://theronjvr.github.io/efon/images/pg_bkg.png);
+  background-repeat: repeat;
+  background-color: #333; /* Fallback color if image fails to load */
+  box-sizing: border-box;
 }
-body {    
-  background-color: #333;
+
+*, *:before, *:after {
+  box-sizing: inherit; /* Inherit box-sizing to all elements */
+}
+
+body {
   color: white;
   max-width: 1200px;
   padding: 0 20px;
   font-family: Arial, sans-serif;
-  text-align: center;
-  vertical-align: middle;
-   }
-.content { 
+  background-color: #333;
+  text-align: center; /* Center align content inside body */
+}
+
+.content {
   max-width: 1200px;
-  text-align: left; 
-  margin: 0px auto;
+  text-align: left;
+  margin: 0 auto;
   padding: 20px;
-   }
-#header-id { 
-} 
+}
+
 h1 {
-  font-family: "Cooper Black", serif;
+  font-family: "Cooper Black", Arial, sans-serif; /* Added fallback */
   text-transform: lowercase;
-   }
+}
+
 h2 {
-      margin-top: 30px;
-   }
+  margin-top: 30px;
+}
+
 a:link {
   color: #333399;
 }
@@ -44,7 +52,12 @@ a:hover {
 a:active {
   color: #0179f9;
 }
+
 #copyright {
-   color: #d3d3d3;
-   font-size: .8em;
+  color: #d3d3d3;
+  font-size: 0.8em;
+}
+
+#header-id {
+  /* Add styles here if needed */
 }
