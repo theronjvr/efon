@@ -13,17 +13,11 @@ body {
    padding: 20px;
    }
 #header-id { 
-   /* Set the height or other necessary styles for your header */ 
-   height: 100px; 
-   background-image: url('https://theronjvr.github.io/efon/images/title.png'); 
-   background-position: center; 
-   background-repeat: no-repeat;
-      /* Additional properties for background if needed */ 
-   } 
+} 
 h2 {
       margin-top: 30px;
    }
 #copyright {
    color: #d3d3d3;
-   font-size: .9em;
+   font-size: .8em;
 }
