@@ -1,4 +1,8 @@
-body {    
+html {
+  background-image: url(pg_bkg.png);
+  background-repeat: repeat-x; 
+  background-repeat: repeat-y; 
+}body {    
    background-color: #333;
    color: white;
    width: 100%;
