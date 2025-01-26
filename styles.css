@@ -12,16 +12,14 @@ html {
 body {
   color: white;
   max-width: 1200px;
-  display: flex;
-  justify-content: center; /* Centers content horizontally */
-  padding: 0 20px;
+  margin: 0 auto; /* Center the block */ 
+padding: 0 20px;
   font-family: Arial, sans-serif;
   background-color: #333;
   text-align: center; /* Center align content inside body */
 }
 
 .content {
-  max-width: 1200px;
   text-align: left;
   margin: 0 auto;
   padding: 20px;
@@ -30,6 +28,7 @@ body {
 h1 {
   font-family: "Cooper Black", Arial, sans-serif; /* Added fallback */
   text-transform: lowercase;
+ font-style: italic;
 }
 
 h2 {
