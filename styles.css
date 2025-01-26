@@ -5,7 +5,7 @@ html {
 body {    
    background-color: #333;
    color: white;
-   width: 100%;
+   max-width: 1200px;
    padding: 20px;
    font-family: Arial, sans-serif;
    text-align: center;
