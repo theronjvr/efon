@@ -7,6 +7,47 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://use.typekit.net/ara6mwm.css">
     <link rel="icon" type="image/png" href="https://theronjvr.github.io/efon/icon.png">
+    <style>
+        .location-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            justify-items: center;
+            margin-top: 40px;
+        }
+
+        .location-card {
+            text-align: center;
+        }
+
+        .location-image {
+            width: 300px;
+            height: 300px;
+            object-fit: contain;
+            border: 1px solid white; /* Default border color */
+            padding: 5px;
+            background-color: #fff;
+            border-radius: 5px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .location-image:hover {
+            transform: scale(1.05); /* Slight zoom effect */
+            border-color: black; /* Change border to black on hover */
+        }
+
+        .location-name {
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+
+        .location-wp {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="content">
@@ -19,10 +60,23 @@
         <p>Come see every droid craftable at our showroom due west of Theed :naboo: (just 786m from Shuttleport B), and browse the largest selection of droids in the galaxy! From max (30 item) storage droids to space and combat droids, we have it all at the best prices on Omega! Send a DM or send a holomail to Efon'Ahazi for special orders or questions.</p>
 <p>Check out our satellite locations in Stratford Vale, Corellia and New Capitol City, Tatooine with AT-AT transportation between each shop (see office off main floor in Naboo). Get your quality droids and accessories from all of the major planets!</p>
 <p>Your source for the finest droids since 2003. See all droids and modules available: <a href="https://theronjvr.github.io/efon/EfonsDroidsModules.pdf">Droid Chart PDF</a></p>
-<p>Theed: /wp Naboo -6638 4254 blue (e) efon's droids</br>
-Stratford Vale: /wp Corellia 953 -3380 orange (e) efon's droids - corellia</br>
-New Capitol City: /wp Tatooine 1065 5401 blue (e) efon's droids - tatooine
-</p>
+        <div class="location-grid">
+            <div class="location-card">
+                <img src="https://via.placeholder.com/300" alt="Theed Location" class="location-image">
+                <div class="location-name">Theed, Naboo</div>
+                <div class="location-wp">/wp Naboo -6638 4254</div>
+            </div>
+            <div class="location-card">
+                <img src="https://via.placeholder.com/300" alt="Stratford Vale Location" class="location-image">
+                <div class="location-name">Stratford Vale, Corellia</div>
+                <div class="location-wp">/wp Corellia 953 -3380</div>
+            </div>
+            <div class="location-card">
+                <img src="https://via.placeholder.com/300" alt="New Capitol City Location" class="location-image">
+                <div class="location-name">New Capitol City, Tatooine</div>
+                <div class="location-wp">/wp Tatooine 1065 5401</div>
+            </div>
+        </div>
         
         <div id="copyright"> <p>The data used in this website is based on droids and modules available in <a href="https://swglegends.com/">Star Wars Galaxies Legends</a> as of the below copyright date. This is a private fan project and not affiliated with SWG Legends.</p>
 <p>Star Wars Galaxies is a registered trademark of Lucasfilm Entertainment Company Ltd.</p>
