@@ -28,19 +28,24 @@
             text-align: center;
         }
 
+        .product-image-link {
+            display: inline-block;
+        }
+
         .product-image {
             width: 100px;
             height: 100px;
             object-fit: contain;
-            border: 1px solid #ccc;
+            border: 1px solid white; /* Default border color */
             padding: 5px;
             background-color: #fff;
             border-radius: 5px;
-            transition: transform 0.2s;
+            transition: transform 0.2s, border-color 0.2s;
         }
 
         .product-image:hover {
-            transform: scale(1.1);
+            transform: scale(1.1); /* Slight zoom effect */
+            border-color: black; /* Change border to black on hover */
         }
 
         .product-name {
@@ -60,11 +65,16 @@
 </head>
 <body>
     <div class="content">
-            <header id="header-id">
-        <a href="https://theronjvr.github.io/efon"><img src="https://theronjvr.github.io/efon/images/title.png"></a>
-    </header>
+        <header id="header-id">
+            <a href="https://theronjvr.github.io/efon"><img src="https://theronjvr.github.io/efon/images/title.png" alt="Efon's Droids"></a>
+        </header>
         <h1>Efon's Build-A-Droid</h1>
-        <p>Select a droid by clicking the droid name to advance to module selection. Droids are listed with the number of modules for C (combat), S (service), H (hybrid: either combat or service), A (armor), and P (personality chip). *Single-use schematic droids are priced assuming schematic is provided by customer before construction.</p>
+        <p>
+            Select a droid by clicking the droid image or name to advance to module selection. 
+            Droids are listed with the number of modules for C (combat), S (service), 
+            H (hybrid: either combat or service), A (armor), and P (personality chip). 
+            *Single-use schematic droids are priced assuming schematic is provided by customer before construction.
+        </p>
 
         <div id="combatProducts" class="category-section">
             <h3>Combat Droids</h3>
@@ -75,10 +85,18 @@
             <h3>Utility Droids</h3>
             <div id="utilityList" class="product-grid">Loading...</div>
         </div>
-        <div id="copyright"> <p>The data used in this website is based on droids and modules available in <a href="https://swglegends.com/">Star Wars Galaxies Legends</a> as of the below copyright date. This is a private fan project and not affiliated with SWG Legends.</p>
-<p>Star Wars Galaxies is a registered trademark of Lucasfilm Entertainment Company Ltd.</p>
-<p>Copyright © 2025 Efon's Droids. All rights reserved.</p>
-<p>Please report bugs and send feedback to Efon'Ahazi in-game or Discord at Efon'Ahazi (lord_theron). </p>
+
+        <div id="copyright">
+            <p>
+                The data used in this website is based on droids and modules available in 
+                <a href="https://swglegends.com/">Star Wars Galaxies Legends</a> as of the below copyright date. 
+                This is a private fan project and not affiliated with SWG Legends.
+            </p>
+            <p>Star Wars Galaxies is a registered trademark of Lucasfilm Entertainment Company Ltd.</p>
+            <p>Copyright © 2025 Efon's Droids. All rights reserved.</p>
+            <p>
+                Please report bugs and send feedback to Efon'Ahazi in-game or Discord at Efon'Ahazi (lord_theron).
+            </p>
         </div>
     </div>
 
@@ -138,6 +156,10 @@
                 const card = document.createElement("div");
                 card.className = "product-card";
 
+                const imageLink = document.createElement("a");
+                imageLink.href = `selector.html?productId=${productId}`;
+                imageLink.className = "product-image-link";
+
                 const image = document.createElement("img");
                 image.src = productImage;
                 image.alt = productName;
@@ -151,7 +173,8 @@
                 stats.className = "product-stats";
                 stats.textContent = `C:${moduleCounts.C}, S:${moduleCounts.S}, H:${moduleCounts.H}, A:${moduleCounts.A}, P:${moduleCounts.P}`;
 
-                card.appendChild(image);
+                imageLink.appendChild(image);
+                card.appendChild(imageLink);
                 card.appendChild(name);
                 card.appendChild(stats);
 
@@ -163,4 +186,3 @@
     </script>
 </body>
 </html>
-
