@@ -3,184 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Efon's Droid - Module Selector</title>
+    <title>Efon's Droids - Build-A-Droid Module Selector</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://use.typekit.net/ara6mwm.css">
     <link rel="icon" type="image/png" href="https://theronjvr.github.io/efon/icon.png">
     <style>
-        .image-container {
+        .product-container {
             display: flex;
             gap: 20px;
-            justify-content: center;
-            align-items: center;
+            align-items: flex-start;
         }
 
         .product-image, .palette-image {
             width: auto;
-            height: 300px; /* Default height */
+            height: 300px;
             cursor: pointer;
             border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .product-image:hover, .palette-image:hover {
-            transform: scale(1.05);
-            border-color: #444;
-        }
-
-        .color-inputs {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: flex-start;
-        }
-
-        .overlay {
+        #overlay {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             background: rgba(0, 0, 0, 0.8);
-            display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
 
-        .overlay img {
-            max-width: 90%;
-            max-height: 90%;
+        #overlay img {
+            max-width: calc(100vw - 40px);
+            max-height: calc(100vh - 40px);
+            margin: 10px;
+            background: white;
+            border-radius: 5px;
         }
 
-        .overlay-close {
+        #overlay .close-btn {
             position: absolute;
             top: 20px;
             right: 20px;
-            color: white;
-            font-size: 24px;
+            background: white;
+            color: black;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
+        }
+
+        .color-input-container {
+            margin: 20px 0;
+        }
+
+        .color-input-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .color-input {
+            width: 200px;
+            padding: 5px;
+            font-size: 1em;
         }
     </style>
 </head>
 <body>
-    <header>
-        <a href="index.html"><img src="https://theronjvr.github.io/efon/images/title.png" alt="Efon's Droids"></a>
-    </header>
     <div class="content">
+        <header id="header-id">
+            <a href="https://theronjvr.github.io/efon"><img src="https://theronjvr.github.io/efon/images/title.png"></a>
+        </header>
+        <h1>Efon's Build-A-Droid</h1>
+        <p>Use this page to select functionality for your droid. Module slots are customized for the droid you've chosen, simply select a module from the corresponding drop-down and a description of the module's function will appear. When all modules you want are selected, simply copy the text from the summary and send it along to Efon'Ahazi to get your droid built. Thank you for your business!</p>
         <h2 id="productName">Loading...</h2>
-        <div class="image-container">
-            <img id="productImage" class="product-image" alt="Product Image">
-            <img id="paletteImage" class="palette-image" alt="Palette">
+        <div class="product-container">
+            <img id="productImage" class="product-image" alt="Product Image" />
+            <img id="paletteImage" class="palette-image" alt="Palette Image" />
         </div>
         <div id="moduleSelectors"></div>
-        <div class="color-inputs" id="colorInputs"></div>
-      <div id="priceContainer">
+        <div class="color-input-container" id="colorInputs"></div>
+        <div id="priceContainer">
             <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
         </div>
-         <div id="summaryContainer">
+        <div id="summaryContainer">
             <h3>Order Summary</h3>
+            <p>Copy the text below and send via <a href="https://discord.com">Discord</a> or in-game holomail to <b>Efon'Ahazi</b>.</p>
             <textarea id="summaryField" readonly></textarea>
+            <br><button id="copyButton">Copy to Clipboard</button>
         </div>
-    </div>
-
-    <!-- Full-size Image Overlay -->
-    <div class="overlay" id="imageOverlay">
-        <span class="overlay-close" onclick="closeOverlay()">×</span>
-        <img id="overlayImage" alt="Full-size Preview">
+        <div id="overlay">
+            <img id="overlayImage" src="" alt="Full Size Image">
+            <button class="close-btn" onclick="closeOverlay()">Close</button>
+        </div>
+        <div id="copyright">
+            <p>The data used in this website is based on droids and modules available in <a href="https://swglegends.com/">Star Wars Galaxies Legends</a> as of the below copyright date. This is a private fan project and not affiliated with SWG Legends.</p>
+            <p>Star Wars Galaxies is a registered trademark of Lucasfilm Entertainment Company Ltd.</p>
+            <p>Copyright © 2025 Efon's Droids. All rights reserved.</p>
+            <p>Please report bugs and send feedback to Efon'Ahazi in-game or Discord at Efon'Ahazi (lord_theron).</p>
+        </div>
     </div>
 
     <script>
+        let basePrice = 0;
+        let productId = null;
         let colorOptions = 0;
 
-        // Fetch product data
-        async function fetchProductData(productId) {
-            const response = await fetch('products.xml');
-            const text = await response.text();
-            const parser = new DOMParser();
-            const xml = parser.parseFromString(text, "application/xml");
-            return Array.from(xml.getElementsByTagName("product"))
-                .find(product => product.getAttribute("id") === productId);
+        function openOverlay(imageSrc) {
+            const overlay = document.getElementById("overlay");
+            const overlayImage = document.getElementById("overlayImage");
+            overlay.style.display = "flex";
+            overlayImage.src = imageSrc;
         }
 
-        // Display product details
-        async function initialize() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const productId = urlParams.get("productId");
-            const product = await fetchProductData(productId);
+        function closeOverlay() {
+            document.getElementById("overlay").style.display = "none";
+        }
 
-            if (!product) {
-                document.getElementById("productName").textContent = "Product not found.";
-                return;
+        document.getElementById("productImage").addEventListener("click", () => openOverlay(document.getElementById("productImage").src));
+        document.getElementById("paletteImage").addEventListener("click", () => openOverlay(document.getElementById("paletteImage").src));
+
+        function updateSummary(selectedModules) {
+            const productName = document.getElementById("productName").textContent;
+            const totalPrice = document.getElementById("totalPrice").textContent;
+            const colorInputs = document.querySelectorAll(".color-input");
+            const colors = Array.from(colorInputs).map(input => `${input.dataset.color}: ${input.value}`);
+
+            let summary = [
+                `I would like to purchase a ${productName} with the following modules:`,
+                ...selectedModules.map(module => module.value),
+                ...colors,
+                `Total Price: ${totalPrice} Republic Credits.`,
+            ];
+
+            if (productName.endsWith('*')) {
+                summary.push("Single-use schematic droids are priced assuming schematic is provided by customer before construction.");
             }
+
+            document.getElementById("summaryField").value = summary.join("\n");
+        }
+
+        async function initialize() {
+            const products = await fetch('products.xml').then(res => res.text()).then(txt => new DOMParser().parseFromString(txt, "application/xml"));
+            const urlParams = new URLSearchParams(window.location.search);
+            productId = urlParams.get("productId");
+
+            const product = Array.from(products.getElementsByTagName("product")).find(prod => prod.getAttribute("id") === productId);
+            if (!product) return;
 
             const productName = product.getElementsByTagName("name")[0].textContent;
             const productImage = product.getElementsByTagName("image")[0].textContent;
-            const paletteImage = product.getElementsByTagName("palette")[0]?.textContent || "";
+            const paletteImage = product.getElementsByTagName("palette")[0]?.textContent || "default.png";
+            basePrice = parseFloat(product.getElementsByTagName("basePrice")[0].textContent);
             colorOptions = parseInt(product.getElementsByTagName("colorOptions")[0]?.textContent || 0);
 
             document.getElementById("productName").textContent = productName;
             document.getElementById("productImage").src = productImage;
             document.getElementById("paletteImage").src = paletteImage;
 
-            setupColorInputs();
-            updateSummary();
-        }
-
-        // Setup color input fields
-        function setupColorInputs() {
-            const colorInputs = document.getElementById("colorInputs");
-            colorInputs.innerHTML = ""; // Clear existing inputs
-
-            if (colorOptions >= 1) {
-                const color1 = document.createElement("div");
-                color1.textContent = "Color 1:";
-                const input1 = document.createElement("input");
-                input1.type = "text";
-                input1.value = "(Default)";
-                input1.oninput = updateSummary;
-                color1.appendChild(input1);
-                colorInputs.appendChild(color1);
+            if (colorOptions > 0) {
+                const colorInputs = document.getElementById("colorInputs");
+                for (let i = 1; i <= colorOptions; i++) {
+                    const label = document.createElement("label");
+                    label.textContent = `Color ${i}`;
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.className = "color-input";
+                    input.dataset.color = `Color ${i}`;
+                    input.value = "(Default)";
+                    colorInputs.appendChild(label);
+                    colorInputs.appendChild(input);
+                }
             }
 
-            if (colorOptions === 2) {
-                const color2 = document.createElement("div");
-                color2.textContent = "Color 2:";
-                const input2 = document.createElement("input");
-                input2.type = "text";
-                input2.value = "(Default)";
-                input2.oninput = updateSummary;
-                color2.appendChild(input2);
-                colorInputs.appendChild(color2);
-            }
+            // Add other initialization logic (module rendering, price updates, etc.)
         }
-
-        // Update summary
-        function updateSummary() {
-            const summaryField = document.getElementById("summaryField");
-            const productName = document.getElementById("productName").textContent;
-            const colorInputs = document.querySelectorAll(".color-inputs input");
-            const colors = Array.from(colorInputs).map(input => input.value).join(", ");
-
-            summaryField.value = `I would like to purchase a ${productName} with colors: ${colors}. Total Price: ${document.getElementById("totalPrice").textContent} Republic Credits.`;
-        }
-
-        // Image overlay
-        function openOverlay(src) {
-            const overlay = document.getElementById("imageOverlay");
-            const overlayImage = document.getElementById("overlayImage");
-            overlayImage.src = src;
-            overlay.style.display = "flex";
-        }
-
-        function closeOverlay() {
-            document.getElementById("imageOverlay").style.display = "none";
-        }
-
-        // Event listeners for images
-        document.getElementById("productImage").onclick = () => openOverlay(document.getElementById("productImage").src);
-        document.getElementById("paletteImage").onclick = () => openOverlay(document.getElementById("paletteImage").src);
 
         initialize();
     </script>
