@@ -1,437 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Efon's Droids - Build-A-Droid Module Selector</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://use.typekit.net/ara6mwm.css">
-    <link rel="icon" type="image/png" href="https://theronjvr.github.io/efon/icon.png">
-    <style>
-        /* Layout for images */
-        .product-container {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-        }
-        .product-image, .palette-image {
-            width: auto;
-            height: 300px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Efon's Droids - Build-A-Droid Module Selector</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://use.typekit.net/ara6mwm.css">
+  <link rel="icon" type="image/png" href="https://theronjvr.github.io/efon/icon.png">
+  <style>
+    /* Layout for product & palette images side by side */
+    .product-container {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .product-image, .palette-image {
+      width: auto;
+      height: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-        /* Overlay for full-size images */
-        #overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.8);
-            justify-content: center; 
-            align-items: center;
-            z-index: 9999;
-        }
-        #overlay img {
-            max-width: calc(100vw - 40px);
-            max-height: calc(100vh - 40px);
-            background: white;
-            border-radius: 5px;
-        }
-        #overlay .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: white;
-            color: black;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            padding: 5px 10px;
-        }
+    /* Overlay for full-size images */
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    #overlay img {
+      max-width: calc(100vw - 40px);
+      max-height: calc(100vh - 40px);
+      border-radius: 5px;
+      background: #fff;
+    }
+    #overlay .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 5px 10px;
+    }
 
-        /* Module slots styling */
-        .module-container {
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-        }
-        .module-label {
-            display: inline-block;
-            width: 150px;
-        }
-        .module-description {
-            margin-left: 20px;
-            font-style: italic;
-            color: gray;
-        }
+    .module-container {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+    .module-label {
+      display: inline-block;
+      width: 150px;
+    }
+    .module-description {
+      margin-left: 20px;
+      font-style: italic;
+      color: gray;
+    }
 
-        /* Color inputs styling */
-        .color-container {
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-        }
-        .color-label {
-            display: inline-block;
-            width: 150px;
-        }
-        .color-input {
-            width: 200px;
-            padding: 4px;
-        }
+    .color-container {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+    .color-label {
+      display: inline-block;
+      width: 150px;
+    }
+    .color-input {
+      width: 200px;
+      padding: 4px;
+    }
 
-        #priceContainer {
-            margin-top: 20px;
-        }
-        #summaryContainer {
-            margin-top: 20px;
-        }
-        #summaryField {
-            width: 500px;
-            height: 100px;
-        }
-        #copyButton {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        #copyButton:hover {
-            background-color: #0056b3;
-        }
+    #priceContainer {
+      margin-top: 20px;
+    }
+    #summaryContainer {
+      margin-top: 20px;
+    }
+    #summaryField {
+      width: 500px;
+      height: 100px;
+    }
+    #copyButton {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    #copyButton:hover {
+      background-color: #0056b3;
+    }
 
-        .scores {
-            margin-top: 20px;
-            font-size: 1.1em;
-            color: #555;
-        }
-        .scores div {
-            margin-bottom: 5px;
-        }
-
-        /* Prevent drifting of select elements */
-        select {
-            width: 200px;
-        }
-    </style>
+    /* Avoid drifting select elements */
+    select {
+      width: 200px;
+    }
+  </style>
 </head>
 <body>
-    <div class="content">
-        <header id="header-id">
-            <a href="https://theronjvr.github.io/efon">
-                <img src="https://theronjvr.github.io/efon/images/title.png" alt="Efon's Droids">
-            </a>
-        </header>
-        <h1>Efon's Build-A-Droid</h1>
-        <p>
-            Use this page to select functionality for your droid. Module slots are customized 
-            for the droid you've chosen; simply select a module from the corresponding drop-down 
-            and a description of the module's function will appear. When all modules you want are selected, 
-            simply copy the text from the summary and send it along to Efon'Ahazi to get your droid built. 
-            Thank you for your business!
-        </p>
-        <h2 id="productName">Loading...</h2>
+  <div class="content">
+    <header id="header-id">
+      <a href="https://theronjvr.github.io/efon">
+        <img src="https://theronjvr.github.io/efon/images/title.png" alt="Efon's Droids">
+      </a>
+    </header>
+    <h1>Efon's Build-A-Droid</h1>
+    <p>
+      Use this page to select functionality for your droid. Module slots are customized 
+      for the droid you've chosen; simply select a module from the corresponding drop-down 
+      and a description of the module's function will appear. When all modules you want 
+      are selected, simply copy the text from the summary and send it along to Efon'Ahazi 
+      to get your droid built. Thank you for your business!
+    </p>
+    <h2 id="productName">Loading...</h2>
 
-        <!-- Container for product & palette images side by side -->
-        <div class="product-container">
-            <img id="productImage" class="product-image" alt="Product Image" />
-            <img id="paletteImage" class="palette-image" alt="Palette Image" />
-        </div>
-
-        <div id="moduleSelectors"></div>
-        <!-- We'll add color input fields below this line dynamically -->
-
-        <div id="priceContainer">
-            <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
-        </div>
-
-        <div id="summaryContainer">
-            <h3>Order Summary</h3>
-            <p>
-                Copy the text below and send via 
-                <a href="https://discord.com">Discord</a> or in-game holomail to 
-                <b>Efon'Ahazi</b>.
-            </p>
-            <textarea id="summaryField" readonly></textarea>
-            <br><button id="copyButton">Copy to Clipboard</button>
-        </div>
-
-        <!-- Overlay for images -->
-        <div id="overlay">
-            <button class="close-btn" onclick="closeOverlay()">Close</button>
-            <img id="overlayImage" src="" alt="Full-size image" />
-        </div>
-
-        <script>
-            let basePrice = 0;
-            let modulePrices = {};
-            let productId = null;
-            let colorOptions = 0;
-            const selectedModules = [];
-
-            // Overlay logic
-            function openOverlay(src) {
-                const overlay = document.getElementById("overlay");
-                const overlayImage = document.getElementById("overlayImage");
-                overlayImage.src = src;
-                overlay.style.display = "flex";
-            }
-
-            function closeOverlay() {
-                document.getElementById("overlay").style.display = "none";
-            }
-
-            // Fetch product data from products.xml
-            async function fetchProducts() {
-                const res = await fetch('products.xml');
-                const text = await res.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(text, 'application/xml');
-                return Array.from(doc.getElementsByTagName("product"));
-            }
-
-            // Fetch module data from modules.xml
-            async function fetchModules() {
-                const res = await fetch('modules.xml');
-                const text = await res.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(text, 'application/xml');
-                const moduleTypes = doc.getElementsByTagName("type");
-                const moduleMap = {};
-
-                Array.from(moduleTypes).forEach(type => {
-                    const id = type.getAttribute("id");
-                    const options = Array.from(type.getElementsByTagName("option")).map(opt => ({
-                        id: opt.textContent,
-                        description: opt.getAttribute("description"),
-                        price: parseFloat(opt.getAttribute("price"))
-                    }));
-                    moduleMap[id] = options;
-                });
-                return moduleMap;
-            }
-
-            // Get product by ID
-            function getProductById(id, products) {
-                return products.find(prod => prod.getAttribute("id") === id);
-            }
-
-            function createModuleSelector(label, type, moduleMap, selectedModules) {
-                const container = document.createElement("div");
-                container.className = "module-container";
-
-                const labelEl = document.createElement("span");
-                labelEl.className = "module-label";
-                labelEl.textContent = label;
-
-                const select = document.createElement("select");
-                select.style.width = "200px";
-
-                // Module description next to select
-                const desc = document.createElement("span");
-                desc.className = "module-description";
-                desc.textContent = "Select a module";
-
-                // (none) option
-                const noneOpt = document.createElement("option");
-                noneOpt.value = "none";
-                noneOpt.textContent = "(none)";
-                select.appendChild(noneOpt);
-
-                // If Hybrid => combine Combat+Service
-                if (type === "Hybrid") {
-                    const combined = [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])];
-                    combined.forEach(opt => {
-                        const elem = document.createElement("option");
-                        elem.value = opt.id;
-                        elem.textContent = opt.id;
-                        select.appendChild(elem);
-                        modulePrices[opt.id] = opt.price;
-                    });
-                } else {
-                    const arr = moduleMap[type] || [];
-                    arr.forEach(opt => {
-                        const elem = document.createElement("option");
-                        elem.value = opt.id;
-                        elem.textContent = opt.id;
-                        select.appendChild(elem);
-                        modulePrices[opt.id] = opt.price;
-                    });
-                }
-
-                select.addEventListener("change", () => {
-                    // find if we already have an entry
-                    const idx = selectedModules.findIndex(m => m.label === label);
-                    const allOpts =
-                        type === "Hybrid"
-                            ? [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])]
-                            : moduleMap[type] || [];
-                    const sel = allOpts.find(o => o.id === select.value);
-
-                    if (idx >= 0) {
-                        selectedModules[idx] = { label: label, value: select.value };
-                    } else {
-                        selectedModules.push({ label: label, value: select.value });
-                    }
-                    desc.textContent = sel?.description || "Select a module";
-                    updateAll(selectedModules);
-                });
-
-                container.appendChild(labelEl);
-                container.appendChild(select);
-                container.appendChild(desc);
-
-                return container;
-            }
-
-            function updateAll(selected) {
-                updatePrice(selected);
-                updateSummary(selected);
-            }
-
-            function updatePrice(selected) {
-                const modulesTotal = selected.reduce((sum, mod) =>
-                    mod.value !== "none" ? sum + (modulePrices[mod.value] || 0) : sum, 0);
-                const totalPrice = basePrice + modulesTotal;
-                document.getElementById("totalPrice").textContent = new Intl.NumberFormat("en-US", {
-                    maximumFractionDigits: 0
-                }).format(totalPrice);
-            }
-
-            function updateSummary(selected) {
-                const productName = document.getElementById("productName").textContent;
-                const totalPrice = document.getElementById("totalPrice").textContent;
-
-                // Combine like modules
-                const filtered = selected.filter(m => m.value !== "none");
-                const moduleDict = {};
-                filtered.forEach(m => {
-                    if (!moduleDict[m.value]) {
-                        moduleDict[m.value] = 0;
-                    }
-                    moduleDict[m.value]++;
-                });
-
-                // Build a condensed list of modules
-                const moduleList = Object.entries(moduleDict).map(([mod, count]) => {
-                    return count > 1 ? `${count} ${mod}s` : `${count} ${mod}`;
-                });
-
-                // Gather color inputs
-                const colorInputs = document.querySelectorAll(".color-container input");
-                const colorList = Array.from(colorInputs).map(inp => `${inp.dataset.name}: ${inp.value}`);
-
-                // Build a single-paragraph summary
-                let line = `I would like to purchase a ${productName} with the following modules: ${moduleList.join(", ")}.`;
-
-                if (colorList.length > 0) {
-                    line += ` Colors selected: ${colorList.join(", ")}.`;
-                }
-
-                line += ` The total price is ${totalPrice} Republic Credits.`;
-
-                if (productName.endsWith('*')) {
-                    line += " Single-use schematic droids are priced assuming schematic is provided by customer before construction.";
-                }
-
-                document.getElementById("summaryField").value = line;
-            }
-
-            document.getElementById("copyButton").addEventListener("click", () => {
-                const summaryField = document.getElementById("summaryField");
-                summaryField.select();
-                summaryField.setSelectionRange(0, 99999);
-                navigator.clipboard.writeText(summaryField.value)
-                    .then(() => alert("Order summary copied to clipboard!"))
-                    .catch(err => alert("Failed to copy: " + err));
-            });
-
-            async function initialize() {
-                const products = await fetchProducts();
-                const modMap = await fetchModules();
-
-                const params = new URLSearchParams(window.location.search);
-                productId = params.get("productId");
-
-                const product = products.find(p => p.getAttribute("id") === productId);
-                if (!product) {
-                    document.getElementById("productName").textContent = "Product not found.";
-                    return;
-                }
-
-                // Populate data
-                const prodName = product.getElementsByTagName("name")[0].textContent;
-                const prodImg = product.getElementsByTagName("image")[0].textContent;
-                const paletteImg = product.getElementsByTagName("palette")[0]?.textContent || "";
-                basePrice = parseFloat(product.getElementsByTagName("basePrice")[0]?.textContent) || 0;
-                colorOptions = parseInt(product.getElementsByTagName("colorOptions")[0]?.textContent) || 0;
-
-                document.getElementById("productName").textContent = prodName;
-                document.getElementById("productImage").src = prodImg;
-                document.getElementById("paletteImage").src = paletteImg;
-                document.getElementById("productImage").onclick = () => openOverlay(prodImg);
-                document.getElementById("paletteImage").onclick = () => openOverlay(paletteImg);
-
-                // Setup color input fields
-                if (colorOptions > 0) {
-                    const colorInputsDiv = document.createElement("div");
-                    colorInputsDiv.className = "color-inputs";
-
-                    for (let i = 1; i <= colorOptions; i++) {
-                        const container = document.createElement("div");
-                        container.className = "color-container";
-
-                        const lbl = document.createElement("label");
-                        lbl.className = "color-label";
-                        lbl.textContent = `Color ${i}`;
-
-                        const inp = document.createElement("input");
-                        inp.type = "text";
-                        inp.value = "(Default)";
-                        inp.dataset.name = `Color ${i}`;
-                        inp.className = "color-input";
-                        inp.addEventListener("input", () => updateSummary(selectedModules));
-
-                        container.appendChild(lbl);
-                        container.appendChild(inp);
-                        colorInputsDiv.appendChild(container);
-                    }
-                    document.getElementById("moduleSelectors").appendChild(colorInputsDiv);
-                }
-
-                // Format initial price
-                document.getElementById("totalPrice").textContent = new Intl.NumberFormat("en-US", {
-                    maximumFractionDigits: 0
-                }).format(basePrice);
-
-                const maxModules = product.getElementsByTagName("maxModules")[0].children;
-                // Render all module slots
-                Array.from(maxModules).forEach(slot => {
-                    const type = slot.tagName;
-                    const max = parseInt(slot.textContent);
-                    if (max > 0) {
-                        for (let i = 0; i < max; i++) {
-                            const sel = createModuleSelector(
-                                `${type} Slot ${i + 1}`,
-                                type,
-                                modMap,
-                                selectedModules
-                            );
-                            document.getElementById("moduleSelectors").appendChild(sel);
-                        }
-                    }
-                });
-            }
-
-            initialize();
-        </script>
+    <!-- Product & Palette Images -->
+    <div class="product-container">
+      <img id="productImage" class="product-image" alt="Product Image">
+      <img id="paletteImage" class="palette-image" alt="Palette Image">
     </div>
+
+    <div id="moduleSelectors"></div>
+
+    <!-- Price Display -->
+    <div id="priceContainer">
+      <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
+    </div>
+
+    <!-- Summary Container -->
+    <div id="summaryContainer">
+      <h3>Order Summary</h3>
+      <p>
+        Copy the text below and send via 
+        <a href="https://discord.com">Discord</a> or in-game holomail to 
+        <b>Efon'Ahazi</b>.
+      </p>
+      <textarea id="summaryField" readonly></textarea>
+      <br><button id="copyButton">Copy to Clipboard</button>
+    </div>
+
+    <!-- Overlay for images -->
+    <div id="overlay">
+      <button class="close-btn" onclick="closeOverlay()">Close</button>
+      <img id="overlayImage" src="" alt="Full Size Image">
+    </div>
+
+    <script>
+      let basePrice = 0;
+      let modulePrices = {};
+      let productId = null;
+      let colorOptions = 0;
+      const selectedModules = [];
+
+      // Overlay logic
+      function openOverlay(src) {
+        const overlay = document.getElementById("overlay");
+        const overlayImage = document.getElementById("overlayImage");
+        overlayImage.src = src;
+        overlay.style.display = "flex";
+      }
+      function closeOverlay() {
+        document.getElementById("overlay").style.display = "none";
+      }
+
+      // Fetch product data
+      async function fetchProducts() {
+        const res = await fetch('products.xml');
+        const txt = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(txt, "application/xml");
+        return Array.from(doc.getElementsByTagName("product"));
+      }
+      // Fetch module data
+      async function fetchModules() {
+        const res = await fetch('modules.xml');
+        const txt = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(txt, 'application/xml');
+        const moduleTypes = doc.getElementsByTagName("type");
+        const moduleMap = {};
+
+        Array.from(moduleTypes).forEach(type => {
+          const id = type.getAttribute("id");
+          const options = Array.from(type.getElementsByTagName("option")).map(opt => ({
+            id: opt.textContent,
+            description: opt.getAttribute("description"),
+            price: parseFloat(opt.getAttribute("price"))
+          }));
+          moduleMap[id] = options;
+        });
+        return moduleMap;
+      }
+
+      function getProductById(id, products) {
+        return products.find(p => p.getAttribute("id") === id);
+      }
+
+      function createModuleSelector(labelText, type, moduleMap) {
+        const container = document.createElement("div");
+        container.className = "module-container";
+
+        const lbl = document.createElement("span");
+        lbl.className = "module-label";
+        lbl.textContent = labelText;
+
+        const select = document.createElement("select");
+        select.style.width = "200px";
+
+        const desc = document.createElement("span");
+        desc.className = "module-description";
+        desc.textContent = "Select a module";
+
+        // (none) option
+        const noneOpt = document.createElement("option");
+        noneOpt.value = "none";
+        noneOpt.textContent = "(none)";
+        select.appendChild(noneOpt);
+
+        // Fill options
+        if (type === "Hybrid") {
+          // Combine Combat + Service
+          const combined = [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])];
+          combined.forEach(opt => {
+            const elem = document.createElement("option");
+            elem.value = opt.id;
+            elem.textContent = opt.id;
+            select.appendChild(elem);
+            modulePrices[opt.id] = opt.price;
+          });
+        } else {
+          const arr = moduleMap[type] || [];
+          arr.forEach(opt => {
+            const elem = document.createElement("option");
+            elem.value = opt.id;
+            elem.textContent = opt.id;
+            select.appendChild(elem);
+            modulePrices[opt.id] = opt.price;
+          });
+        }
+
+        select.addEventListener("change", () => {
+          const idx = selectedModules.findIndex(m => m.label === labelText);
+          const allOpts =
+            type === "Hybrid"
+              ? [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])]
+              : moduleMap[type] || [];
+          const chosen = allOpts.find(o => o.id === select.value);
+
+          if (idx >= 0) {
+            selectedModules[idx] = { label: labelText, value: select.value };
+          } else {
+            selectedModules.push({ label: labelText, value: select.value });
+          }
+          desc.textContent = chosen?.description || "Select a module";
+
+          updateAll(selectedModules);
+        });
+
+        container.appendChild(lbl);
+        container.appendChild(select);
+        container.appendChild(desc);
+        return container;
+      }
+
+      // Incorporate scores snippet
+      function updateScores(selected) {
+        const moduleCounts = selected.reduce((counts, mod) => {
+          counts[mod.value] = (counts[mod.value] || 0) + 1;
+          return counts;
+        }, {});
+        console.log("Module Counts:", moduleCounts); // Debug
+
+        const itemStorage = moduleCounts["Item Storage"] ? (moduleCounts["Item Storage"] === 1 ? 10 : 30) : 0;
+        const handSampling = moduleCounts["Hand Sampling (Mining)"] ? moduleCounts["Hand Sampling (Mining)"] * 10 : 0;
+        const creatureHarvesting = moduleCounts["Creature Harvest"] ? moduleCounts["Creature Harvest"] * 20 : 0;
+        const detonation = moduleCounts["Detonation"]
+          ? moduleCounts["Detonation"] * (productId === "29" || productId === "30" ? 40 : 30)
+          : 0;
+
+        // If you want to display them in the UI, you can do it here.
+        // For now, we just return them to include in summary.
+        return { itemStorage, handSampling, creatureHarvesting, detonation };
+      }
+
+      function updateAll(selected) {
+        updatePrice(selected);
+        updateSummary(selected);
+      }
+
+      function updatePrice(selected) {
+        const moduleCost = selected.reduce((sum, mod) => {
+          return mod.value !== "none" ? sum + (modulePrices[mod.value] || 0) : sum;
+        }, 0);
+        const totalPrice = basePrice + moduleCost;
+        const formatted = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(totalPrice);
+        document.getElementById("totalPrice").textContent = formatted;
+      }
+
+      function updateSummary(selected) {
+        const productName = document.getElementById("productName").textContent;
+        const totalPrice = document.getElementById("totalPrice").textContent;
+
+        // Combine like modules
+        const filtered = selected.filter(m => m.value !== "none");
+        const modCounts = {};
+        filtered.forEach(m => {
+          if (!modCounts[m.value]) {
+            modCounts[m.value] = 0;
+          }
+          modCounts[m.value]++;
+        });
+
+        const moduleList = Object.entries(modCounts).map(([mod, cnt]) => {
+          return cnt > 1 ? `${cnt} ${mod}s` : `${cnt} ${mod}`;
+        });
+
+        // Score snippet
+        const scores = updateScores(filtered);
+        let scoreParts = [];
+        if (scores.itemStorage > 0) scoreParts.push(`Item Storage +${scores.itemStorage}`);
+        if (scores.handSampling > 0) scoreParts.push(`Hand Sampling +${scores.handSampling}`);
+        if (scores.creatureHarvesting > 0) scoreParts.push(`Creature Harvesting +${scores.creatureHarvesting}`);
+        if (scores.detonation > 0) scoreParts.push(`Detonation +${scores.detonation}`);
+
+        // Color inputs
+        const colorInputs = document.querySelectorAll(".color-container input");
+        const colorSelections = Array.from(colorInputs).map(inp => `${inp.dataset.name}: ${inp.value}`);
+
+        // Build single-paragraph summary
+        let summaryLine = `I would like to purchase a ${productName} with the following modules: ${moduleList.join(", ")}.`;
+
+        if (colorSelections.length > 0) {
+          summaryLine += ` Colors selected: ${colorSelections.join(", ")}.`;
+        }
+
+        if (scoreParts.length > 0) {
+          summaryLine += ` Scores: ${scoreParts.join(", ")}.`;
+        }
+
+        summaryLine += ` The total price is ${totalPrice} Republic Credits.`;
+
+        if (productName.endsWith('*')) {
+          summaryLine += " Single-use schematic droids are priced assuming schematic is provided by customer before construction.";
+        }
+
+        document.getElementById("summaryField").value = summaryLine;
+      }
+
+      document.getElementById("copyButton").addEventListener("click", () => {
+        const summaryField = document.getElementById("summaryField");
+        summaryField.select();
+        summaryField.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(summaryField.value)
+          .then(() => alert("Order summary copied to clipboard!"))
+          .catch(err => alert("Failed to copy: " + err));
+      });
+
+      async function initialize() {
+        const products = await fetchProducts();
+        const moduleMap = await fetchModules();
+        const params = new URLSearchParams(window.location.search);
+        productId = params.get("productId");
+
+        if (!productId) {
+          document.getElementById("productName").textContent = "Product not found.";
+          return;
+        }
+
+        const product = products.find(p => p.getAttribute("id") === productId);
+        if (!product) {
+          document.getElementById("productName").textContent = "Product not found.";
+          return;
+        }
+
+        // Populate product info
+        const name = product.getElementsByTagName("name")[0].textContent;
+        const image = product.getElementsByTagName("image")[0].textContent;
+        const palette = product.getElementsByTagName("palette")[0]?.textContent || "";
+        basePrice = parseFloat(product.getElementsByTagName("basePrice")[0]?.textContent) || 0;
+
+        // colorOptions from product
+        const coEl = product.getElementsByTagName("colorOptions")[0];
+        colorOptions = coEl ? parseInt(coEl.textContent, 10) : 0;
+
+        document.getElementById("productName").textContent = name;
+        const prodImg = document.getElementById("productImage");
+        prodImg.src = image;
+        prodImg.onclick = () => openOverlay(image);
+
+        const palImg = document.getElementById("paletteImage");
+        palImg.src = palette;
+        palImg.onclick = () => openOverlay(palette);
+
+        // Set initial price
+        document.getElementById("totalPrice").textContent = new Intl.NumberFormat("en-US", {
+          maximumFractionDigits: 0
+        }).format(basePrice);
+
+        // Setup color fields if colorOptions>0
+        if (colorOptions > 0) {
+          const colorInputs = document.createElement("div");
+          // We'll place them below moduleSelectors
+          const moduleSelectors = document.getElementById("moduleSelectors");
+          moduleSelectors.appendChild(colorInputs);
+
+          for (let i = 1; i <= colorOptions; i++) {
+            const cContainer = document.createElement("div");
+            cContainer.className = "color-container";
+
+            const lbl = document.createElement("span");
+            lbl.className = "color-label";
+            lbl.textContent = `Color ${i}`;
+
+            const inp = document.createElement("input");
+            inp.type = "text";
+            inp.value = "(Default)";
+            inp.dataset.name = `Color ${i}`;
+            inp.className = "color-input";
+            inp.addEventListener("input", () => updateSummary(selectedModules));
+
+            cContainer.appendChild(lbl);
+            cContainer.appendChild(inp);
+            colorInputs.appendChild(cContainer);
+          }
+        }
+
+        // Build module selectors
+        const selectedModules = [];
+        const maxModules = product.getElementsByTagName("maxModules")[0]?.children || [];
+        Array.from(maxModules).forEach(slot => {
+          const type = slot.tagName;
+          const max = parseInt(slot.textContent, 10);
+          if (max > 0) {
+            for (let i = 0; i < max; i++) {
+              const sel = createModuleSelector(`${type} Slot ${i + 1}`, type, moduleMap);
+              document.getElementById("moduleSelectors").appendChild(sel);
+            }
+          }
+        });
+      }
+
+      initialize();
+    </script>
+  </div>
 </body>
 </html>
