@@ -263,82 +263,82 @@
             document.getElementById("totalPrice").textContent = formattedPrice;
         }
 
-        // Update scores
-        function updateScores(selectedModules) {
-            const moduleCounts = selectedModules.reduce((counts, module) => {
-                counts[module.value] = (counts[module.value] || 0) + 1;
-                return counts;
-            }, {});
+// Update scores
+function updateScores(selectedModules) {
+    const moduleCounts = selectedModules.reduce((counts, module) => {
+        counts[module.value] = (counts[module.value] || 0) + 1;
+        return counts;
+    }, {});
 
-            console.log("Module Counts:", moduleCounts);  // Debugging log
+    console.log("Module Counts:", moduleCounts);  // Debugging log
 
-            const itemStorage = moduleCounts["Item Storage"] ? (moduleCounts["Item Storage"] === 1 ? 10 : 30) : 0;
-            const handSampling = moduleCounts["Hand Sampling (Mining)"] ? moduleCounts["Hand Sampling (Mining)"] * 10 : 0;
-            const creatureHarvesting = moduleCounts["Creature Harvest"] ? moduleCounts["Creature Harvest"] * 20 : 0;
-            const detonation = moduleCounts["Detonation"]
-                ? moduleCounts["Detonation"] * (productId === "29" || productId === "30" ? 40 : 30)
-                : 0;
+    const itemStorage = moduleCounts["Item Storage"] ? (moduleCounts["Item Storage"] === 1 ? 10 : 30) : 0;
+    const handSampling = moduleCounts["Hand Sampling (Mining)"] ? moduleCounts["Hand Sampling (Mining)"] * 10 : 0;
+    const creatureHarvesting = moduleCounts["Creature Harvest"] ? moduleCounts["Creature Harvest"] * 20 : 0;
+    const detonation = moduleCounts["Detonation"]
+        ? moduleCounts["Detonation"] * (productId === "29" || productId === "30" ? 40 : 30)
+        : 0;
 
-            const updateScoreDisplay = (id, value) => {
-                const container = document.getElementById(id);
-                const valueSpan = document.getElementById(${id}Value);
+    const updateScoreDisplay = (id, value) => {
+        const container = document.getElementById(id);
+        const valueSpan = document.getElementById(`${id}Value`); // Fixed backticks
 
-                // Ensure the container and valueSpan exist before updating
-                if (valueSpan) {
-                    container.style.display = value > 0 ? "block" : "none";
-                    valueSpan.textContent = value;
-                }
-            };
-
-            updateScoreDisplay("itemStorageScore", itemStorage);
-            updateScoreDisplay("handSamplingScore", handSampling);
-            updateScoreDisplay("creatureHarvestingScore", creatureHarvesting);
-            updateScoreDisplay("detonationScore", detonation);
-
-            return { itemStorage, handSampling, creatureHarvesting, detonation };
+        // Ensure the container and valueSpan exist before updating
+        if (valueSpan) {
+            container.style.display = value > 0 ? "block" : "none";
+            valueSpan.textContent = value;
         }
+    };
 
-        // Update summary
-        function updateSummary(selectedModules) {
-            const filteredModules = selectedModules.filter(module => module.value !== "none");
+    updateScoreDisplay("itemStorageScore", itemStorage);
+    updateScoreDisplay("handSamplingScore", handSampling);
+    updateScoreDisplay("creatureHarvestingScore", creatureHarvesting);
+    updateScoreDisplay("detonationScore", detonation);
 
-            const moduleCounts = {};
-            filteredModules.forEach(module => {
-                if (!moduleCounts[module.value]) {
-                    moduleCounts[module.value] = { count: 0, label: module.value };
-                }
-                moduleCounts[module.value].count++;
-            });
+    return { itemStorage, handSampling, creatureHarvesting, detonation };
+}
 
-            const scores = updateScores(selectedModules);
-            const { itemStorage, handSampling, creatureHarvesting, detonation } = scores;
+// Update summary
+function updateSummary(selectedModules) {
+    const filteredModules = selectedModules.filter(module => module.value !== "none");
 
-            const scoreSummary = [];
-            if (itemStorage > 0) scoreSummary.push(Item Storage: ${itemStorage});
-            if (handSampling > 0) scoreSummary.push(Hand Sampling Bonus: ${handSampling});
-            if (creatureHarvesting > 0) scoreSummary.push(Creature Harvesting Bonus: ${creatureHarvesting});
-            if (detonation > 0) scoreSummary.push(Detonation Power: ${detonation});
-
-            const moduleSummary = Object.values(moduleCounts)
-                .map(module => ${module.count} ${module.label}${module.count > 1 ? "s" : ""})
-                .join(", ");
-
-            const productName = document.getElementById("productName").textContent;
-            const totalPrice = document.getElementById("totalPrice").textContent;
-
-            let summary = [
-                I would like to purchase a ${productName} with the following modules:,
-                moduleSummary,
-                ...scoreSummary,
-                Total Price: ${totalPrice} Republic Credits.,
-            ];
-
-            if (productName.endsWith('*')) {
-                summary.push("Single-use schematic droids are priced assuming schematic is provided by customer before construction.");
-            }
-
-            document.getElementById("summaryField").value = summary.join("\n");
+    const moduleCounts = {};
+    filteredModules.forEach(module => {
+        if (!moduleCounts[module.value]) {
+            moduleCounts[module.value] = { count: 0, label: module.value };
         }
+        moduleCounts[module.value].count++;
+    });
+
+    const scores = updateScores(selectedModules);
+    const { itemStorage, handSampling, creatureHarvesting, detonation } = scores;
+
+    const scoreSummary = [];
+    if (itemStorage > 0) scoreSummary.push(`Item Storage: ${itemStorage}`);
+    if (handSampling > 0) scoreSummary.push(`Hand Sampling Bonus: ${handSampling}`);
+    if (creatureHarvesting > 0) scoreSummary.push(`Creature Harvesting Bonus: ${creatureHarvesting}`);
+    if (detonation > 0) scoreSummary.push(`Detonation Power: ${detonation}`);
+
+    const moduleSummary = Object.values(moduleCounts)
+        .map(module => `${module.count} ${module.label}${module.count > 1 ? "s" : ""}`)
+        .join(", ");
+
+    const productName = document.getElementById("productName").textContent;
+    const totalPrice = document.getElementById("totalPrice").textContent;
+
+    let summary = [
+        `I would like to purchase a ${productName} with the following modules:`,
+        moduleSummary,
+        ...scoreSummary,
+        `Total Price: ${totalPrice} Republic Credits.`,
+    ];
+
+    if (productName.endsWith('*')) {
+        summary.push("Single-use schematic droids are priced assuming schematic is provided by customer before construction.");
+    }
+
+    document.getElementById("summaryField").value = summary.join("\n");
+}
 
         // Copy to clipboard
         document.getElementById("copyButton").addEventListener("click", () => {
