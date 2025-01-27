@@ -23,7 +23,7 @@
       cursor: pointer;
     }
 
-    /* Overlay for full-size images */
+    /* Overlay for full-size images, no longer full screen, 20px bigger than image */
     #overlay {
       display: none;
       position: fixed;
@@ -35,8 +35,9 @@
       z-index: 9999;
     }
     #overlay img {
-      max-width: calc(100vw - 40px);
-      max-height: calc(100vh - 40px);
+      margin: 10px;     /* 20px total horizontally & vertically */
+      width: auto;
+      height: auto;
       border-radius: 5px;
       background: #fff;
     }
@@ -92,7 +93,7 @@
     }
     .chassis-deco-label {
       display: inline-block;
-      width: 250px;
+      width: 200px; /* Widened to avoid wrapping */
     }
     .custom-name-container {
       margin: 10px 0;
@@ -189,9 +190,9 @@
       let productId = null;
       let colorOptions = 0;
 
-      // If chassis-only is checked, we skip modules, use chassisPrice, but still show colors & custom name
+      // If chassis-only is checked, we skip modules, use chassisPrice, but still show color fields & custom name
       let chassisOnly = false;
-      let customNameValue = "(Default)"; // user can override
+      let customNameValue = "(Default)";
 
       const selectedModules = [];
 
@@ -344,21 +345,29 @@
       }
 
       function updateSummary(selected) {
-        const productName = document.getElementById("productName").textContent;
+        const productNameEl = document.getElementById("productName");
+        const productName = productNameEl.textContent;
         const totalPrice = document.getElementById("totalPrice").textContent;
 
-        let summaryLine = `I would like to purchase a ${productName}.`;
+        // If chassis only, append product name with (Decoration (chassis))
+        let finalName = productName;
+        if (chassisOnly) {
+          finalName += " (Decoration (chassis))";
+        }
+
+        let summaryLine = `I would like to purchase a ${finalName}.`;
 
         if (chassisOnly) {
-          // No modules, use custom name if changed
-          if (customNameValue && customNameValue !== "(Default)" && customNameValue !== "---") {
+          // No modules
+          if (customNameValue === "---") {
+            summaryLine += " Blank custom name.";
+          } else if (customNameValue && customNameValue !== "(Default)") {
             summaryLine += ` Custom name: ${customNameValue}.`;
-          } else if (customNameValue === "---") {
-            summaryLine += " No custom name.";
           } else {
             summaryLine += " Custom name is default.";
           }
         } else {
+          // Combine like modules
           const filtered = selected.filter(m => m.value !== "none");
           const modCounts = {};
           filtered.forEach(m => {
@@ -435,11 +444,7 @@
         const palette = product.getElementsByTagName("palette")[0]?.textContent || "";
         basePrice = parseFloat(product.getElementsByTagName("basePrice")[0]?.textContent) || 0;
         const cPriceEl = product.getElementsByTagName("chassisPrice")[0];
-        let parsedChassisPrice = basePrice;
-        if (cPriceEl) {
-          parsedChassisPrice = parseFloat(cPriceEl.textContent || basePrice);
-        }
-        chassisPrice = parsedChassisPrice;
+        chassisPrice = cPriceEl ? parseFloat(cPriceEl.textContent) : basePrice;
 
         // colorOptions
         const coEl = product.getElementsByTagName("colorOptions")[0];
@@ -509,7 +514,7 @@
         chassisContainer.className = "chassis-deco-container";
 
         const chassisLabel = document.createElement("span");
-        chassisLabel.className = "color-label";
+        chassisLabel.className = "chassis-deco-label"; // widened to 200px
         chassisLabel.textContent = "Chassis (decoration) only";
 
         const chassisCheck = document.createElement("input");
