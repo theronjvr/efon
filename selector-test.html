@@ -8,10 +8,53 @@
     <link rel="stylesheet" href="https://use.typekit.net/ara6mwm.css">
     <link rel="icon" type="image/png" href="https://theronjvr.github.io/efon/icon.png">
     <style>
-        .product-image {
-            width: 200px;
-            height: auto;
-            margin-bottom: 20px;
+        .product-container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .product-image,
+        .palette-image {
+            width: auto;
+            height: 300px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Overlay styling */
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0; 
+            left: 0;
+            width: 100vw; 
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center; 
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #overlay img {
+            max-width: calc(100vw - 40px);
+            max-height: calc(100vh - 40px);
+            background: white;
+            border-radius: 5px;
+        }
+
+        #overlay .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 5px 10px;
         }
 
         .module-container {
@@ -19,12 +62,10 @@
             display: flex;
             align-items: center;
         }
-
         .module-label {
             display: inline-block;
             width: 150px;
         }
-
         .module-description {
             margin-left: 20px;
             font-style: italic;
@@ -54,7 +95,6 @@
             cursor: pointer;
             font-size: 1em;
         }
-
         #copyButton:hover {
             background-color: #0056b3;
         }
@@ -64,259 +104,336 @@
             font-size: 1.1em;
             color: #555;
         }
-
         .scores div {
             margin-bottom: 5px;
         }
 
-        /* New fix to prevent drifting of select elements */
+        /* Prevent drifting of select elements */
         select {
-            width: 200px; /* Makes the select element take full width of its container */
+            width: 200px;
+        }
+
+        .color-inputs {
+            margin: 20px 0;
+        }
+        .color-inputs label {
+            display: block;
+            margin: 5px 0 3px;
+        }
+        .color-inputs input {
+            width: 200px;
+            padding: 4px;
         }
     </style>
 </head>
 <body>
- <div class="content">
-    <header id="header-id">
-        <a href="https://theronjvr.github.io/efon"><img src="https://theronjvr.github.io/efon/images/title.png"></a>
-    </header>
-    <h1>Efon's Build-A-Droid</h1>
-    <p>Use this page to select functionality for your droid. Module slots are customized for the droid you've chosen, simply select a module from the corresponding drop-down and a description of the module's function will appear. When all modules you want are selected, simply copy the text from the summary and send it along to Efon'Ahazi to get your droid built. Thank you for your business!</p>
-    <h2 id="productName">Loading...</h2>
-    <img id="productImage" class="product-image" alt="Product Image" />
-    <div id="moduleSelectors"></div>
-    <div id="priceContainer">
-        <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
-    </div>
-    <div id="summaryContainer">
-        <h3>Order Summary</h3>
-        <p>Copy the text below and send via <a href="https://discord.com">Discord</a> or in-game holomail to <b>Efon'Ahazi</b>.</p>
-        <textarea id="summaryField" readonly></textarea>
-        <br><button id="copyButton">Copy to Clipboard</button>
-    </div>
+    <div class="content">
+        <header id="header-id">
+            <a href="https://theronjvr.github.io/efon"><img src="https://theronjvr.github.io/efon/images/title.png"></a>
+        </header>
+        <h1>Efon's Build-A-Droid</h1>
+        <p>Use this page to select functionality for your droid. Module slots are customized for the droid you've chosen, simply select a module from the corresponding drop-down and a description of the module's function will appear. When all modules you want are selected, simply copy the text from the summary and send it along to Efon'Ahazi to get your droid built. Thank you for your business!</p>
+        <h2 id="productName">Loading...</h2>
 
-    <script>
-        let modulePrices = {};
-        let basePrice = 0;
-        let productId = null;
+        <!-- Container for product & palette images side by side -->
+        <div class="product-container">
+            <img id="productImage" class="product-image" alt="Product Image" />
+            <img id="paletteImage" class="palette-image" alt="Palette Image" />
+        </div>
 
-        // Fetch product data from an external XML file
-        async function fetchProductData() {
-            const response = await fetch('products.xml');
-            const text = await response.text();
-            const productDoc = new DOMParser().parseFromString(text, "application/xml");
-            return Array.from(productDoc.getElementsByTagName("product"));
-        }
+        <div id="moduleSelectors"></div>
+        <!-- Color inputs inserted here -->
+        <div class="color-inputs" id="colorInputs"></div>
 
-        // Fetch module data from an external XML file
-        async function fetchModules() {
-            const response = await fetch('modules.xml');
-            const text = await response.text();
-            const moduleDoc = new DOMParser().parseFromString(text, "application/xml");
-            const moduleTypes = moduleDoc.getElementsByTagName("type");
-            const moduleMap = {};
+        <div id="priceContainer">
+            <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
+        </div>
 
-            Array.from(moduleTypes).forEach(type => {
-                const id = type.getAttribute("id");
-                const options = Array.from(type.getElementsByTagName("option")).map(opt => ({
-                    id: opt.textContent,
-                    description: opt.getAttribute("description"),
-                    price: parseFloat(opt.getAttribute("price"))
-                }));
-                moduleMap[id] = options;
-            });
+        <div id="summaryContainer">
+            <h3>Order Summary</h3>
+            <p>Copy the text below and send via <a href="https://discord.com">Discord</a> or in-game holomail to <b>Efon'Ahazi</b>.</p>
+            <textarea id="summaryField" readonly></textarea>
+            <br><button id="copyButton">Copy to Clipboard</button>
+        </div>
 
-            return moduleMap;
-        }
+        <!-- Overlay for full-size image preview -->
+        <div id="overlay">
+            <button class="close-btn" onclick="closeOverlay()">Close</button>
+            <img id="overlayImage" src="" alt="Full-size image" />
+        </div>
 
-        // Get product by ID
-        function getProductById(id, products) {
-            return products.find(product => product.getAttribute("id") === id);
-        }
+        <script>
+            let modulePrices = {};
+            let basePrice = 0;
+            let productId = null;
+            let colorOptions = 0;
 
-        // Create module selector
-        function createModuleSelector(labelText, type, moduleMap, selectedModules) {
-            const container = document.createElement("div");
-            container.className = "module-container";
-
-            const label = document.createElement("span");
-            label.className = "module-label";
-            label.textContent = labelText;
-
-            const select = document.createElement("select");
-            const description = document.createElement("span");
-            description.className = "module-description";
-            description.textContent = "Select a module";
-
-            // Add "(none)" option with price 0
-            const noneOption = document.createElement("option");
-            noneOption.value = "none";
-            noneOption.textContent = "(none)";
-            select.appendChild(noneOption);
-
-            // If module type is Hybrid, combine Combat + Service
-            if (type === 'Hybrid') {
-                const hybridOptions = [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])];
-                hybridOptions.forEach(option => {
-                    const opt = document.createElement("option");
-                    opt.value = option.id;
-                    opt.textContent = option.id;
-                    select.appendChild(opt);
-                    modulePrices[option.id] = option.price;
-                });
-            } else {
-                const options = moduleMap[type] || [];
-                options.forEach(option => {
-                    const opt = document.createElement("option");
-                    opt.value = option.id;
-                    opt.textContent = option.id;
-                    select.appendChild(opt);
-                    modulePrices[option.id] = option.price;
-                });
+            // Overlay for images
+            function openOverlay(imgSrc) {
+                const overlay = document.getElementById("overlay");
+                const overlayImage = document.getElementById("overlayImage");
+                overlayImage.src = imgSrc;
+                overlay.style.display = "flex";
             }
 
-            select.addEventListener("change", () => {
-                const currentIndex = selectedModules.findIndex(item => item.label === labelText);
-                // for Hybrid, we must look in both Combat + Service
-                const selectedOption =
-                    type === "Hybrid"
-                        ? [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])].find(opt => opt.id === select.value)
-                        : (moduleMap[type] || []).find(opt => opt.id === select.value);
+            function closeOverlay() {
+                document.getElementById("overlay").style.display = "none";
+            }
 
-                if (currentIndex >= 0) {
-                    selectedModules[currentIndex] = { label: labelText, value: select.value };
+            // Fetch product data
+            async function fetchProductData() {
+                const response = await fetch('products.xml');
+                const text = await response.text();
+                const productDoc = new DOMParser().parseFromString(text, "application/xml");
+                return Array.from(productDoc.getElementsByTagName("product"));
+            }
+
+            // Fetch module data
+            async function fetchModules() {
+                const response = await fetch('modules.xml');
+                const text = await response.text();
+                const moduleDoc = new DOMParser().parseFromString(text, "application/xml");
+                const moduleTypes = moduleDoc.getElementsByTagName("type");
+                const moduleMap = {};
+
+                Array.from(moduleTypes).forEach(type => {
+                    const id = type.getAttribute("id");
+                    const options = Array.from(type.getElementsByTagName("option")).map(opt => ({
+                        id: opt.textContent,
+                        description: opt.getAttribute("description"),
+                        price: parseFloat(opt.getAttribute("price"))
+                    }));
+                    moduleMap[id] = options;
+                });
+                return moduleMap;
+            }
+
+            // Get product by ID
+            function getProductById(id, products) {
+                return products.find(prod => prod.getAttribute("id") === id);
+            }
+
+            // Build module selector
+            function createModuleSelector(labelText, type, moduleMap, selectedModules) {
+                const container = document.createElement("div");
+                container.className = "module-container";
+
+                const label = document.createElement("span");
+                label.className = "module-label";
+                label.textContent = labelText;
+
+                const select = document.createElement("select");
+                const description = document.createElement("span");
+                description.className = "module-description";
+                description.textContent = "Select a module";
+
+                // "(none)" option with price 0
+                const noneOpt = document.createElement("option");
+                noneOpt.value = "none";
+                noneOpt.textContent = "(none)";
+                select.appendChild(noneOpt);
+
+                if (type === 'Hybrid') {
+                    const hybridOptions = [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])];
+                    hybridOptions.forEach(option => {
+                        const opt = document.createElement("option");
+                        opt.value = option.id;
+                        opt.textContent = option.id;
+                        select.appendChild(opt);
+                        modulePrices[option.id] = option.price;
+                    });
                 } else {
-                    selectedModules.push({ label: labelText, value: select.value });
+                    const options = moduleMap[type] || [];
+                    options.forEach(option => {
+                        const opt = document.createElement("option");
+                        opt.value = option.id;
+                        opt.textContent = option.id;
+                        select.appendChild(opt);
+                        modulePrices[option.id] = option.price;
+                    });
                 }
 
-                // Update description
-                description.textContent = selectedOption?.description || "Select a module";
+                select.addEventListener("change", () => {
+                    const currentIndex = selectedModules.findIndex(item => item.label === labelText);
+                    const allOptions = type === 'Hybrid'
+                        ? [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])]
+                        : moduleMap[type] || [];
+                    const selectedOption = allOptions.find(opt => opt.id === select.value);
 
-                updateAll(selectedModules);
-            });
+                    if (currentIndex >= 0) {
+                        selectedModules[currentIndex] = { label: labelText, value: select.value };
+                    } else {
+                        selectedModules.push({ label: labelText, value: select.value });
+                    }
+                    description.textContent = selectedOption?.description || "Select a module";
 
-            container.appendChild(label);
-            container.appendChild(select);
-            container.appendChild(description);
+                    updateAll(selectedModules);
+                });
 
-            return container;
-        }
+                container.appendChild(label);
+                container.appendChild(select);
+                container.appendChild(description);
 
-        // Update total price, summary, etc.
-        function updateAll(selectedModules) {
-            updatePrice(selectedModules);
-            updateScores(selectedModules);
-            updateSummary(selectedModules);
-        }
+                return container;
+            }
 
-        function updatePrice(selectedModules) {
-            const moduleTotal = selectedModules.reduce((total, module) => {
-                return module.value !== "none" ? total + (modulePrices[module.value] || 0) : total;
-            }, 0);
+            // Summaries, price, etc.
+            function updateAll(selectedModules) {
+                updatePrice(selectedModules);
+                updateScores(selectedModules);
+                updateSummary(selectedModules);
+            }
 
-            const totalPrice = basePrice + moduleTotal;
-            const formattedPrice = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalPrice);
-            document.getElementById("totalPrice").textContent = formattedPrice;
-        }
+            function updatePrice(selectedModules) {
+                const totalModulesPrice = selectedModules.reduce((sum, mod) =>
+                    mod.value !== "none" ? sum + (modulePrices[mod.value] || 0) : sum, 0
+                );
+                const totalPrice = basePrice + totalModulesPrice;
+                const formatted = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalPrice);
+                document.getElementById("totalPrice").textContent = formatted;
+            }
 
-        function updateScores(selectedModules) {
-            const moduleCounts = selectedModules.reduce((counts, module) => {
-                counts[module.value] = (counts[module.value] || 0) + 1;
-                return counts;
-            }, {});
+            function updateScores(selectedModules) {
+                // If you want to show scores, do it here. Currently no UI for them except in summary.
+                // Return any data needed for summary
+                return selectedModules;
+            }
 
-            console.log("Module Counts:", moduleCounts); // Debugging
+            function updateSummary(selectedModules) {
+                const productName = document.getElementById("productName").textContent;
+                const totalPrice = document.getElementById("totalPrice").textContent;
 
-            // You can build out a "scores" section if needed. Currently, no explicit DOM updates are here.
-            // Return the final object if you want it in summary
-            return moduleCounts;
-        }
+                // Filter out (none)
+                const filtered = selectedModules.filter(m => m.value !== "none");
+                const moduleList = filtered.map(m => m.value);
 
-        function updateSummary(selectedModules) {
-            const filteredModules = selectedModules.filter(module => module.value !== "none");
-            const moduleCounts = {};
-            filteredModules.forEach(module => {
-                if (!moduleCounts[module.value]) {
-                    moduleCounts[module.value] = { count: 0, label: module.value };
+                // Gather color inputs
+                const colorInputs = document.querySelectorAll(".color-inputs input");
+                const colorList = Array.from(colorInputs).map(input => `${input.dataset.label}: ${input.value}`);
+
+                // Build summary lines
+                let summaryLines = [];
+                summaryLines.push(`I would like to purchase a ${productName} with the following modules:`);
+                summaryLines.push(...moduleList);
+
+                if (colorList.length > 0) {
+                    summaryLines.push("Color Selections:");
+                    summaryLines.push(...colorList);
                 }
-                moduleCounts[module.value].count++;
-            });
 
-            const moduleSummary = Object.values(moduleCounts)
-                .map(module => `${module.count} ${module.label}${module.count > 1 ? "s" : ""}`)
-                .join(", ");
+                summaryLines.push(`Total Price: ${totalPrice} Republic Credits.`);
+                if (productName.endsWith('*')) {
+                    summaryLines.push("Single-use schematic droids are priced assuming schematic is provided by customer before construction.");
+                }
 
-            const productName = document.getElementById("productName").textContent;
-            const totalPrice = document.getElementById("totalPrice").textContent;
-
-            const summary = [
-                `I would like to purchase a ${productName} with the following modules: ${moduleSummary}.`,
-                `Total Price: ${totalPrice} Republic Credits.`
-            ];
-
-            if (productName.endsWith('*')) {
-                summary.push("Single-use schematic droids are priced assuming schematic is provided by customer before construction.");
+                document.getElementById("summaryField").value = summaryLines.join("\n");
             }
 
-            document.getElementById("summaryField").value = summary.join("\n");
-        }
-
-        // Copy to clipboard
-        document.getElementById("copyButton").addEventListener("click", () => {
-            const summaryField = document.getElementById("summaryField");
-            summaryField.select();
-            summaryField.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(summaryField.value).then(() => {
-                alert("Order summary copied to clipboard!");
-            }).catch(err => {
-                alert("Failed to copy: " + err);
+            document.getElementById("copyButton").addEventListener("click", () => {
+                const summaryField = document.getElementById("summaryField");
+                summaryField.select();
+                summaryField.setSelectionRange(0, 99999);
+                navigator.clipboard.writeText(summaryField.value)
+                    .then(() => alert("Order summary copied to clipboard!"))
+                    .catch(err => alert("Failed to copy: " + err));
             });
-        });
 
-        async function initialize() {
-            const products = await fetchProductData();
-            const moduleMap = await fetchModules();
-            const urlParams = new URLSearchParams(window.location.search);
-            productId = urlParams.get("productId");
+            async function initialize() {
+                const products = await fetchProductData();
+                const moduleMap = await fetchModules();
+                const params = new URLSearchParams(window.location.search);
+                productId = params.get("productId");
 
-            if (!productId) {
-                document.getElementById("productName").textContent = "Product not found.";
-                return;
-            }
+                if (!productId) {
+                    document.getElementById("productName").textContent = "Product not found.";
+                    return;
+                }
 
-            const product = getProductById(productId, products);
-            const name = product.getElementsByTagName("name")[0].textContent;
-            const image = product.getElementsByTagName("image")[0].textContent;
-            basePrice = parseFloat(product.getElementsByTagName("basePrice")[0].textContent);
+                const product = products.find(prod => prod.getAttribute("id") === productId);
+                if (!product) {
+                    document.getElementById("productName").textContent = "Product not found.";
+                    return;
+                }
 
-            document.getElementById("productName").textContent = name;
-            document.getElementById("productImage").src = image;
+                // Populate product info
+                const name = product.getElementsByTagName("name")[0].textContent;
+                const image = product.getElementsByTagName("image")[0].textContent;
+                const palette = product.getElementsByTagName("palette")[0]?.textContent || "";
+                basePrice = parseFloat(product.getElementsByTagName("basePrice")[0]?.textContent) || 0;
 
-            const formattedPrice = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(basePrice);
-            document.getElementById("totalPrice").textContent = formattedPrice;
+                // Check colorOptions from product (if present)
+                let colorOpts = parseInt(product.getElementsByTagName("colorOptions")[0]?.textContent || 0);
 
-            const selectedModules = [];
-            const maxModules = product.getElementsByTagName("maxModules")[0].children;
+                document.getElementById("productName").textContent = name;
+                document.getElementById("productImage").src = image;
+                document.getElementById("paletteImage").src = palette || "https://theronjvr.github.io/efon/images/color/default.png";
 
-            Array.from(maxModules).forEach(slot => {
-                const type = slot.tagName;
-                const max = parseInt(slot.textContent);
+                // Make images clickable
+                const productImgEl = document.getElementById("productImage");
+                productImgEl.onclick = () => openOverlay(productImgEl.src);
 
-                if (max > 0) {
-                    for (let i = 0; i < max; i++) {
-                        const moduleDiv = createModuleSelector(
-                            `${type} Slot ${i + 1}`,
-                            type,
-                            moduleMap,
-                            selectedModules
-                        );
-                        document.getElementById("moduleSelectors").appendChild(moduleDiv);
+                const paletteImgEl = document.getElementById("paletteImage");
+                paletteImgEl.onclick = () => openOverlay(paletteImgEl.src);
+
+                // Handle color input fields
+                if (colorOpts > 0) {
+                    const colorInputDiv = document.getElementById("colorInputs");
+
+                    // Color 1
+                    let label1 = document.createElement("label");
+                    label1.textContent = "Color 1";
+                    let input1 = document.createElement("input");
+                    input1.type = "text";
+                    input1.value = "(Default)";
+                    input1.dataset.label = "Color 1";
+                    input1.addEventListener("input", () => updateSummary(selectedModules));
+
+                    colorInputDiv.appendChild(label1);
+                    colorInputDiv.appendChild(input1);
+
+                    // Color 2
+                    if (colorOpts === 2) {
+                        let label2 = document.createElement("label");
+                        label2.textContent = "Color 2";
+                        let input2 = document.createElement("input");
+                        input2.type = "text";
+                        input2.value = "(Default)";
+                        input2.dataset.label = "Color 2";
+                        input2.addEventListener("input", () => updateSummary(selectedModules));
+
+                        colorInputDiv.appendChild(label2);
+                        colorInputDiv.appendChild(input2);
                     }
                 }
-            });
-        }
 
-        initialize();
-    </script>
+                // Format base price
+                const formattedPrice = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(basePrice);
+                document.getElementById("totalPrice").textContent = formattedPrice;
+
+                const selectedModules = [];
+                const maxModules = product.getElementsByTagName("maxModules")[0].children;
+
+                // Create module selectors
+                Array.from(maxModules).forEach(slot => {
+                    const type = slot.tagName;
+                    const max = parseInt(slot.textContent);
+                    if (max > 0) {
+                        for (let i = 0; i < max; i++) {
+                            const moduleDiv = createModuleSelector(
+                                `${type} Slot ${i + 1}`,
+                                type,
+                                moduleMap,
+                                selectedModules
+                            );
+                            document.getElementById("moduleSelectors").appendChild(moduleDiv);
+                        }
+                    }
+                });
+            }
+
+            // Start
+            initialize();
+        </script>
+    </div>
 </body>
 </html>
