@@ -140,12 +140,11 @@
     </header>
     <h1>Efon's Build-A-Droid</h1>
     <p>
-      Use this page to select functionality for your droid. Module slots are customized 
-      for the droid you've chosen; simply select a module from the corresponding drop-down 
-      and a description of the module's function will appear. When all modules you want 
-      are selected, simply copy the text from the summary and send it along to Efon'Ahazi 
-      to get your droid built. Thank you for your business!
-    </p>
+      Use this page to select functionality and customization for your droid. Module slots are customized for the droid you've chosen; simply select a module from the corresponding drop-down and a description of the module's function will appear.</p>
+    <p>You can also select your color choices by typing the color name or location on palette shown (e.g. 3rd row, 4th color). If two choices are available for a droid, Color 1 will be trim/eyes and Color 2 will be body color. If only one color palette is available, it is for the body. Keep in mind that some colors are overlays on a base color (like probot), so the color may be more of a tint.</p>
+    <p>If you simply want a droid to decorate your house/ship with, you can select the chassis only box and module selections will disappear but you can select a custom name (or --- for blank) and of course color.</p>
+    <p>When all selections are made to your satisfaction, simply copy the text from the summary and send it along to Efon'Ahazi to get your droid built. Thank you for your business!</p>
+
     <h2 id="productName">Loading...</h2>
 
     <!-- Container for product & palette images -->
@@ -176,7 +175,11 @@
       <textarea id="summaryField" readonly></textarea>
       <br><button id="copyButton">Copy to Clipboard</button>
     </div>
-
+        <div id="copyright"> <p>The data used in this website is based on droids and modules available in <a href="https://swglegends.com/">Star Wars Galaxies Legends</a> as of the below copyright date. This is a private fan project and not affiliated with SWG Legends.</p>
+<p>Star Wars Galaxies is a registered trademark of Lucasfilm Entertainment Company Ltd.</p>
+<p>Copyright © 2025 Efon's Droids. All rights reserved.</p>
+<p>Please report bugs and send feedback to Efon'Ahazi in-game or Discord at Efon'Ahazi (lord_theron). </p>
+        </div>
     <!-- Overlay for images -->
     <div id="overlay">
       <button class="close-btn" onclick="closeOverlay()">Close</button>
@@ -400,7 +403,7 @@
         const colorInputs = document.querySelectorAll(".color-container input");
         const colorSelections = Array.from(colorInputs).map(inp => `${inp.dataset.name}: ${inp.value}`);
         if (colorSelections.length > 0) {
-          summaryLine += ` Type desired color if different from default (color outlined in yellow). Colors selected: ${colorSelections.join(", ")}.`;
+          summaryLine += ` Colors selected: ${colorSelections.join(", ")}.`;
         }
 
         summaryLine += ` The total price is ${totalPrice} Republic Credits.`;
@@ -500,7 +503,7 @@
 
             const desc = document.createElement("span");
             desc.className = "module-description";
-            desc.textContent = "Type desired color if different from default (color outlined in yellow).";
+            desc.textContent = "Type desired color if different from default (outlined in yellow).";
 
             colorDiv.appendChild(lbl);
             colorDiv.appendChild(inp);
