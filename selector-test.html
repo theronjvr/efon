@@ -29,7 +29,7 @@
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0, 0, 0, 0.8);
       justify-content: center;
       align-items: center;
       z-index: 9999;
@@ -92,7 +92,7 @@
     }
     .chassis-deco-label {
       display: inline-block;
-      width: 150px;
+      width: 250px;
     }
     .custom-name-container {
       margin: 10px 0;
@@ -153,7 +153,14 @@
       <img id="paletteImage" class="palette-image" alt="Palette Image">
     </div>
 
-    <div id="moduleSelectors"></div>
+    <!-- Div to hold module slots specifically. We'll toggle its visibility if chassis-only is checked -->
+    <div id="moduleSlotsDiv"></div>
+
+    <!-- Div for color fields -->
+    <div id="colorFieldsDiv"></div>
+
+    <!-- Chassis-only container & custom name field -->
+    <div id="chassisFieldsDiv"></div>
 
     <div id="priceContainer">
       <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
@@ -182,9 +189,9 @@
       let productId = null;
       let colorOptions = 0;
 
-      // If the chassis-only box is checked, we hide module selectors and use chassisPrice
+      // If chassis-only is checked, we skip modules, use chassisPrice, but still show colors & custom name
       let chassisOnly = false;
-      let customNameValue = "(Default)"; // default custom name
+      let customNameValue = "(Default)"; // user can override
 
       const selectedModules = [];
 
@@ -199,7 +206,6 @@
         document.getElementById("overlay").style.display = "none";
       }
 
-      // Fetch product data
       async function fetchProducts() {
         const res = await fetch('products.xml');
         const txt = await res.text();
@@ -207,7 +213,6 @@
         const doc = parser.parseFromString(txt, "application/xml");
         return Array.from(doc.getElementsByTagName("product"));
       }
-      // Fetch module data
       async function fetchModules() {
         const res = await fetch('modules.xml');
         const txt = await res.text();
@@ -232,7 +237,7 @@
         return products.find(p => p.getAttribute("id") === id);
       }
 
-      // Create module selector
+      // Build module slot
       function createModuleSelector(labelText, type, moduleMap) {
         const container = document.createElement("div");
         container.className = "module-container";
@@ -248,7 +253,7 @@
         desc.className = "module-description";
         desc.textContent = "Select a module";
 
-        // (none) option
+        // (none)
         const noneOpt = document.createElement("option");
         noneOpt.value = "none";
         noneOpt.textContent = "(none)";
@@ -298,7 +303,7 @@
         return container;
       }
 
-      // Score logic
+      // Scores
       function updateScores(selected) {
         const moduleCounts = selected.reduce((counts, mod) => {
           counts[mod.value] = (counts[mod.value] || 0) + 1;
@@ -323,12 +328,13 @@
 
       function updatePrice(selected) {
         if (chassisOnly) {
-          // Use chassisPrice instead of basePrice, ignoring modules
+          // If chassis only, use chassisPrice
           document.getElementById("totalPrice").textContent = new Intl.NumberFormat("en-US", {
             maximumFractionDigits: 0
           }).format(chassisPrice);
           return;
         }
+        // Otherwise basePrice + modules
         const moduleCost = selected.reduce((sum, mod) =>
           mod.value !== "none" ? sum + (modulePrices[mod.value] || 0) : sum, 0);
         const total = basePrice + moduleCost;
@@ -344,13 +350,15 @@
         let summaryLine = `I would like to purchase a ${productName}.`;
 
         if (chassisOnly) {
-          if (customNameValue && customNameValue !== "(Default)") {
+          // No modules, use custom name if changed
+          if (customNameValue && customNameValue !== "(Default)" && customNameValue !== "---") {
             summaryLine += ` Custom name: ${customNameValue}.`;
-          } else {
+          } else if (customNameValue === "---") {
             summaryLine += " No custom name.";
+          } else {
+            summaryLine += " Custom name is default.";
           }
         } else {
-          // Combine like modules
           const filtered = selected.filter(m => m.value !== "none");
           const modCounts = {};
           filtered.forEach(m => {
@@ -426,7 +434,12 @@
         const image = product.getElementsByTagName("image")[0].textContent;
         const palette = product.getElementsByTagName("palette")[0]?.textContent || "";
         basePrice = parseFloat(product.getElementsByTagName("basePrice")[0]?.textContent) || 0;
-        chassisPrice = parseFloat(product.getElementsByTagName("chassisPrice")[0]?.textContent) || basePrice;
+        const cPriceEl = product.getElementsByTagName("chassisPrice")[0];
+        let parsedChassisPrice = basePrice;
+        if (cPriceEl) {
+          parsedChassisPrice = parseFloat(cPriceEl.textContent || basePrice);
+        }
+        chassisPrice = parsedChassisPrice;
 
         // colorOptions
         const coEl = product.getElementsByTagName("colorOptions")[0];
@@ -446,16 +459,19 @@
           maximumFractionDigits: 0
         }).format(basePrice);
 
-        // Create module selectors
-        const moduleSelectorsDiv = document.getElementById("moduleSelectors");
+        const moduleSlotsDiv = document.getElementById("moduleSlotsDiv");
+        const colorFieldsDiv = document.getElementById("colorFieldsDiv");
+        const chassisFieldsDiv = document.getElementById("chassisFieldsDiv");
+
+        // Create module slots
         const maxModules = product.getElementsByTagName("maxModules")[0]?.children || [];
         Array.from(maxModules).forEach(slot => {
           const type = slot.tagName;
           const max = parseInt(slot.textContent, 10);
           if (max > 0) {
             for (let i = 0; i < max; i++) {
-              const selector = createModuleSelector(`${type} Slot ${i + 1}`, type, moduleMap);
-              moduleSelectorsDiv.appendChild(selector);
+              const sel = createModuleSelector(`${type} Slot ${i + 1}`, type, moduleMap);
+              moduleSlotsDiv.appendChild(sel);
             }
           }
         });
@@ -477,7 +493,6 @@
             inp.className = "color-input";
             inp.addEventListener("input", () => updateAll(selectedModules));
 
-            // Additional description
             const desc = document.createElement("span");
             desc.className = "module-description";
             desc.textContent = "Type desired color if different from default (color outlined in yellow).";
@@ -485,8 +500,7 @@
             colorDiv.appendChild(lbl);
             colorDiv.appendChild(inp);
             colorDiv.appendChild(desc);
-
-            moduleSelectorsDiv.appendChild(colorDiv);
+            colorFieldsDiv.appendChild(colorDiv);
           }
         }
 
@@ -503,11 +517,10 @@
         chassisCheck.addEventListener("change", () => {
           chassisOnly = chassisCheck.checked;
           if (chassisOnly) {
-            // Hide module selectors
-            moduleSelectorsDiv.style.display = "none";
+            moduleSlotsDiv.style.display = "none";
             customNameContainer.style.display = "flex";
           } else {
-            moduleSelectorsDiv.style.display = "block";
+            moduleSlotsDiv.style.display = "block";
             customNameContainer.style.display = "none";
           }
           updateAll(selectedModules);
@@ -515,7 +528,7 @@
 
         chassisContainer.appendChild(chassisLabel);
         chassisContainer.appendChild(chassisCheck);
-        moduleSelectorsDiv.appendChild(chassisContainer);
+        chassisFieldsDiv.appendChild(chassisContainer);
 
         // Custom name text field
         const customNameContainer = document.createElement("div");
@@ -535,7 +548,6 @@
           updateAll(selectedModules);
         });
 
-        // Description to the right
         const customNameDesc = document.createElement("span");
         customNameDesc.className = "module-description";
         customNameDesc.textContent = "Type name for chassis or 3 dashes (---) to leave the name blank.";
@@ -544,7 +556,7 @@
         customNameContainer.appendChild(customNameInput);
         customNameContainer.appendChild(customNameDesc);
 
-        moduleSelectorsDiv.appendChild(customNameContainer);
+        chassisFieldsDiv.appendChild(customNameContainer);
       }
 
       document.getElementById("copyButton").addEventListener("click", () => {
