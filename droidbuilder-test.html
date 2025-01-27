@@ -1,1 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efon's Droid - Build-A-Droid Chassis Selector</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://use.typekit.net/ara6mwm.css">
+    <link rel="icon" type="image/png" href="https://theronjvr.github.io/efon/icon.png">
+    <style>
+        .category-section {
+            margin-bottom: 40px;
+        }
 
+        .category-section h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .product-card {
+            text-align: center;
+        }
+
+        .product-image-link {
+            display: inline-block;
+        }
+
+        .product-image {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border: 1px solid white; /* Default border color */
+            padding: 5px;
+            background-color: #fff;
+            border-radius: 2px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .product-image:hover {
+            transform: scale(1.1); /* Slight zoom effect */
+            border-color: black; /* Change border to black on hover */
+        }
+
+        .product-name {
+            font-weight: bold;
+            margin: 10px 0 5px;
+        }
+
+        .product-name a {
+            text-decoration: none;
+        }
+
+        .product-stats {
+            font-size: 0.9em;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <header id="header-id">
+            <a href="https://theronjvr.github.io/efon"><img src="https://theronjvr.github.io/efon/images/title.png" alt="Efon's Droids"></a>
+        </header>
+        <h1>Efon's Build-A-Droid</h1>
+        <p>
+            Select a droid by clicking the droid image or name to advance to module selection. 
+            Droids are listed with the number of modules for C (combat), S (service), 
+            H (hybrid: either combat or service), A (armor), and P (personality chip). 
+            *Single-use schematic droids are priced assuming schematic is provided by customer before construction.
+        </p>
+
+        <div id="combatProducts" class="category-section">
+            <h2>Combat Droids</h2>
+            <div id="combatList" class="product-grid">Loading...</div>
+        </div>
+
+        <div id="utilityProducts" class="category-section">
+            <h2>Utility Droids</h2>
+            <div id="utilityList" class="product-grid">Loading...</div>
+        </div>
+
+        <div id="copyright">
+            <p>
+                The data used in this website is based on droids and modules available in 
+                <a href="https://swglegends.com/">Star Wars Galaxies Legends</a> as of the below copyright date. 
+                This is a private fan project and not affiliated with SWG Legends.
+            </p>
+            <p>Star Wars Galaxies is a registered trademark of Lucasfilm Entertainment Company Ltd.</p>
+            <p>Copyright © 2025 Efon's Droids. All rights reserved.</p>
+            <p>
+                Please report bugs and send feedback to Efon'Ahazi in-game or Discord at Efon'Ahazi (lord_theron).
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Fetch product data from an external XML file
+        async function fetchProductData() {
+            const response = await fetch('products.xml');
+            const text = await response.text();
+            const productDoc = new DOMParser().parseFromString(text, "application/xml");
+            return Array.from(productDoc.getElementsByTagName("product"));
+        }
+
+        // Generate product cards grouped and sorted alphabetically by name
+        async function displayProducts() {
+            const combatList = document.getElementById("combatList");
+            const utilityList = document.getElementById("utilityList");
+            const products = await fetchProductData();
+
+            if (products.length === 0) {
+                combatList.textContent = "No combat products found.";
+                utilityList.textContent = "No utility products found.";
+                return;
+            }
+
+            // Group and sort products alphabetically
+            const combatProducts = products
+                .filter(product => product.getElementsByTagName("type")[0].textContent === "Combat")
+                .sort((a, b) => a.getElementsByTagName("name")[0].textContent.localeCompare(b.getElementsByTagName("name")[0].textContent));
+
+            const utilityProducts = products
+                .filter(product => product.getElementsByTagName("type")[0].textContent === "Utility")
+                .sort((a, b) => a.getElementsByTagName("name")[0].textContent.localeCompare(b.getElementsByTagName("name")[0].textContent));
+
+            // Render sorted products
+            renderProducts(combatProducts, combatList);
+            renderProducts(utilityProducts, utilityList);
+        }
+
+        // Render products into a given container
+        function renderProducts(products, container) {
+            container.innerHTML = ""; // Clear container
+
+            products.forEach(product => {
+                const productId = product.getAttribute("id");
+                const productName = product.getElementsByTagName("name")[0].textContent;
+                const productImage = product.getElementsByTagName("image")[0].textContent;
+
+                // Parse module counts
+                const maxModules = product.getElementsByTagName("maxModules")[0].children;
+                const moduleCounts = { C: 0, S: 0, H: 0, A: 0, P: 0 };
+                Array.from(maxModules).forEach(slot => {
+                    const type = slot.tagName[0]; // Use first letter of tag name
+                    moduleCounts[type] = parseInt(slot.textContent);
+                });
+
+                // Create product card
+                const card = document.createElement("div");
+                card.className = "product-card";
+
+                const imageLink = document.createElement("a");
+                imageLink.href = `selector-test.html?productId=${productId}`;
+                imageLink.className = "product-image-link";
+
+                const image = document.createElement("img");
+                image.src = productImage;
+                image.alt = productName;
+                image.className = "product-image";
+
+                const name = document.createElement("div");
+                name.className = "product-name";
+                name.innerHTML = `<a href="selector-test.html?productId=${productId}">${productName}</a>`;
+
+                const stats = document.createElement("div");
+                stats.className = "product-stats";
+                stats.textContent = `C:${moduleCounts.C}, S:${moduleCounts.S}, H:${moduleCounts.H}, A:${moduleCounts.A}, P:${moduleCounts.P}`;
+
+                imageLink.appendChild(image);
+                card.appendChild(imageLink);
+                card.appendChild(name);
+                card.appendChild(stats);
+
+                container.appendChild(card);
+            });
+        }
+
+        displayProducts();
+    </script>
+</body>
+</html>
