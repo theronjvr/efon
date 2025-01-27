@@ -4,6 +4,9 @@
         <image>https://theronjvr.github.io/efon/images/8D8.png</image>
         <type>Utility</type>
         <basePrice>20000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/8d8.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>2</Service>
@@ -17,6 +20,9 @@
         <image>https://theronjvr.github.io/efon/images/ASN.png</image>
         <type>Utility</type>
         <basePrice>20000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/asn.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -30,6 +36,9 @@
         <image>https://theronjvr.github.io/efon/images/ASN.png</image>
         <type>Combat</type>
         <basePrice>20000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/asn.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -43,6 +52,9 @@
         <image>https://theronjvr.github.io/efon/images/Battle.png</image>
         <type>Combat</type>
         <basePrice>25000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/battle.png</palette>
+        <chassisPrice>20000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>7</Combat>
             <Service>0</Service>
@@ -56,7 +68,10 @@
         <image>https://theronjvr.github.io/efon/images/Battle.png</image>
         <type>Combat</type>
         <basePrice>25000</basePrice>
-        <maxModules>
+         <palette>https://theronjvr.github.io/efon/images/color/battle.png</palette>
+        <chassisPrice>20000</chassisPrice>
+        <colorOptions>2</colorOptions>
+       <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
             <Hybrid>3</Hybrid>
@@ -69,6 +84,9 @@
         <image>https://theronjvr.github.io/efon/images/BLL.png</image>
         <basePrice>60000</basePrice>
         <type>Utility</type>
+        <palette>https://theronjvr.github.io/efon/images/color/bll.png</palette>
+        <chassisPrice>60000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -82,6 +100,9 @@
         <image>https://theronjvr.github.io/efon/images/BLL.png</image>
         <basePrice>60000</basePrice>
         <type>Utility</type>
+        <palette>https://theronjvr.github.io/efon/images/color/bll.png</palette>
+        <chassisPrice>60000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>3</Service>
@@ -95,6 +116,9 @@
         <image>https://theronjvr.github.io/efon/images/CWW.png</image>
         <type>Combat</type>
         <basePrice>20000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/bll.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -107,6 +131,9 @@
         <name>CZ-Protocol Droid*</name>
         <image>https://theronjvr.github.io/efon/images/CZ.png</image>
         <basePrice>70000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/cz.png</palette>
+        <chassisPrice>70000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <type>Combat</type>
         <maxModules>
             <Combat>9</Combat>
@@ -121,6 +148,9 @@
         <image>https://theronjvr.github.io/efon/images/Droideka.png</image>
         <type>Combat</type>
         <basePrice>30000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/droideka.png</palette>
+        <chassisPrice>20000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>6</Combat>
             <Service>0</Service>
@@ -134,6 +164,9 @@
         <image>https://theronjvr.github.io/efon/images/Droideka.png</image>
         <type>Combat</type>
         <basePrice>30000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/droideka.png</palette>
+        <chassisPrice>20000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -147,6 +180,9 @@
         <image>https://theronjvr.github.io/efon/images/DSD.png</image>
         <type>Combat</type>
         <basePrice>30000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/dsd.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -160,6 +196,9 @@
         <image>https://theronjvr.github.io/efon/images/DSD.png</image>
         <type>Combat</type>
         <basePrice>30000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/dsd.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -173,6 +212,9 @@
         <image>https://theronjvr.github.io/efon/images/DZ.png</image>
         <type>Utility</type>
         <basePrice>10000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/dz.png</palette>
+        <chassisPrice>10000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -186,7 +228,10 @@
         <image>https://theronjvr.github.io/efon/images/DZ.png</image>
         <type>Utility</type>
         <basePrice>10000</basePrice>
-        <maxModules>
+        <palette>https://theronjvr.github.io/efon/images/color/dz.png</palette>
+        <chassisPrice>10000</chassisPrice>
+        <colorOptions>1</colorOptions>
+      <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
             <Hybrid>2</Hybrid>
@@ -199,6 +244,9 @@
         <image>https://theronjvr.github.io/efon/images/DZ.png</image>
         <type>Combat</type>
         <basePrice>10000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/dz.png</palette>
+        <chassisPrice>10000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -212,6 +260,9 @@
         <image>https://theronjvr.github.io/efon/images/FX.png</image>
         <type>Combat</type>
         <basePrice>70000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/fx.png</palette>
+        <chassisPrice>70000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -225,6 +276,9 @@
         <image>https://theronjvr.github.io/efon/images/Guardian.png</image>
         <type>Combat</type>
         <basePrice>40000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/guardian.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -238,6 +292,9 @@
         <image>https://theronjvr.github.io/efon/images/ATST.png</image>
         <basePrice>70000</basePrice>
         <type>Combat</type>
+        <palette>https://theronjvr.github.io/efon/images/color/default.png</palette>
+        <chassisPrice>70000</chassisPrice>
+        <colorOptions>0</colorOptions>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -251,6 +308,9 @@
         <image>https://theronjvr.github.io/efon/images/INS.png</image>
         <type>Utility</type>
         <basePrice>20000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/ins.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>4</Service>
@@ -264,6 +324,9 @@
         <image>https://theronjvr.github.io/efon/images/K2.png</image>
         <type>Combat</type>
         <basePrice>70000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/default.png</palette>
+        <chassisPrice>70000</chassisPrice>
+        <colorOptions>0</colorOptions>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -277,6 +340,9 @@
         <image>https://theronjvr.github.io/efon/images/LE.png</image>
         <basePrice>20000</basePrice>
         <type>Utility</type>
+        <palette>https://theronjvr.github.io/efon/images/color/le.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>2</Service>
@@ -290,6 +356,9 @@
         <image>https://theronjvr.github.io/efon/images/LE.png</image>
         <basePrice>20000</basePrice>
         <type>Utility</type>
+        <palette>https://theronjvr.github.io/efon/images/color/le.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -303,6 +372,9 @@
         <image>https://theronjvr.github.io/efon/images/LIN.png</image>
         <type>Utility</type>
         <basePrice>20000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/lin.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>3</Service>
@@ -316,6 +388,9 @@
         <image>https://theronjvr.github.io/efon/images/Magnaguard.png</image>
         <type>Combat</type>
         <basePrice>40000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/magna.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>6</Combat>
             <Service>0</Service>
@@ -329,6 +404,9 @@
         <image>https://theronjvr.github.io/efon/images/Magnaguard.png</image>
         <type>Combat</type>
         <basePrice>20000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/magna.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -342,6 +420,9 @@
         <image>https://theronjvr.github.io/efon/images/Mark4.png</image>
         <type>Utility</type>
         <basePrice>20000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/mk4.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -355,6 +436,9 @@
         <image>https://theronjvr.github.io/efon/images/MK.png</image>
         <type>Utility</type>
         <basePrice>30000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/default.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>0</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -368,6 +452,9 @@
         <image>https://theronjvr.github.io/efon/images/MSE.png</image>
         <basePrice>10000</basePrice>
         <type>Utility</type>
+        <palette>https://theronjvr.github.io/efon/images/color/mse.png</palette>
+        <chassisPrice>7500</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>1</Service>
@@ -381,6 +468,9 @@
         <image>https://theronjvr.github.io/efon/images/MSE.png</image>
         <type>Utility</type>
         <basePrice>10000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/mse.png</palette>
+        <chassisPrice>7500</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>2</Service>
@@ -394,6 +484,9 @@
         <image>https://theronjvr.github.io/efon/images/Pit.png</image>
         <type>Utility</type>
         <basePrice>20000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/pit.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>3</Service>
@@ -407,6 +500,9 @@
         <image>https://theronjvr.github.io/efon/images/power.png</image>
         <type>Utility</type>
         <basePrice>45000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/power.png</palette>
+        <chassisPrice>40000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>1</Service>
@@ -420,6 +516,9 @@
         <image>https://theronjvr.github.io/efon/images/power.png</image>
         <type>Utility</type>
         <basePrice>45000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/power.png</palette>
+        <chassisPrice>40000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>1</Service>
@@ -433,6 +532,9 @@
         <image>https://theronjvr.github.io/efon/images/Probot.png</image>
         <type>Combat</type>
         <basePrice>25000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/probot.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>3</Combat>
             <Service>0</Service>
@@ -446,7 +548,10 @@
         <image>https://theronjvr.github.io/efon/images/Probot.png</image>
         <type>Combat</type>
         <basePrice>30000</basePrice>
-        <maxModules>
+         <palette>https://theronjvr.github.io/efon/images/color/probot.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
+       <maxModules>
             <Combat>3</Combat>
             <Service>0</Service>
             <Hybrid>5</Hybrid>
@@ -459,6 +564,9 @@
         <image>https://theronjvr.github.io/efon/images/Probot.png</image>
         <type>Combat</type>
         <basePrice>30000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/probot.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -472,6 +580,9 @@
         <image>https://theronjvr.github.io/efon/images/Protocol.png</image>
         <type>Utility</type>
         <basePrice>30000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/proto.png</palette>
+        <chassisPrice>20000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>1</Service>
@@ -485,7 +596,10 @@
         <image>https://theronjvr.github.io/efon/images/Protocol.png</image>
         <type>Utility</type>
         <basePrice>30000</basePrice>
-        <maxModules>
+          <palette>https://theronjvr.github.io/efon/images/color/proto.png</palette>
+        <chassisPrice>20000</chassisPrice>
+        <colorOptions>2</colorOptions>
+      <maxModules>
             <Combat>0</Combat>
             <Service>2</Service>
             <Hybrid>0</Hybrid>
@@ -498,6 +612,9 @@
         <image>https://theronjvr.github.io/efon/images/R2.png</image>
         <basePrice>20000</basePrice>
         <type>Utility</type>
+        <palette>https://theronjvr.github.io/efon/images/color/Rx.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -511,6 +628,9 @@
         <image>https://theronjvr.github.io/efon/images/R2.png</image>
         <basePrice>20000</basePrice>
         <type>Utility</type>
+        <palette>https://theronjvr.github.io/efon/images/color/Rx.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -524,6 +644,9 @@
         <image>https://theronjvr.github.io/efon/images/R3.png</image>
         <type>Utility</type>
         <basePrice>30000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/Rx.png</palette>
+        <chassisPrice>20000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -537,6 +660,9 @@
         <image>https://theronjvr.github.io/efon/images/R3.png</image>
         <type>Utility</type>
         <basePrice>30000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/Rx.png</palette>
+        <chassisPrice>20000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -550,6 +676,9 @@
         <image>https://theronjvr.github.io/efon/images/R4.png</image>
         <basePrice>20000</basePrice>
         <type>Utility</type>
+        <palette>https://theronjvr.github.io/efon/images/color/Rx.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -563,6 +692,9 @@
         <image>https://theronjvr.github.io/efon/images/R4.png</image>
         <basePrice>20000</basePrice>
         <type>Utility</type>
+        <palette>https://theronjvr.github.io/efon/images/color/Rx.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -576,6 +708,9 @@
         <image>https://theronjvr.github.io/efon/images/R5.png</image>
         <basePrice>15000</basePrice>
         <type>Utility</type>
+        <palette>https://theronjvr.github.io/efon/images/color/Rx.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
@@ -589,7 +724,10 @@
         <image>https://theronjvr.github.io/efon/images/R5.png</image>
         <basePrice>15000</basePrice>
         <type>Utility</type>
-        <maxModules>
+        <palette>https://theronjvr.github.io/efon/images/color/Rx.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>2</colorOptions>
+       <maxModules>
             <Combat>0</Combat>
             <Service>0</Service>
             <Hybrid>2</Hybrid>
@@ -602,6 +740,9 @@
         <image>https://theronjvr.github.io/efon/images/SB.png</image>
         <type>Combat</type>
         <basePrice>50000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/sbd.png</palette>
+        <chassisPrice>20000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
@@ -615,6 +756,9 @@
         <image>https://theronjvr.github.io/efon/images/Surgical.png</image>
         <basePrice>20000</basePrice>
         <type>Utility</type>
+        <palette>https://theronjvr.github.io/efon/images/color/surg.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>2</Service>
@@ -628,6 +772,9 @@
         <image>https://theronjvr.github.io/efon/images/Surgical.png</image>
         <basePrice>20000</basePrice>
         <type>Utility</type>
+        <palette>https://theronjvr.github.io/efon/images/color/surg.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>3</Service>
@@ -641,6 +788,9 @@
         <image>https://theronjvr.github.io/efon/images/Union.png</image>
         <type>Combat</type>
         <basePrice>20000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/union.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>6</Combat>
             <Service>0</Service>
@@ -654,7 +804,10 @@
         <image>https://theronjvr.github.io/efon/images/Union.png</image>
         <type>Combat</type>
         <basePrice>20000</basePrice>
-        <maxModules>
+         <palette>https://theronjvr.github.io/efon/images/color/union.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
+       <maxModules>
             <Combat>9</Combat>
             <Service>0</Service>
             <Hybrid>3</Hybrid>
@@ -667,6 +820,9 @@
         <image>https://theronjvr.github.io/efon/images/WED.png</image>
         <basePrice>15000</basePrice>
         <type>Utility</type>
+        <palette>https://theronjvr.github.io/efon/images/color/wed.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>0</Combat>
             <Service>1</Service>
@@ -680,7 +836,10 @@
         <image>https://theronjvr.github.io/efon/images/WED.png</image>
         <basePrice>15000</basePrice>
         <type>Utility</type>
-        <maxModules>
+         <palette>https://theronjvr.github.io/efon/images/color/wed.png</palette>
+        <chassisPrice>15000</chassisPrice>
+        <colorOptions>1</colorOptions>
+       <maxModules>
             <Combat>0</Combat>
             <Service>2</Service>
             <Hybrid>0</Hybrid>
