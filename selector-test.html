@@ -3,348 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Efon's Droids - Build-A-Droid Module Selector</title>
+    <title>Efon's Droid - Module Selector</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://use.typekit.net/ara6mwm.css">
     <link rel="icon" type="image/png" href="https://theronjvr.github.io/efon/icon.png">
     <style>
-        .product-image {
-            width: 200px;
-            height: auto;
-            margin-bottom: 20px;
-        }
-
-        .module-container {
-            margin: 10px 0;
+        .image-container {
             display: flex;
+            gap: 20px;
+            justify-content: center;
             align-items: center;
         }
 
-        .module-label {
-            display: inline-block;
-            width: 150px;
-        }
-
-        .module-description {
-            margin-left: 20px;
-            font-style: italic;
-            color: gray;
-        }
-
-        #priceContainer {
-            margin-top: 20px;
-        }
-
-        #summaryContainer {
-            margin-top: 20px;
-        }
-
-        #summaryField {
-            width: 500px;
-            height: 100px;
-        }
-
-        #copyButton {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
+        .product-image, .palette-image {
+            width: 200px;
+            height: auto;
             cursor: pointer;
-            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: transform 0.2s, border-color 0.2s;
         }
 
-        #copyButton:hover {
-            background-color: #0056b3;
+        .product-image:hover, .palette-image:hover {
+            transform: scale(1.05);
+            border-color: #444;
         }
 
-     /* New fix to prevent drifting of select elements */
-        select {
-            width: 200px; /* Makes the select element take full width of its container */
+        .color-inputs {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .overlay img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .overlay-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
- <div class="content">
-          <header id="header-id">
-        <a href="https://theronjvr.github.io/efon"><img src="https://theronjvr.github.io/efon/images/title.png"></a>
+    <header>
+        <a href="index.html"><img src="https://theronjvr.github.io/efon/images/title.png" alt="Efon's Droids"></a>
     </header>
-  <h1>Efon's Build-A-Droid</h1>
-        <p>Use this page to select functionality for your droid. Module slots are customized for the droid you've chosen, simply select a module from the corresponding drop-down and a description of the module's function will appear. When all modules you want are selected, simply copy the text from the summary and send it along to Efon'Ahazi to get your droid built. Thank you for your business!</p>
+    <div class="content">
         <h2 id="productName">Loading...</h2>
-        <img id="productImage" class="product-image" alt="Product Image" />
+        <div class="image-container">
+            <img id="productImage" class="product-image" alt="Product Image">
+            <img id="paletteImage" class="palette-image" alt="Palette">
+        </div>
         <div id="moduleSelectors"></div>
         <div id="priceContainer">
             <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
         </div>
+        <div class="color-inputs" id="colorInputs"></div>
         <div id="summaryContainer">
             <h3>Order Summary</h3>
-            <p>Copy the text below and send via <a href="https://discord.com">Discord</a> or in-game holomail to <b>Efon'Ahazi</b>.</p>
             <textarea id="summaryField" readonly></textarea>
-        </br><button id="copyButton">Copy to Clipboard</button>
-        </div>
-        <div id="copyright"> <p>The data used in this website is based on droids and modules available in <a href="https://swglegends.com/">Star Wars Galaxies Legends</a> as of the below copyright date. This is a private fan project and not affiliated with SWG Legends.</p>
-<p>Star Wars Galaxies is a registered trademark of Lucasfilm Entertainment Company Ltd.</p>
-<p>Copyright © 2025 Efon's Droids. All rights reserved.</p>
-<p>Please report bugs and send feedback to Efon'Ahazi in-game or Discord at Efon'Ahazi (lord_theron). </p>
         </div>
     </div>
 
-    <script>
-        let modulePrices = {};
-        let basePrice = 0;
-        let productId = null;
+    <!-- Full-size Image Overlay -->
+    <div class="overlay" id="imageOverlay">
+        <span class="overlay-close" onclick="closeOverlay()">×</span>
+        <img id="overlayImage" alt="Full-size Preview">
+    </div>
 
-        // Fetch product data from an external XML file
-        async function fetchProductData() {
+    <script>
+        let colorOptions = 0;
+
+        // Fetch product data
+        async function fetchProductData(productId) {
             const response = await fetch('products.xml');
             const text = await response.text();
-            const productDoc = new DOMParser().parseFromString(text, "application/xml");
-            return Array.from(productDoc.getElementsByTagName("product"));
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(text, "application/xml");
+            return Array.from(xml.getElementsByTagName("product"))
+                .find(product => product.getAttribute("id") === productId);
         }
 
-        // Fetch module data from an external XML file
-        async function fetchModules() {
-            const response = await fetch('modules.xml');
-            const text = await response.text();
-            const moduleDoc = new DOMParser().parseFromString(text, "application/xml");
-            const moduleTypes = moduleDoc.getElementsByTagName("type");
-            const moduleMap = {};
-
-            Array.from(moduleTypes).forEach(type => {
-                const id = type.getAttribute("id");
-                const options = Array.from(type.getElementsByTagName("option")).map(opt => ({
-                    id: opt.textContent,
-                    description: opt.getAttribute("description"),
-                    price: parseFloat(opt.getAttribute("price"))
-                }));
-                moduleMap[id] = options;
-            });
-
-            return moduleMap;
-        }
-
-        // Get product by ID
-        function getProductById(id, products) {
-            return products.find(product => product.getAttribute("id") === id);
-        }
-
-        // Create module selector
-        function createModuleSelector(labelText, type, moduleMap, selectedModules) {
-            const container = document.createElement("div");
-            container.className = "module-container";
-
-            const label = document.createElement("span");
-            label.className = "module-label";
-            label.textContent = labelText;
-
-            const select = document.createElement("select");
-            const description = document.createElement("span");
-            description.className = "module-description";
-            description.textContent = "Select a module";
-
-            // Add "(none)" option with price 0
-            const noneOption = document.createElement("option");
-            noneOption.value = "none";
-            noneOption.textContent = "(none)";
-            select.appendChild(noneOption);
-
-            // Add module options based on type
-            if (type === 'Hybrid') {
-                const hybridOptions = [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])];
-                hybridOptions.forEach(option => {
-                    const opt = document.createElement("option");
-                    opt.value = option.id;
-                    opt.textContent = option.id;
-                    select.appendChild(opt);
-                    modulePrices[option.id] = option.price;
-                });
-            } else {
-                const options = moduleMap[type] || [];
-                options.forEach(option => {
-                    const opt = document.createElement("option");
-                    opt.value = option.id;
-                    opt.textContent = option.id;
-                    select.appendChild(opt);
-                    modulePrices[option.id] = option.price;
-                });
-            }
-
-            select.addEventListener("change", () => {
-                const currentIndex = selectedModules.findIndex(item => item.label === labelText);
-                const selectedOption =
-                    type === "Hybrid"
-                        ? [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])].find(opt => opt.id === select.value)
-                        : (moduleMap[type] || []).find(opt => opt.id === select.value);
-
-                if (currentIndex >= 0) {
-                    selectedModules[currentIndex] = { label: labelText, value: select.value };
-                } else {
-                    selectedModules.push({ label: labelText, value: select.value });
-                }
-
-                description.textContent = selectedOption?.description || "Select a module";
-
-                updateAll(selectedModules);
-            });
-
-            container.appendChild(label);
-            container.appendChild(select);
-            container.appendChild(description);
-
-            return container;
-        }
-
-        // Update all fields: price, scores, and summary
-        function updateAll(selectedModules) {
-            updatePrice(selectedModules);
-            updateScores(selectedModules);
-            updateSummary(selectedModules);
-        }
-
-        // Update total price
-        function updatePrice(selectedModules) {
-            const moduleTotal = selectedModules.reduce((total, module) => {
-                return module.value !== "none" ? total + (modulePrices[module.value] || 0) : total;
-            }, 0);
-
-            const totalPrice = basePrice + moduleTotal;
-            const formattedPrice = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalPrice);
-            document.getElementById("totalPrice").textContent = formattedPrice;
-        }
-
-        // Update scores
-        function updateScores(selectedModules) {
-            const moduleCounts = selectedModules.reduce((counts, module) => {
-                counts[module.value] = (counts[module.value] || 0) + 1;
-                return counts;
-            }, {});
-
-            console.log("Module Counts:", moduleCounts);  // Debugging log
-
-            const itemStorage = moduleCounts["Item Storage"] ? (moduleCounts["Item Storage"] === 1 ? 10 : 30) : 0;
-            const handSampling = moduleCounts["Hand Sampling (Mining)"] ? moduleCounts["Hand Sampling (Mining)"] * 10 : 0;
-            const creatureHarvesting = moduleCounts["Creature Harvest"] ? moduleCounts["Creature Harvest"] * 20 : 0;
-            const detonation = moduleCounts["Detonation"]
-                ? moduleCounts["Detonation"] * (productId === "29" || productId === "30" ? 40 : 30)
-                : 0;
-
-            const updateScoreDisplay = (id, value) => {
-                const container = document.getElementById(id);
-                const valueSpan = document.getElementById(`${id}Value`);
-
-                // Ensure the container and valueSpan exist before updating
-                if (valueSpan) {
-                    container.style.display = value > 0 ? "block" : "none";
-                    valueSpan.textContent = value;
-                }
-            };
-
-            updateScoreDisplay("itemStorageScore", itemStorage);
-            updateScoreDisplay("handSamplingScore", handSampling);
-            updateScoreDisplay("creatureHarvestingScore", creatureHarvesting);
-            updateScoreDisplay("detonationScore", detonation);
-
-            return { itemStorage, handSampling, creatureHarvesting, detonation };
-        }
-
-        // Update summary
-        function updateSummary(selectedModules) {
-            const filteredModules = selectedModules.filter(module => module.value !== "none");
-
-            const moduleCounts = {};
-            filteredModules.forEach(module => {
-                if (!moduleCounts[module.value]) {
-                    moduleCounts[module.value] = { count: 0, label: module.value };
-                }
-                moduleCounts[module.value].count++;
-            });
-
-            const scores = updateScores(selectedModules);
-            const { itemStorage, handSampling, creatureHarvesting, detonation } = scores;
-
-            const scoreSummary = [];
-            if (itemStorage > 0) scoreSummary.push(`Item Storage: ${itemStorage}`);
-            if (handSampling > 0) scoreSummary.push(`Hand Sampling Bonus: ${handSampling}`);
-            if (creatureHarvesting > 0) scoreSummary.push(`Creature Harvesting Bonus: ${creatureHarvesting}`);
-            if (detonation > 0) scoreSummary.push(`Detonation Power: ${detonation}`);
-
-            const moduleSummary = Object.values(moduleCounts)
-                .map(module => `${module.count} ${module.label}${module.count > 1 ? "s" : ""}`)
-                .join(", ");
-
-            const productName = document.getElementById("productName").textContent;
-            const totalPrice = document.getElementById("totalPrice").textContent;
-
-            let summary = [
-                `I would like to purchase a ${productName} with the following modules:`,
-                moduleSummary,
-                ...scoreSummary,
-                `Total Price: ${totalPrice} Republic Credits.`,
-            ];
-
-            if (productName.endsWith('*')) {
-                summary.push("Single-use schematic droids are priced assuming schematic is provided by customer before construction.");
-            }
-
-            document.getElementById("summaryField").value = summary.join("\n");
-        }
-
-        // Copy to clipboard
-        document.getElementById("copyButton").addEventListener("click", () => {
-            const summaryField = document.getElementById("summaryField");
-            summaryField.select();
-            summaryField.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(summaryField.value).then(() => {
-                alert("Order summary copied to clipboard!");
-            }).catch(err => {
-                alert("Failed to copy: " + err);
-            });
-        });
-
+        // Display product details
         async function initialize() {
-            const products = await fetchProductData();
-            const moduleMap = await fetchModules();
             const urlParams = new URLSearchParams(window.location.search);
-            productId = urlParams.get("productId");
+            const productId = urlParams.get("productId");
+            const product = await fetchProductData(productId);
 
-            if (!productId) {
+            if (!product) {
                 document.getElementById("productName").textContent = "Product not found.";
                 return;
             }
 
-            const product = getProductById(productId, products);
-            const name = product.getElementsByTagName("name")[0].textContent;
-            const image = product.getElementsByTagName("image")[0].textContent;
-            basePrice = parseFloat(product.getElementsByTagName("basePrice")[0].textContent);
+            const productName = product.getElementsByTagName("name")[0].textContent;
+            const productImage = product.getElementsByTagName("image")[0].textContent;
+            const paletteImage = product.getElementsByTagName("palette")[0]?.textContent || "";
+            colorOptions = parseInt(product.getElementsByTagName("colorOptions")[0]?.textContent || 0);
 
-            document.getElementById("productName").textContent = name;
-            document.getElementById("productImage").src = image;
+            document.getElementById("productName").textContent = productName;
+            document.getElementById("productImage").src = productImage;
+            document.getElementById("paletteImage").src = paletteImage;
 
-            const formattedPrice = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(basePrice);
-            document.getElementById("totalPrice").textContent = formattedPrice;
-
-            const selectedModules = [];
-            const maxModules = product.getElementsByTagName("maxModules")[0].children;
-
-            Array.from(maxModules).forEach(slot => {
-                const type = slot.tagName;
-                const max = parseInt(slot.textContent);
-
-                if (max > 0) {
-                    for (let i = 0; i < max; i++) {
-                        const moduleDiv = createModuleSelector(
-                            `${type} Slot ${i + 1}`,
-                            type,
-                            moduleMap,
-                            selectedModules
-                        );
-                        document.getElementById("moduleSelectors").appendChild(moduleDiv);
-                    }
-                }
-            });
+            setupColorInputs();
+            updateSummary();
         }
+
+        // Setup color input fields
+        function setupColorInputs() {
+            const colorInputs = document.getElementById("colorInputs");
+            colorInputs.innerHTML = ""; // Clear existing inputs
+
+            if (colorOptions >= 1) {
+                const color1 = document.createElement("div");
+                color1.textContent = "Color 1:";
+                const input1 = document.createElement("input");
+                input1.type = "text";
+                input1.value = "(Default)";
+                input1.oninput = updateSummary;
+                color1.appendChild(input1);
+                colorInputs.appendChild(color1);
+            }
+
+            if (colorOptions === 2) {
+                const color2 = document.createElement("div");
+                color2.textContent = "Color 2:";
+                const input2 = document.createElement("input");
+                input2.type = "text";
+                input2.value = "(Default)";
+                input2.oninput = updateSummary;
+                color2.appendChild(input2);
+                colorInputs.appendChild(color2);
+            }
+        }
+
+        // Update summary
+        function updateSummary() {
+            const summaryField = document.getElementById("summaryField");
+            const productName = document.getElementById("productName").textContent;
+            const colorInputs = document.querySelectorAll(".color-inputs input");
+            const colors = Array.from(colorInputs).map(input => input.value).join(", ");
+
+            summaryField.value = `I would like to purchase a ${productName} with colors: ${colors}. Total Price: ${document.getElementById("totalPrice").textContent} Republic Credits.`;
+        }
+
+        // Image overlay
+        function openOverlay(src) {
+            const overlay = document.getElementById("imageOverlay");
+            const overlayImage = document.getElementById("overlayImage");
+            overlayImage.src = src;
+            overlay.style.display = "flex";
+        }
+
+        function closeOverlay() {
+            document.getElementById("imageOverlay").style.display = "none";
+        }
+
+        // Event listeners for images
+        document.getElementById("productImage").onclick = () => openOverlay(document.getElementById("productImage").src);
+        document.getElementById("paletteImage").onclick = () => openOverlay(document.getElementById("paletteImage").src);
 
         initialize();
     </script>
