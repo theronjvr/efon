@@ -15,8 +15,8 @@
         }
 
         .product-image, .palette-image {
-            width: 200px;
-            height: auto;
+            width: auto;
+            height: 300px; /* Default height */
             cursor: pointer;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -75,11 +75,11 @@
             <img id="paletteImage" class="palette-image" alt="Palette">
         </div>
         <div id="moduleSelectors"></div>
-        <div id="priceContainer">
+        <div class="color-inputs" id="colorInputs"></div>
+      <div id="priceContainer">
             <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
         </div>
-        <div class="color-inputs" id="colorInputs"></div>
-        <div id="summaryContainer">
+         <div id="summaryContainer">
             <h3>Order Summary</h3>
             <textarea id="summaryField" readonly></textarea>
         </div>
