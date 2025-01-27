@@ -1,361 +1,585 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Efon's Droids - Build-A-Droid Module Selector</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://use.typekit.net/ara6mwm.css">
-    <link rel="icon" type="image/png" href="https://theronjvr.github.io/efon/icon.png">
-    <style>
-        .product-image {
-            width: 200px;
-            height: auto;
-            margin-bottom: 20px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Efon's Droids - Build-A-Droid Module Selector</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://use.typekit.net/ara6mwm.css">
+  <link rel="icon" type="image/png" href="https://theronjvr.github.io/efon/icon.png">
+  <style>
+    /* Layout for product & palette images side by side */
+    .product-container {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .product-image, .palette-image {
+      width: auto;
+      height: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-        .module-container {
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-        }
+    /* Overlay for full-size images, margin-based to create 20px bigger total space */
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    #overlay img {
+      margin: 10px;
+      width: auto;
+      height: auto;
+      border-radius: 5px;
+      background: #fff;
+    }
+    #overlay .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 5px 10px;
+    }
 
-        .module-label {
-            display: inline-block;
-            width: 150px;
-        }
+    /* Module styling */
+    .module-container {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+    .module-label {
+      display: inline-block;
+      width: 150px;
+    }
+    .module-description {
+      margin-left: 20px;
+      font-style: italic;
+      color: gray;
+    }
 
-        .module-description {
-            margin-left: 20px;
-            font-style: italic;
-            color: gray;
-        }
+    /* Color styling */
+    .color-container {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+    .color-label {
+      display: inline-block;
+      width: 150px;
+    }
+    .color-input {
+      width: 200px;
+      padding: 4px;
+    }
 
-        #priceContainer {
-            margin-top: 20px;
-        }
+    /* Chassis Decoration styling */
+    .chassis-deco-container {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+    .chassis-deco-label {
+      display: inline-block;
+      width: 200px; /* Widened to avoid wrapping */
+    }
+    .custom-name-container {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
 
-        #summaryContainer {
-            margin-top: 20px;
-        }
+    #priceContainer {
+      margin-top: 20px;
+    }
+    #summaryContainer {
+      margin-top: 20px;
+    }
+    #summaryField {
+      width: 500px;
+      height: 100px;
+    }
+    #copyButton {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    #copyButton:hover {
+      background-color: #0056b3;
+    }
 
-        #summaryField {
-            width: 500px;
-            height: 100px;
-        }
-
-        #copyButton {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-
-        #copyButton:hover {
-            background-color: #0056b3;
-        }
-
-        .scores {
-            margin-top: 20px;
-            font-size: 1.1em;
-            color: #555;
-        }
-
-        .scores div {
-            margin-bottom: 5px;
-        }
-            /* New fix to prevent drifting of select elements */
-        select {
-            width: 200px; /* Makes the select element take full width of its container */
-        }
-    </style>
+    /* Avoid drifting select elements */
+    select {
+      width: 200px;
+    }
+  </style>
 </head>
 <body>
- <div class="content">
-          <header id="header-id">
-        <a href="https://theronjvr.github.io/efon"><img src="https://theronjvr.github.io/efon/images/title.png"></a>
+  <div class="content">
+    <header id="header-id">
+      <a href="https://theronjvr.github.io/efon">
+        <img src="https://theronjvr.github.io/efon/images/title.png" alt="Efon's Droids">
+      </a>
     </header>
-  <h1>Efon's Build-A-Droid</h1>
-        <p>Use this page to select functionality for your droid. Module slots are customized for the droid you've chosen, simply select a module from the corresponding drop-down and a description of the module's function will appear. When all modules you want are selected, simply copy the text from the summary and send it along to Efon'Ahazi to get your droid built. Thank you for your business!</p>
-        <h2 id="productName">Loading...</h2>
-        <img id="productImage" class="product-image" alt="Product Image" />
-        <div id="moduleSelectors"></div>
-        <div id="priceContainer">
-            <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
-        </div>
-        <div id="summaryContainer">
-            <h3>Order Summary</h3>
-            <p>Copy the text below and send via <a href="https://discord.com">Discord</a> or in-game holomail to <b>Efon'Ahazi</b>.</p>
-            <textarea id="summaryField" readonly></textarea>
-        </br><button id="copyButton">Copy to Clipboard</button>
-        </div>
+    <h1>Efon's Build-A-Droid</h1>
+    <p>
+      Use this page to select functionality and customization for your droid. Module slots are customized for the droid you've chosen; simply select a module from the corresponding drop-down and a description of the module's function will appear.</p>
+    <p>You can also select your color choices by typing the color name or location on palette shown (e.g. 3rd row, 4th color). If two choices are available for a droid, Color 1 will be trim/eyes and Color 2 will be body color. If only one color palette is available, it is for the body. Keep in mind that some colors are overlays on a base color (like probot), so the color may be more of a tint.</p>
+    <p>If you simply want a droid to decorate your house/ship with, you can select the chassis only box and module selections will disappear but you can select a custom name (or --- for blank) and of course color.</p>
+    <p>When all selections are made to your satisfaction, simply copy the text from the summary and send it along to Efon'Ahazi to get your droid built. Thank you for your business!</p>
+
+    <h2 id="productName">Loading...</h2>
+
+    <!-- Container for product & palette images -->
+    <div class="product-container">
+      <img id="productImage" class="product-image" alt="Product Image">
+      <img id="paletteImage" class="palette-image" alt="Palette Image">
+    </div>
+
+    <!-- Div to hold module slots specifically. We'll toggle its visibility if chassis-only is checked -->
+    <div id="moduleSlotsDiv"></div>
+
+    <!-- Div for color fields -->
+    <div id="colorFieldsDiv"></div>
+
+    <!-- Chassis-only container & custom name field -->
+    <div id="chassisFieldsDiv"></div>
+
+    <div id="priceContainer">
+      <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
+    </div>
+    <div id="summaryContainer">
+      <h3>Order Summary</h3>
+      <p>
+        Copy the text below and send via 
+        <a href="https://discord.com">Discord</a> or in-game holomail to 
+        <b>Efon'Ahazi</b>.
+      </p>
+      <textarea id="summaryField" readonly></textarea>
+      <br><button id="copyButton">Copy to Clipboard</button>
+    </div>
         <div id="copyright"> <p>The data used in this website is based on droids and modules available in <a href="https://swglegends.com/">Star Wars Galaxies Legends</a> as of the below copyright date. This is a private fan project and not affiliated with SWG Legends.</p>
 <p>Star Wars Galaxies is a registered trademark of Lucasfilm Entertainment Company Ltd.</p>
 <p>Copyright © 2025 Efon's Droids. All rights reserved.</p>
 <p>Please report bugs and send feedback to Efon'Ahazi in-game or Discord at Efon'Ahazi (lord_theron). </p>
         </div>
+    <!-- Overlay for images -->
+    <div id="overlay">
+      <button class="close-btn" onclick="closeOverlay()">Close</button>
+      <img id="overlayImage" src="" alt="Full Size Image">
     </div>
 
     <script>
-        let modulePrices = {};
-        let basePrice = 0;
-        let productId = null;
+      let basePrice = 0;
+      let chassisPrice = 0;
+      let modulePrices = {};
+      let productId = null;
+      let colorOptions = 0;
 
-        // Fetch product data from an external XML file
-        async function fetchProductData() {
-            const response = await fetch('products.xml');
-            const text = await response.text();
-            const productDoc = new DOMParser().parseFromString(text, "application/xml");
-            return Array.from(productDoc.getElementsByTagName("product"));
+      // If chassis-only is checked, skip modules, use chassisPrice, but keep colors & custom name in summary
+      let chassisOnly = false;
+      let customNameValue = "(Default)";
+
+      const selectedModules = [];
+
+      // Overlay logic
+      function openOverlay(src) {
+        const overlay = document.getElementById("overlay");
+        const overlayImage = document.getElementById("overlayImage");
+        overlayImage.src = src;
+        overlay.style.display = "flex";
+      }
+      function closeOverlay() {
+        document.getElementById("overlay").style.display = "none";
+      }
+
+      async function fetchProducts() {
+        const res = await fetch('products.xml');
+        const txt = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(txt, "application/xml");
+        return Array.from(doc.getElementsByTagName("product"));
+      }
+      async function fetchModules() {
+        const res = await fetch('modules.xml');
+        const txt = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(txt, 'application/xml');
+        const moduleTypes = doc.getElementsByTagName("type");
+        const moduleMap = {};
+
+        Array.from(moduleTypes).forEach(type => {
+          const id = type.getAttribute("id");
+          const options = Array.from(type.getElementsByTagName("option")).map(opt => ({
+            id: opt.textContent,
+            description: opt.getAttribute("description"),
+            price: parseFloat(opt.getAttribute("price"))
+          }));
+          moduleMap[id] = options;
+        });
+        return moduleMap;
+      }
+
+      function getProductById(id, products) {
+        return products.find(p => p.getAttribute("id") === id);
+      }
+
+      // Build module slot
+      function createModuleSelector(labelText, type, moduleMap) {
+        const container = document.createElement("div");
+        container.className = "module-container";
+
+        const lbl = document.createElement("span");
+        lbl.className = "module-label";
+        lbl.textContent = labelText;
+
+        const select = document.createElement("select");
+        select.style.width = "200px";
+
+        const desc = document.createElement("span");
+        desc.className = "module-description";
+        desc.textContent = "Select a module";
+
+        // (none)
+        const noneOpt = document.createElement("option");
+        noneOpt.value = "none";
+        noneOpt.textContent = "(none)";
+        select.appendChild(noneOpt);
+
+        // If Hybrid => combine Combat + Service
+        if (type === "Hybrid") {
+          const combined = [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])];
+          combined.forEach(opt => {
+            const elem = document.createElement("option");
+            elem.value = opt.id;
+            elem.textContent = opt.id;
+            select.appendChild(elem);
+            modulePrices[opt.id] = opt.price;
+          });
+        } else {
+          const arr = moduleMap[type] || [];
+          arr.forEach(opt => {
+            const elem = document.createElement("option");
+            elem.value = opt.id;
+            elem.textContent = opt.id;
+            select.appendChild(elem);
+            modulePrices[opt.id] = opt.price;
+          });
         }
 
-        // Fetch module data from an external XML file
-        async function fetchModules() {
-            const response = await fetch('modules.xml');
-            const text = await response.text();
-            const moduleDoc = new DOMParser().parseFromString(text, "application/xml");
-            const moduleTypes = moduleDoc.getElementsByTagName("type");
-            const moduleMap = {};
+        select.addEventListener("change", () => {
+          const idx = selectedModules.findIndex(m => m.label === labelText);
+          const allOpts =
+            type === "Hybrid"
+              ? [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])]
+              : moduleMap[type] || [];
+          const chosen = allOpts.find(o => o.id === select.value);
 
-            Array.from(moduleTypes).forEach(type => {
-                const id = type.getAttribute("id");
-                const options = Array.from(type.getElementsByTagName("option")).map(opt => ({
-                    id: opt.textContent,
-                    description: opt.getAttribute("description"),
-                    price: parseFloat(opt.getAttribute("price"))
-                }));
-                moduleMap[id] = options;
-            });
-
-            return moduleMap;
-        }
-
-        // Get product by ID
-        function getProductById(id, products) {
-            return products.find(product => product.getAttribute("id") === id);
-        }
-
-        // Create module selector
-        function createModuleSelector(labelText, type, moduleMap, selectedModules) {
-            const container = document.createElement("div");
-            container.className = "module-container";
-
-            const label = document.createElement("span");
-            label.className = "module-label";
-            label.textContent = labelText;
-
-            const select = document.createElement("select");
-            const description = document.createElement("span");
-            description.className = "module-description";
-            description.textContent = "Select a module";
-
-            // Add "(none)" option with price 0
-            const noneOption = document.createElement("option");
-            noneOption.value = "none";
-            noneOption.textContent = "(none)";
-            select.appendChild(noneOption);
-
-            // Add module options based on type
-            if (type === 'Hybrid') {
-                const hybridOptions = [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])];
-                hybridOptions.forEach(option => {
-                    const opt = document.createElement("option");
-                    opt.value = option.id;
-                    opt.textContent = option.id;
-                    select.appendChild(opt);
-                    modulePrices[option.id] = option.price;
-                });
-            } else {
-                const options = moduleMap[type] || [];
-                options.forEach(option => {
-                    const opt = document.createElement("option");
-                    opt.value = option.id;
-                    opt.textContent = option.id;
-                    select.appendChild(opt);
-                    modulePrices[option.id] = option.price;
-                });
-            }
-
-            select.addEventListener("change", () => {
-                const currentIndex = selectedModules.findIndex(item => item.label === labelText);
-                const selectedOption =
-                    type === "Hybrid"
-                        ? [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])].find(opt => opt.id === select.value)
-                        : (moduleMap[type] || []).find(opt => opt.id === select.value);
-
-                if (currentIndex >= 0) {
-                    selectedModules[currentIndex] = { label: labelText, value: select.value };
-                } else {
-                    selectedModules.push({ label: labelText, value: select.value });
-                }
-
-                description.textContent = selectedOption?.description || "Select a module";
-
-                updateAll(selectedModules);
-            });
-
-            container.appendChild(label);
-            container.appendChild(select);
-            container.appendChild(description);
-
-            return container;
-        }
-
-        // Update all fields: price, scores, and summary
-        function updateAll(selectedModules) {
-            updatePrice(selectedModules);
-            updateScores(selectedModules);
-            updateSummary(selectedModules);
-        }
-
-        // Update total price
-        function updatePrice(selectedModules) {
-            const moduleTotal = selectedModules.reduce((total, module) => {
-                return module.value !== "none" ? total + (modulePrices[module.value] || 0) : total;
-            }, 0);
-
-            const totalPrice = basePrice + moduleTotal;
-            const formattedPrice = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalPrice);
-            document.getElementById("totalPrice").textContent = formattedPrice;
-        }
-
-        // Update scores
-        function updateScores(selectedModules) {
-            const moduleCounts = selectedModules.reduce((counts, module) => {
-                counts[module.value] = (counts[module.value] || 0) + 1;
-                return counts;
-            }, {});
-
-            console.log("Module Counts:", moduleCounts);  // Debugging log
-
-            const itemStorage = moduleCounts["Item Storage"] ? (moduleCounts["Item Storage"] === 1 ? 10 : 30) : 0;
-            const handSampling = moduleCounts["Hand Sampling (Mining)"] ? moduleCounts["Hand Sampling (Mining)"] * 10 : 0;
-            const creatureHarvesting = moduleCounts["Creature Harvest"] ? moduleCounts["Creature Harvest"] * 20 : 0;
-            const detonation = moduleCounts["Detonation"]
-                ? moduleCounts["Detonation"] * (productId === "29" || productId === "30" ? 40 : 30)
-                : 0;
-
-            const updateScoreDisplay = (id, value) => {
-                const container = document.getElementById(id);
-                const valueSpan = document.getElementById(`${id}Value`);
-
-                // Ensure the container and valueSpan exist before updating
-                if (valueSpan) {
-                    container.style.display = value > 0 ? "block" : "none";
-                    valueSpan.textContent = value;
-                }
-            };
-
-            updateScoreDisplay("itemStorageScore", itemStorage);
-            updateScoreDisplay("handSamplingScore", handSampling);
-            updateScoreDisplay("creatureHarvestingScore", creatureHarvesting);
-            updateScoreDisplay("detonationScore", detonation);
-
-            return { itemStorage, handSampling, creatureHarvesting, detonation };
-        }
-
-        // Update summary
-        function updateSummary(selectedModules) {
-            const filteredModules = selectedModules.filter(module => module.value !== "none");
-
-            const moduleCounts = {};
-            filteredModules.forEach(module => {
-                if (!moduleCounts[module.value]) {
-                    moduleCounts[module.value] = { count: 0, label: module.value };
-                }
-                moduleCounts[module.value].count++;
-            });
-
-            const scores = updateScores(selectedModules);
-            const { itemStorage, handSampling, creatureHarvesting, detonation } = scores;
-
-            const scoreSummary = [];
-            if (itemStorage > 0) scoreSummary.push(`Item Storage: ${itemStorage}`);
-            if (handSampling > 0) scoreSummary.push(`Hand Sampling Bonus: ${handSampling}`);
-            if (creatureHarvesting > 0) scoreSummary.push(`Creature Harvesting Bonus: ${creatureHarvesting}`);
-            if (detonation > 0) scoreSummary.push(`Detonation Power: ${detonation}`);
-
-            const moduleSummary = Object.values(moduleCounts)
-                .map(module => `${module.count} ${module.label}${module.count > 1 ? "s" : ""}`)
-                .join(", ");
-
-            const productName = document.getElementById("productName").textContent;
-            const totalPrice = document.getElementById("totalPrice").textContent;
-
-            let summary = [
-                `I would like to purchase a ${productName} with the following modules:`,
-                moduleSummary,
-                ...scoreSummary,
-                `Total Price: ${totalPrice} Republic Credits.`,
-            ];
-
-            if (productName.endsWith('*')) {
-                summary.push("Single-use schematic droids are priced assuming schematic is provided by customer before construction.");
-            }
-
-            document.getElementById("summaryField").value = summary.join("\n");
-        }
-
-        // Copy to clipboard
-        document.getElementById("copyButton").addEventListener("click", () => {
-            const summaryField = document.getElementById("summaryField");
-            summaryField.select();
-            summaryField.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(summaryField.value).then(() => {
-                alert("Order summary copied to clipboard!");
-            }).catch(err => {
-                alert("Failed to copy: " + err);
-            });
+          if (idx >= 0) {
+            selectedModules[idx] = { label: labelText, value: select.value };
+          } else {
+            selectedModules.push({ label: labelText, value: select.value });
+          }
+          desc.textContent = chosen?.description || "Select a module";
+          updateAll(selectedModules);
         });
 
-        async function initialize() {
-            const products = await fetchProductData();
-            const moduleMap = await fetchModules();
-            const urlParams = new URLSearchParams(window.location.search);
-            productId = urlParams.get("productId");
+        container.appendChild(lbl);
+        container.appendChild(select);
+        container.appendChild(desc);
+        return container;
+      }
 
-            if (!productId) {
-                document.getElementById("productName").textContent = "Product not found.";
-                return;
-            }
+      // Scores
+      function updateScores(selected) {
+        const moduleCounts = selected.reduce((counts, mod) => {
+          counts[mod.value] = (counts[mod.value] || 0) + 1;
+          return counts;
+        }, {});
+        console.log("Module Counts:", moduleCounts);
 
-            const product = getProductById(productId, products);
-            const name = product.getElementsByTagName("name")[0].textContent;
-            const image = product.getElementsByTagName("image")[0].textContent;
-            basePrice = parseFloat(product.getElementsByTagName("basePrice")[0].textContent);
+        const itemStorage = moduleCounts["Item Storage"] ? (moduleCounts["Item Storage"] === 1 ? 10 : 30) : 0;
+        const handSampling = moduleCounts["Hand Sampling (Mining)"] ? moduleCounts["Hand Sampling (Mining)"] * 10 : 0;
+        const creatureHarvesting = moduleCounts["Creature Harvest"] ? moduleCounts["Creature Harvest"] * 20 : 0;
+        const detonation = moduleCounts["Detonation"]
+          ? moduleCounts["Detonation"] * (productId === "29" || productId === "30" ? 40 : 30)
+          : 0;
 
-            document.getElementById("productName").textContent = name;
-            document.getElementById("productImage").src = image;
+        return { itemStorage, handSampling, creatureHarvesting, detonation };
+      }
 
-            const formattedPrice = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(basePrice);
-            document.getElementById("totalPrice").textContent = formattedPrice;
+      function updateAll(selected) {
+        updatePrice(selected);
+        updateSummary(selected);
+      }
 
-            const selectedModules = [];
-            const maxModules = product.getElementsByTagName("maxModules")[0].children;
+      function updatePrice(selected) {
+        if (chassisOnly) {
+          // If chassis only, use chassisPrice
+          document.getElementById("totalPrice").textContent = new Intl.NumberFormat("en-US", {
+            maximumFractionDigits: 0
+          }).format(chassisPrice);
+          return;
+        }
+        // Otherwise basePrice + modules
+        const moduleCost = selected.reduce((sum, mod) =>
+          mod.value !== "none" ? sum + (modulePrices[mod.value] || 0) : sum, 0);
+        const total = basePrice + moduleCost;
+        document.getElementById("totalPrice").textContent = new Intl.NumberFormat("en-US", {
+          maximumFractionDigits: 0
+        }).format(total);
+      }
 
-            Array.from(maxModules).forEach(slot => {
-                const type = slot.tagName;
-                const max = parseInt(slot.textContent);
+      function updateSummary(selected) {
+        const productNameEl = document.getElementById("productName");
+        const productName = productNameEl.textContent;
+        const totalPrice = document.getElementById("totalPrice").textContent;
 
-                if (max > 0) {
-                    for (let i = 0; i < max; i++) {
-                        const moduleDiv = createModuleSelector(
-                            `${type} Slot ${i + 1}`,
-                            type,
-                            moduleMap,
-                            selectedModules
-                        );
-                        document.getElementById("moduleSelectors").appendChild(moduleDiv);
-                    }
-                }
-            });
+        // If chassis only, append product name with (Decoration (chassis))
+        let finalName = productName;
+        if (chassisOnly) {
+          finalName += " (Decoration (chassis))";
         }
 
-        initialize();
+        let summaryLine = `I would like to purchase a ${finalName}.`;
+
+        if (chassisOnly) {
+          // No modules
+          if (customNameValue === "---") {
+            summaryLine += " Blank custom name.";
+          } else if (customNameValue && customNameValue !== "(Default)") {
+            summaryLine += ` Custom name: ${customNameValue}.`;
+          } else {
+            summaryLine += " Custom name is default.";
+          }
+        } else {
+          // Combine like modules
+          const filtered = selected.filter(m => m.value !== "none");
+          const modCounts = {};
+          filtered.forEach(m => {
+            if (!modCounts[m.value]) {
+              modCounts[m.value] = 0;
+            }
+            modCounts[m.value]++;
+          });
+          const moduleList = Object.entries(modCounts).map(([mod, cnt]) => {
+            return cnt > 1 ? `${cnt} ${mod}s` : `${cnt} ${mod}`;
+          });
+
+          // Scores
+          const scores = updateScores(filtered);
+          let scoreParts = [];
+          if (scores.itemStorage > 0) scoreParts.push(`Item Storage +${scores.itemStorage}`);
+          if (scores.handSampling > 0) scoreParts.push(`Hand Sampling +${scores.handSampling}`);
+          if (scores.creatureHarvesting > 0) scoreParts.push(`Creature Harvesting +${scores.creatureHarvesting}`);
+          if (scores.detonation > 0) scoreParts.push(`Detonation +${scores.detonation}`);
+
+          if (moduleList.length > 0) {
+            summaryLine += ` Modules: ${moduleList.join(", ")}.`;
+          }
+          if (scoreParts.length > 0) {
+            summaryLine += ` Scores: ${scoreParts.join(", ")}.`;
+          }
+        }
+
+        // Colors
+        const colorInputs = document.querySelectorAll(".color-container input");
+        const colorSelections = Array.from(colorInputs).map(inp => `${inp.dataset.name}: ${inp.value}`);
+        if (colorSelections.length > 0) {
+          summaryLine += ` Colors selected: ${colorSelections.join(", ")}.`;
+        }
+
+        summaryLine += ` The total price is ${totalPrice} Republic Credits.`;
+
+        if (productName.endsWith('*')) {
+          summaryLine += " Single-use schematic droids are priced assuming schematic is provided by customer before construction.";
+        }
+
+        document.getElementById("summaryField").value = summaryLine;
+      }
+
+      document.getElementById("copyButton").addEventListener("click", () => {
+        const summaryField = document.getElementById("summaryField");
+        summaryField.select();
+        summaryField.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(summaryField.value)
+          .then(() => alert("Order summary copied to clipboard!"))
+          .catch(err => alert("Failed to copy: " + err));
+      });
+
+      async function initialize() {
+        const products = await fetchProducts();
+        const moduleMap = await fetchModules();
+        const params = new URLSearchParams(window.location.search);
+        productId = params.get("productId");
+
+        if (!productId) {
+          document.getElementById("productName").textContent = "Product not found.";
+          return;
+        }
+
+        const product = products.find(p => p.getAttribute("id") === productId);
+        if (!product) {
+          document.getElementById("productName").textContent = "Product not found.";
+          return;
+        }
+
+        // Parse product info
+        const name = product.getElementsByTagName("name")[0].textContent;
+        const image = product.getElementsByTagName("image")[0].textContent;
+        const palette = product.getElementsByTagName("palette")[0]?.textContent || "";
+        basePrice = parseFloat(product.getElementsByTagName("basePrice")[0]?.textContent) || 0;
+        const cPriceEl = product.getElementsByTagName("chassisPrice")[0];
+        chassisPrice = cPriceEl ? parseFloat(cPriceEl.textContent) : basePrice;
+
+        // colorOptions
+        const coEl = product.getElementsByTagName("colorOptions")[0];
+        colorOptions = coEl ? parseInt(coEl.textContent, 10) : 0;
+
+        document.getElementById("productName").textContent = name;
+        const prodImgEl = document.getElementById("productImage");
+        prodImgEl.src = image;
+        prodImgEl.onclick = () => openOverlay(image);
+
+        const palImgEl = document.getElementById("paletteImage");
+        palImgEl.src = palette;
+        palImgEl.onclick = () => openOverlay(palette);
+
+        // Set initial price
+        document.getElementById("totalPrice").textContent = new Intl.NumberFormat("en-US", {
+          maximumFractionDigits: 0
+        }).format(basePrice);
+
+        const moduleSlotsDiv = document.getElementById("moduleSlotsDiv");
+        const colorFieldsDiv = document.getElementById("colorFieldsDiv");
+        const chassisFieldsDiv = document.getElementById("chassisFieldsDiv");
+
+        // Create module slots
+        const maxModules = product.getElementsByTagName("maxModules")[0]?.children || [];
+        Array.from(maxModules).forEach(slot => {
+          const type = slot.tagName;
+          const max = parseInt(slot.textContent, 10);
+          if (max > 0) {
+            for (let i = 0; i < max; i++) {
+              const sel = createModuleSelector(`${type} Slot ${i + 1}`, type, moduleMap);
+              moduleSlotsDiv.appendChild(sel);
+            }
+          }
+        });
+
+        // Color fields
+        if (colorOptions > 0) {
+          for (let i = 1; i <= colorOptions; i++) {
+            const colorDiv = document.createElement("div");
+            colorDiv.className = "color-container";
+
+            const lbl = document.createElement("span");
+            lbl.className = "color-label";
+            lbl.textContent = `Color ${i}`;
+
+            const inp = document.createElement("input");
+            inp.type = "text";
+            inp.value = "(Default)";
+            inp.dataset.name = `Color ${i}`;
+            inp.className = "color-input";
+            inp.addEventListener("input", () => updateAll(selectedModules));
+
+            const desc = document.createElement("span");
+            desc.className = "module-description";
+            desc.textContent = "Type desired color if different from default (outlined in yellow).";
+
+            colorDiv.appendChild(lbl);
+            colorDiv.appendChild(inp);
+            colorDiv.appendChild(desc);
+            colorFieldsDiv.appendChild(colorDiv);
+          }
+        }
+
+        // Chassis Only checkbox
+        const chassisContainer = document.createElement("div");
+        chassisContainer.className = "chassis-deco-container";
+
+        const chassisLabel = document.createElement("span");
+        chassisLabel.className = "chassis-deco-label"; // widened to 200px
+        chassisLabel.textContent = "Chassis (decoration) only";
+
+        const chassisCheck = document.createElement("input");
+        chassisCheck.type = "checkbox";
+        chassisCheck.addEventListener("change", () => {
+          chassisOnly = chassisCheck.checked;
+          if (chassisOnly) {
+            moduleSlotsDiv.style.display = "none";
+            customNameContainer.style.display = "flex";
+          } else {
+            moduleSlotsDiv.style.display = "block";
+            customNameContainer.style.display = "none";
+          }
+          updateAll(selectedModules);
+        });
+
+        chassisContainer.appendChild(chassisLabel);
+        chassisContainer.appendChild(chassisCheck);
+        chassisFieldsDiv.appendChild(chassisContainer);
+
+        // Custom name text field
+        const customNameContainer = document.createElement("div");
+        customNameContainer.className = "custom-name-container";
+        customNameContainer.style.display = "none";
+
+        const customNameLabel = document.createElement("span");
+        customNameLabel.className = "module-label";
+        customNameLabel.textContent = "Custom name";
+
+        const customNameInput = document.createElement("input");
+        customNameInput.type = "text";
+        customNameInput.style.width = "200px";
+        customNameInput.value = "(Default)";
+        customNameInput.addEventListener("input", () => {
+          customNameValue = customNameInput.value;
+          updateAll(selectedModules);
+        });
+
+        const customNameDesc = document.createElement("span");
+        customNameDesc.className = "module-description";
+        customNameDesc.textContent = "Type name for chassis or 3 dashes (---) to leave the name blank.";
+
+        customNameContainer.appendChild(customNameLabel);
+        customNameContainer.appendChild(customNameInput);
+        customNameContainer.appendChild(customNameDesc);
+
+        chassisFieldsDiv.appendChild(customNameContainer);
+      }
+
+      document.getElementById("copyButton").addEventListener("click", () => {
+        const summaryField = document.getElementById("summaryField");
+        summaryField.select();
+        summaryField.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(summaryField.value)
+          .then(() => alert("Order summary copied to clipboard!"))
+          .catch(err => alert("Failed to copy: " + err));
+      });
+
+      (async function(){
+        await initialize();
+      })();
     </script>
+  </div>
 </body>
 </html>
