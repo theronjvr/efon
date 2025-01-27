@@ -40,11 +40,11 @@
         <option id="No Armor" description="Friendly AI assistant." price="0">No Armor</option>
     </type>
     <type id="Personality">
-        <option id="Geeky" description="Determines phrases that each droid will make in combat, or when accessing the Converse menu." price="5000">Geeky</option>
-        <option id="Prissy" description="Determines phrases that each droid will make in combat, or when accessing the Converse menu." price="2500">Prissy</option>
-        <option id="Sarcastic" description="Determines phrases that each droid will make in combat, or when accessing the Converse menu." price="2500">Sarcastic</option>
-        <option id="Slang" description="Determines phrases that each droid will make in combat, or when accessing the Converse menu." price="5000">Slang</option>
-        <option id="Stupid" description="Determines phrases that each droid will make in combat, or when accessing the Converse menu." price="1500">Stupid</option>
-        <option id="Worshipful" description="Determines phrases that each droid will make in combat, or when accessing the Converse menu." price="3000">Worshipful</option>
+        <option id="Geeky" description="Geeky droid conversational programming." price="5000">Geeky</option>
+        <option id="Prissy" description="Prissy droid conversational programming." price="2500">Prissy</option>
+        <option id="Sarcastic" description="Sarcastic droid conversational programming." price="2500">Sarcastic</option>
+        <option id="Slang" description="Slang droid conversational programming." price="5000">Slang</option>
+        <option id="Stupid" description="Stupid droid conversational programming." price="1500">Stupid</option>
+        <option id="Worshipful" description="Worshipful droid conversational programming." price="3000">Worshipful</option>
     </type>
 </modules>
