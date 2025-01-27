@@ -53,6 +53,7 @@
       padding: 5px 10px;
     }
 
+    /* Module styling */
     .module-container {
       margin: 10px 0;
       display: flex;
@@ -129,7 +130,7 @@
     </p>
     <h2 id="productName">Loading...</h2>
 
-    <!-- Product & Palette Images -->
+    <!-- Container for product & palette images -->
     <div class="product-container">
       <img id="productImage" class="product-image" alt="Product Image">
       <img id="paletteImage" class="palette-image" alt="Palette Image">
@@ -137,12 +138,9 @@
 
     <div id="moduleSelectors"></div>
 
-    <!-- Price Display -->
     <div id="priceContainer">
       <h3>Total Price: <span id="totalPrice">0</span> Republic Credits</h3>
     </div>
-
-    <!-- Summary Container -->
     <div id="summaryContainer">
       <h3>Order Summary</h3>
       <p>
@@ -232,9 +230,7 @@
         noneOpt.textContent = "(none)";
         select.appendChild(noneOpt);
 
-        // Fill options
         if (type === "Hybrid") {
-          // Combine Combat + Service
           const combined = [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])];
           combined.forEach(opt => {
             const elem = document.createElement("option");
@@ -268,7 +264,6 @@
             selectedModules.push({ label: labelText, value: select.value });
           }
           desc.textContent = chosen?.description || "Select a module";
-
           updateAll(selectedModules);
         });
 
@@ -278,13 +273,13 @@
         return container;
       }
 
-      // Incorporate scores snippet
+      // Score snippet
       function updateScores(selected) {
         const moduleCounts = selected.reduce((counts, mod) => {
           counts[mod.value] = (counts[mod.value] || 0) + 1;
           return counts;
         }, {});
-        console.log("Module Counts:", moduleCounts); // Debug
+        console.log("Module Counts:", moduleCounts);
 
         const itemStorage = moduleCounts["Item Storage"] ? (moduleCounts["Item Storage"] === 1 ? 10 : 30) : 0;
         const handSampling = moduleCounts["Hand Sampling (Mining)"] ? moduleCounts["Hand Sampling (Mining)"] * 10 : 0;
@@ -293,8 +288,6 @@
           ? moduleCounts["Detonation"] * (productId === "29" || productId === "30" ? 40 : 30)
           : 0;
 
-        // If you want to display them in the UI, you can do it here.
-        // For now, we just return them to include in summary.
         return { itemStorage, handSampling, creatureHarvesting, detonation };
       }
 
@@ -304,9 +297,8 @@
       }
 
       function updatePrice(selected) {
-        const moduleCost = selected.reduce((sum, mod) => {
-          return mod.value !== "none" ? sum + (modulePrices[mod.value] || 0) : sum;
-        }, 0);
+        const moduleCost = selected.reduce((sum, mod) =>
+          mod.value !== "none" ? sum + (modulePrices[mod.value] || 0) : sum, 0);
         const totalPrice = basePrice + moduleCost;
         const formatted = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(totalPrice);
         document.getElementById("totalPrice").textContent = formatted;
@@ -325,12 +317,11 @@
           }
           modCounts[m.value]++;
         });
-
         const moduleList = Object.entries(modCounts).map(([mod, cnt]) => {
           return cnt > 1 ? `${cnt} ${mod}s` : `${cnt} ${mod}`;
         });
 
-        // Score snippet
+        // Scores
         const scores = updateScores(filtered);
         let scoreParts = [];
         if (scores.itemStorage > 0) scoreParts.push(`Item Storage +${scores.itemStorage}`);
@@ -338,15 +329,15 @@
         if (scores.creatureHarvesting > 0) scoreParts.push(`Creature Harvesting +${scores.creatureHarvesting}`);
         if (scores.detonation > 0) scoreParts.push(`Detonation +${scores.detonation}`);
 
-        // Color inputs
+        // Colors
         const colorInputs = document.querySelectorAll(".color-container input");
         const colorSelections = Array.from(colorInputs).map(inp => `${inp.dataset.name}: ${inp.value}`);
 
-        // Build single-paragraph summary
+        // Build paragraph summary
         let summaryLine = `I would like to purchase a ${productName} with the following modules: ${moduleList.join(", ")}.`;
 
         if (colorSelections.length > 0) {
-          summaryLine += ` Colors selected: ${colorSelections.join(", ")}.`;
+          summaryLine += ` Type desired color if different from default (color outlined in yellow). Colors selected: ${colorSelections.join(", ")}.`;
         }
 
         if (scoreParts.length > 0) {
@@ -394,34 +385,42 @@
         const palette = product.getElementsByTagName("palette")[0]?.textContent || "";
         basePrice = parseFloat(product.getElementsByTagName("basePrice")[0]?.textContent) || 0;
 
-        // colorOptions from product
+        // colorOptions
         const coEl = product.getElementsByTagName("colorOptions")[0];
         colorOptions = coEl ? parseInt(coEl.textContent, 10) : 0;
 
         document.getElementById("productName").textContent = name;
-        const prodImg = document.getElementById("productImage");
-        prodImg.src = image;
-        prodImg.onclick = () => openOverlay(image);
+        const prodImgEl = document.getElementById("productImage");
+        prodImgEl.src = image;
+        prodImgEl.onclick = () => openOverlay(image);
 
-        const palImg = document.getElementById("paletteImage");
-        palImg.src = palette;
-        palImg.onclick = () => openOverlay(palette);
+        const palImgEl = document.getElementById("paletteImage");
+        palImgEl.src = palette;
+        palImgEl.onclick = () => openOverlay(palette);
 
         // Set initial price
         document.getElementById("totalPrice").textContent = new Intl.NumberFormat("en-US", {
           maximumFractionDigits: 0
         }).format(basePrice);
 
-        // Setup color fields if colorOptions>0
-        if (colorOptions > 0) {
-          const colorInputs = document.createElement("div");
-          // We'll place them below moduleSelectors
-          const moduleSelectors = document.getElementById("moduleSelectors");
-          moduleSelectors.appendChild(colorInputs);
+        // Module slots
+        const maxModules = product.getElementsByTagName("maxModules")[0]?.children || [];
+        Array.from(maxModules).forEach(slot => {
+          const type = slot.tagName;
+          const max = parseInt(slot.textContent, 10);
+          if (max > 0) {
+            for (let i = 0; i < max; i++) {
+              const selector = createModuleSelector(`${type} Slot ${i + 1}`, type, moduleMap);
+              document.getElementById("moduleSelectors").appendChild(selector);
+            }
+          }
+        });
 
+        // Color fields
+        if (colorOptions > 0) {
           for (let i = 1; i <= colorOptions; i++) {
-            const cContainer = document.createElement("div");
-            cContainer.className = "color-container";
+            const colorDiv = document.createElement("div");
+            colorDiv.className = "color-container";
 
             const lbl = document.createElement("span");
             lbl.className = "color-label";
@@ -432,27 +431,19 @@
             inp.value = "(Default)";
             inp.dataset.name = `Color ${i}`;
             inp.className = "color-input";
-            inp.addEventListener("input", () => updateSummary(selectedModules));
+            inp.addEventListener("input", () => updateAll(selectedModules));
 
-            cContainer.appendChild(lbl);
-            cContainer.appendChild(inp);
-            colorInputs.appendChild(cContainer);
+            const desc = document.createElement("span");
+            desc.className = "module-description";
+            desc.textContent = "Type desired color if different from default (color outlined in yellow).";
+
+            colorDiv.appendChild(lbl);
+            colorDiv.appendChild(inp);
+            colorDiv.appendChild(desc);
+
+            document.getElementById("moduleSelectors").appendChild(colorDiv);
           }
         }
-
-        // Build module selectors
-        const selectedModules = [];
-        const maxModules = product.getElementsByTagName("maxModules")[0]?.children || [];
-        Array.from(maxModules).forEach(slot => {
-          const type = slot.tagName;
-          const max = parseInt(slot.textContent, 10);
-          if (max > 0) {
-            for (let i = 0; i < max; i++) {
-              const sel = createModuleSelector(`${type} Slot ${i + 1}`, type, moduleMap);
-              document.getElementById("moduleSelectors").appendChild(sel);
-            }
-          }
-        });
       }
 
       initialize();
