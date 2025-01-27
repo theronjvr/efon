@@ -23,19 +23,19 @@
       cursor: pointer;
     }
 
-    /* Overlay for full-size images, no longer full screen, 20px bigger than image */
+    /* Overlay for full-size images, margin-based to create 20px bigger total space */
     #overlay {
       display: none;
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
       z-index: 9999;
     }
     #overlay img {
-      margin: 10px;     /* 20px total horizontally & vertically */
+      margin: 10px;
       width: auto;
       height: auto;
       border-radius: 5px;
@@ -190,7 +190,7 @@
       let productId = null;
       let colorOptions = 0;
 
-      // If chassis-only is checked, we skip modules, use chassisPrice, but still show color fields & custom name
+      // If chassis-only is checked, skip modules, use chassisPrice, but keep colors & custom name in summary
       let chassisOnly = false;
       let customNameValue = "(Default)";
 
