@@ -1,12 +1,12 @@
 <modules>
     <type id="Combat">
         <option id="Combat" description="Standard combat attack." price="2500">Combat</option>
-        <option id="Combat - Droideka Shield" description="Energy shield to protect from small arms fire. Select 2 to cap level." price="2500">Combat - Droideka Shield</option>
-        <option id="Combat - Electric Shocker" description="Special arc projector AOE combat attack. Select 2 to cap level." price="2500">Combat - Electric Shocker</option>
-        <option id="Combat - Flame Jet" description="Special flame jet AOE combat attack. Select 2 to cap level." price="2500">Combat - Flame Jet</option>
-        <option id="Combat - Rapid Discharge Batteries" description="Special battery dump AOE combat attack. Select 2 to cap level." price="2500">Combat - Rapid Discharge Batteries</option>
-        <option id="Combat - Regenerative Plating" description="Liquid quick hardening metal to repair droid. Select 2 to cap level." price="2500">Combat - Regenerative Plating</option>
-        <option id="Combat - Torture Panel" description="Special toxin darts combat attack. Select 2 to cap level." price="2500">Combat - Torture Panel</option>
+        <option id="Combat - Droideka Shield" description="Energy shield to protect from small arms fire. Select 2 to cap level." price="3500">Combat - Droideka Shield</option>
+        <option id="Combat - Electric Shocker" description="Special arc projector AOE combat attack. Select 2 to cap level." price="3500">Combat - Electric Shocker</option>
+        <option id="Combat - Flame Jet" description="Special flame jet AOE combat attack. Select 2 to cap level." price="3500">Combat - Flame Jet</option>
+        <option id="Combat - Rapid Discharge Batteries" description="Special battery dump AOE combat attack. Select 2 to cap level." price="3500">Combat - Rapid Discharge Batteries</option>
+        <option id="Combat - Regenerative Plating" description="Liquid quick hardening metal to repair droid. Select 2 to cap level." price="3500">Combat - Regenerative Plating</option>
+        <option id="Combat - Torture Panel" description="Special toxin darts combat attack. Select 2 to cap level." price="3500">Combat - Torture Panel</option>
     </type>
     <type id="Service">
         <option id="Item Storage" description="Allows droid to store items. Select one for 10 storage or 2 for cap of 30." price="7500">Item Storage</option>
@@ -33,11 +33,11 @@
         <option id="Effect - Mind Bloom" description="Programmable visual effect for entertainers." price="2500">Effect - Mind Bloom</option>            
         <option id="Merchant Barker" description="Plays programmable message to passersby and allows download of waypoint." price="5000">Merchant Barker</option>
         <option id="Playback" description="Allows musician to record and play 30 seconds of music for accompaniment in a group." price="5000">Playback</option>
-        <option id="Structure Maintenance MAX" description="Enables maintenance payment for owned structures galaxy wide." price="5000">Structure Maintenance MAX</option>
+        <option id="Structure Maintenance MAX" description="Enables maintenance payment for owned structures galaxy wide." price="7500">Structure Maintenance MAX</option>
     </type>
     <type id="Armor">
         <option id="Armor" description="Increases CL and HP of droid. Select 2 to cap." price="2500">Max Armor</option>
-        <option id="No Armor" description="Friendly AI assistant." price="0">No Armor</option>
+        <option id="No Armor" description="No Armor (lower CL)." price="0">No Armor</option>
     </type>
     <type id="Personality">
         <option id="Geeky" description="Geeky droid conversational programming." price="5000">Geeky</option>
