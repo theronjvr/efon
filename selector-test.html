@@ -145,7 +145,214 @@
             document.getElementById("summaryField").value = summary.join("\n");
         }
 
-        async function initialize() {
+       // Fetch product data from an external XML file
+        async function fetchProductData() {
+            const response = await fetch('products.xml');
+            const text = await response.text();
+            const productDoc = new DOMParser().parseFromString(text, "application/xml");
+            return Array.from(productDoc.getElementsByTagName("product"));
+        }
+
+        // Fetch module data from an external XML file
+        async function fetchModules() {
+            const response = await fetch('modules.xml');
+            const text = await response.text();
+            const moduleDoc = new DOMParser().parseFromString(text, "application/xml");
+            const moduleTypes = moduleDoc.getElementsByTagName("type");
+            const moduleMap = {};
+
+            Array.from(moduleTypes).forEach(type => {
+                const id = type.getAttribute("id");
+                const options = Array.from(type.getElementsByTagName("option")).map(opt => ({
+                    id: opt.textContent,
+                    description: opt.getAttribute("description"),
+                    price: parseFloat(opt.getAttribute("price"))
+                }));
+                moduleMap[id] = options;
+            });
+
+            return moduleMap;
+        }
+
+        // Get product by ID
+        function getProductById(id, products) {
+            return products.find(product => product.getAttribute("id") === id);
+        }
+
+        // Create module selector
+        function createModuleSelector(labelText, type, moduleMap, selectedModules) {
+            const container = document.createElement("div");
+            container.className = "module-container";
+
+            const label = document.createElement("span");
+            label.className = "module-label";
+            label.textContent = labelText;
+
+            const select = document.createElement("select");
+            const description = document.createElement("span");
+            description.className = "module-description";
+            description.textContent = "Select a module";
+
+            // Add "(none)" option with price 0
+            const noneOption = document.createElement("option");
+            noneOption.value = "none";
+            noneOption.textContent = "(none)";
+            select.appendChild(noneOption);
+
+            // Add module options based on type
+            if (type === 'Hybrid') {
+                const hybridOptions = [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])];
+                hybridOptions.forEach(option => {
+                    const opt = document.createElement("option");
+                    opt.value = option.id;
+                    opt.textContent = option.id;
+                    select.appendChild(opt);
+                    modulePrices[option.id] = option.price;
+                });
+            } else {
+                const options = moduleMap[type] || [];
+                options.forEach(option => {
+                    const opt = document.createElement("option");
+                    opt.value = option.id;
+                    opt.textContent = option.id;
+                    select.appendChild(opt);
+                    modulePrices[option.id] = option.price;
+                });
+            }
+
+            select.addEventListener("change", () => {
+                const currentIndex = selectedModules.findIndex(item => item.label === labelText);
+                const selectedOption =
+                    type === "Hybrid"
+                        ? [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])].find(opt => opt.id === select.value)
+                        : (moduleMap[type] || []).find(opt => opt.id === select.value);
+
+                if (currentIndex >= 0) {
+                    selectedModules[currentIndex] = { label: labelText, value: select.value };
+                } else {
+                    selectedModules.push({ label: labelText, value: select.value });
+                }
+
+                description.textContent = selectedOption?.description || "Select a module";
+
+                updateAll(selectedModules);
+            });
+
+            container.appendChild(label);
+            container.appendChild(select);
+            container.appendChild(description);
+
+            return container;
+        }
+
+        // Update all fields: price, scores, and summary
+        function updateAll(selectedModules) {
+            updatePrice(selectedModules);
+            updateScores(selectedModules);
+            updateSummary(selectedModules);
+        }
+
+        // Update total price
+        function updatePrice(selectedModules) {
+            const moduleTotal = selectedModules.reduce((total, module) => {
+                return module.value !== "none" ? total + (modulePrices[module.value] || 0) : total;
+            }, 0);
+
+            const totalPrice = basePrice + moduleTotal;
+            const formattedPrice = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalPrice);
+            document.getElementById("totalPrice").textContent = formattedPrice;
+        }
+
+        // Update scores
+        function updateScores(selectedModules) {
+            const moduleCounts = selectedModules.reduce((counts, module) => {
+                counts[module.value] = (counts[module.value] || 0) + 1;
+                return counts;
+            }, {});
+
+            console.log("Module Counts:", moduleCounts);  // Debugging log
+
+            const itemStorage = moduleCounts["Item Storage"] ? (moduleCounts["Item Storage"] === 1 ? 10 : 30) : 0;
+            const handSampling = moduleCounts["Hand Sampling (Mining)"] ? moduleCounts["Hand Sampling (Mining)"] * 10 : 0;
+            const creatureHarvesting = moduleCounts["Creature Harvest"] ? moduleCounts["Creature Harvest"] * 20 : 0;
+            const detonation = moduleCounts["Detonation"]
+                ? moduleCounts["Detonation"] * (productId === "29" || productId === "30" ? 40 : 30)
+                : 0;
+
+            const updateScoreDisplay = (id, value) => {
+                const container = document.getElementById(id);
+                const valueSpan = document.getElementById(${id}Value);
+
+                // Ensure the container and valueSpan exist before updating
+                if (valueSpan) {
+                    container.style.display = value > 0 ? "block" : "none";
+                    valueSpan.textContent = value;
+                }
+            };
+
+            updateScoreDisplay("itemStorageScore", itemStorage);
+            updateScoreDisplay("handSamplingScore", handSampling);
+            updateScoreDisplay("creatureHarvestingScore", creatureHarvesting);
+            updateScoreDisplay("detonationScore", detonation);
+
+            return { itemStorage, handSampling, creatureHarvesting, detonation };
+        }
+
+        // Update summary
+        function updateSummary(selectedModules) {
+            const filteredModules = selectedModules.filter(module => module.value !== "none");
+
+            const moduleCounts = {};
+            filteredModules.forEach(module => {
+                if (!moduleCounts[module.value]) {
+                    moduleCounts[module.value] = { count: 0, label: module.value };
+                }
+                moduleCounts[module.value].count++;
+            });
+
+            const scores = updateScores(selectedModules);
+            const { itemStorage, handSampling, creatureHarvesting, detonation } = scores;
+
+            const scoreSummary = [];
+            if (itemStorage > 0) scoreSummary.push(Item Storage: ${itemStorage});
+            if (handSampling > 0) scoreSummary.push(Hand Sampling Bonus: ${handSampling});
+            if (creatureHarvesting > 0) scoreSummary.push(Creature Harvesting Bonus: ${creatureHarvesting});
+            if (detonation > 0) scoreSummary.push(Detonation Power: ${detonation});
+
+            const moduleSummary = Object.values(moduleCounts)
+                .map(module => ${module.count} ${module.label}${module.count > 1 ? "s" : ""})
+                .join(", ");
+
+            const productName = document.getElementById("productName").textContent;
+            const totalPrice = document.getElementById("totalPrice").textContent;
+
+            let summary = [
+                I would like to purchase a ${productName} with the following modules:,
+                moduleSummary,
+                ...scoreSummary,
+                Total Price: ${totalPrice} Republic Credits.,
+            ];
+
+            if (productName.endsWith('*')) {
+                summary.push("Single-use schematic droids are priced assuming schematic is provided by customer before construction.");
+            }
+
+            document.getElementById("summaryField").value = summary.join("\n");
+        }
+
+        // Copy to clipboard
+        document.getElementById("copyButton").addEventListener("click", () => {
+            const summaryField = document.getElementById("summaryField");
+            summaryField.select();
+            summaryField.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(summaryField.value).then(() => {
+                alert("Order summary copied to clipboard!");
+            }).catch(err => {
+                alert("Failed to copy: " + err);
+            });
+        });
+
+         async function initialize() {
             const products = await fetch('products.xml').then(res => res.text()).then(txt => new DOMParser().parseFromString(txt, "application/xml"));
             const urlParams = new URLSearchParams(window.location.search);
             productId = urlParams.get("productId");
@@ -178,7 +385,28 @@
                 }
             }
 
-            // Add other initialization logic (module rendering, price updates, etc.)
+            const formattedPrice = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(basePrice);
+            document.getElementById("totalPrice").textContent = formattedPrice;
+
+            const selectedModules = [];
+            const maxModules = product.getElementsByTagName("maxModules")[0].children;
+
+            Array.from(maxModules).forEach(slot => {
+                const type = slot.tagName;
+                const max = parseInt(slot.textContent);
+
+                if (max > 0) {
+                    for (let i = 0; i < max; i++) {
+                        const moduleDiv = createModuleSelector(
+                            ${type} Slot ${i + 1},
+                            type,
+                            moduleMap,
+                            selectedModules
+                        );
+                        document.getElementById("moduleSelectors").appendChild(moduleDiv);
+                    }
+                }
+            });
         }
 
         initialize();
