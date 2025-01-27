@@ -69,6 +69,7 @@
       color: gray;
     }
 
+    /* Color styling */
     .color-container {
       margin: 10px 0;
       display: flex;
@@ -81,6 +82,22 @@
     .color-input {
       width: 200px;
       padding: 4px;
+    }
+
+    /* Chassis Decoration styling */
+    .chassis-deco-container {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+    .chassis-deco-label {
+      display: inline-block;
+      width: 150px;
+    }
+    .custom-name-container {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
     }
 
     #priceContainer {
@@ -160,9 +177,15 @@
 
     <script>
       let basePrice = 0;
+      let chassisPrice = 0;
       let modulePrices = {};
       let productId = null;
       let colorOptions = 0;
+
+      // If the chassis-only box is checked, we hide module selectors and use chassisPrice
+      let chassisOnly = false;
+      let customNameValue = "(Default)"; // default custom name
+
       const selectedModules = [];
 
       // Overlay logic
@@ -209,6 +232,7 @@
         return products.find(p => p.getAttribute("id") === id);
       }
 
+      // Create module selector
       function createModuleSelector(labelText, type, moduleMap) {
         const container = document.createElement("div");
         container.className = "module-container";
@@ -230,6 +254,7 @@
         noneOpt.textContent = "(none)";
         select.appendChild(noneOpt);
 
+        // If Hybrid => combine Combat + Service
         if (type === "Hybrid") {
           const combined = [...(moduleMap["Combat"] || []), ...(moduleMap["Service"] || [])];
           combined.forEach(opt => {
@@ -273,7 +298,7 @@
         return container;
       }
 
-      // Score snippet
+      // Score logic
       function updateScores(selected) {
         const moduleCounts = selected.reduce((counts, mod) => {
           counts[mod.value] = (counts[mod.value] || 0) + 1;
@@ -297,51 +322,68 @@
       }
 
       function updatePrice(selected) {
+        if (chassisOnly) {
+          // Use chassisPrice instead of basePrice, ignoring modules
+          document.getElementById("totalPrice").textContent = new Intl.NumberFormat("en-US", {
+            maximumFractionDigits: 0
+          }).format(chassisPrice);
+          return;
+        }
         const moduleCost = selected.reduce((sum, mod) =>
           mod.value !== "none" ? sum + (modulePrices[mod.value] || 0) : sum, 0);
-        const totalPrice = basePrice + moduleCost;
-        const formatted = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(totalPrice);
-        document.getElementById("totalPrice").textContent = formatted;
+        const total = basePrice + moduleCost;
+        document.getElementById("totalPrice").textContent = new Intl.NumberFormat("en-US", {
+          maximumFractionDigits: 0
+        }).format(total);
       }
 
       function updateSummary(selected) {
         const productName = document.getElementById("productName").textContent;
         const totalPrice = document.getElementById("totalPrice").textContent;
 
-        // Combine like modules
-        const filtered = selected.filter(m => m.value !== "none");
-        const modCounts = {};
-        filtered.forEach(m => {
-          if (!modCounts[m.value]) {
-            modCounts[m.value] = 0;
-          }
-          modCounts[m.value]++;
-        });
-        const moduleList = Object.entries(modCounts).map(([mod, cnt]) => {
-          return cnt > 1 ? `${cnt} ${mod}s` : `${cnt} ${mod}`;
-        });
+        let summaryLine = `I would like to purchase a ${productName}.`;
 
-        // Scores
-        const scores = updateScores(filtered);
-        let scoreParts = [];
-        if (scores.itemStorage > 0) scoreParts.push(`Item Storage +${scores.itemStorage}`);
-        if (scores.handSampling > 0) scoreParts.push(`Hand Sampling +${scores.handSampling}`);
-        if (scores.creatureHarvesting > 0) scoreParts.push(`Creature Harvesting +${scores.creatureHarvesting}`);
-        if (scores.detonation > 0) scoreParts.push(`Detonation +${scores.detonation}`);
+        if (chassisOnly) {
+          if (customNameValue && customNameValue !== "(Default)") {
+            summaryLine += ` Custom name: ${customNameValue}.`;
+          } else {
+            summaryLine += " No custom name.";
+          }
+        } else {
+          // Combine like modules
+          const filtered = selected.filter(m => m.value !== "none");
+          const modCounts = {};
+          filtered.forEach(m => {
+            if (!modCounts[m.value]) {
+              modCounts[m.value] = 0;
+            }
+            modCounts[m.value]++;
+          });
+          const moduleList = Object.entries(modCounts).map(([mod, cnt]) => {
+            return cnt > 1 ? `${cnt} ${mod}s` : `${cnt} ${mod}`;
+          });
+
+          // Scores
+          const scores = updateScores(filtered);
+          let scoreParts = [];
+          if (scores.itemStorage > 0) scoreParts.push(`Item Storage +${scores.itemStorage}`);
+          if (scores.handSampling > 0) scoreParts.push(`Hand Sampling +${scores.handSampling}`);
+          if (scores.creatureHarvesting > 0) scoreParts.push(`Creature Harvesting +${scores.creatureHarvesting}`);
+          if (scores.detonation > 0) scoreParts.push(`Detonation +${scores.detonation}`);
+
+          if (moduleList.length > 0) {
+            summaryLine += ` Modules: ${moduleList.join(", ")}.`;
+          }
+          if (scoreParts.length > 0) {
+            summaryLine += ` Scores: ${scoreParts.join(", ")}.`;
+          }
+        }
 
         // Colors
         const colorInputs = document.querySelectorAll(".color-container input");
         const colorSelections = Array.from(colorInputs).map(inp => `${inp.dataset.name}: ${inp.value}`);
-
-        // Build paragraph summary
-        let summaryLine = `I would like to purchase a ${productName} with the following modules: ${moduleList.join(", ")}.`;
-
         if (colorSelections.length > 0) {
           summaryLine += ` Type desired color if different from default (color outlined in yellow). Colors selected: ${colorSelections.join(", ")}.`;
-        }
-
-        if (scoreParts.length > 0) {
-          summaryLine += ` Scores: ${scoreParts.join(", ")}.`;
         }
 
         summaryLine += ` The total price is ${totalPrice} Republic Credits.`;
@@ -379,11 +421,12 @@
           return;
         }
 
-        // Populate product info
+        // Parse product info
         const name = product.getElementsByTagName("name")[0].textContent;
         const image = product.getElementsByTagName("image")[0].textContent;
         const palette = product.getElementsByTagName("palette")[0]?.textContent || "";
         basePrice = parseFloat(product.getElementsByTagName("basePrice")[0]?.textContent) || 0;
+        chassisPrice = parseFloat(product.getElementsByTagName("chassisPrice")[0]?.textContent) || basePrice;
 
         // colorOptions
         const coEl = product.getElementsByTagName("colorOptions")[0];
@@ -403,7 +446,8 @@
           maximumFractionDigits: 0
         }).format(basePrice);
 
-        // Module slots
+        // Create module selectors
+        const moduleSelectorsDiv = document.getElementById("moduleSelectors");
         const maxModules = product.getElementsByTagName("maxModules")[0]?.children || [];
         Array.from(maxModules).forEach(slot => {
           const type = slot.tagName;
@@ -411,7 +455,7 @@
           if (max > 0) {
             for (let i = 0; i < max; i++) {
               const selector = createModuleSelector(`${type} Slot ${i + 1}`, type, moduleMap);
-              document.getElementById("moduleSelectors").appendChild(selector);
+              moduleSelectorsDiv.appendChild(selector);
             }
           }
         });
@@ -433,6 +477,7 @@
             inp.className = "color-input";
             inp.addEventListener("input", () => updateAll(selectedModules));
 
+            // Additional description
             const desc = document.createElement("span");
             desc.className = "module-description";
             desc.textContent = "Type desired color if different from default (color outlined in yellow).";
@@ -441,12 +486,79 @@
             colorDiv.appendChild(inp);
             colorDiv.appendChild(desc);
 
-            document.getElementById("moduleSelectors").appendChild(colorDiv);
+            moduleSelectorsDiv.appendChild(colorDiv);
           }
         }
+
+        // Chassis Only checkbox
+        const chassisContainer = document.createElement("div");
+        chassisContainer.className = "chassis-deco-container";
+
+        const chassisLabel = document.createElement("span");
+        chassisLabel.className = "color-label";
+        chassisLabel.textContent = "Chassis (decoration) only";
+
+        const chassisCheck = document.createElement("input");
+        chassisCheck.type = "checkbox";
+        chassisCheck.addEventListener("change", () => {
+          chassisOnly = chassisCheck.checked;
+          if (chassisOnly) {
+            // Hide module selectors
+            moduleSelectorsDiv.style.display = "none";
+            customNameContainer.style.display = "flex";
+          } else {
+            moduleSelectorsDiv.style.display = "block";
+            customNameContainer.style.display = "none";
+          }
+          updateAll(selectedModules);
+        });
+
+        chassisContainer.appendChild(chassisLabel);
+        chassisContainer.appendChild(chassisCheck);
+        moduleSelectorsDiv.appendChild(chassisContainer);
+
+        // Custom name text field
+        const customNameContainer = document.createElement("div");
+        customNameContainer.className = "custom-name-container";
+        customNameContainer.style.display = "none";
+
+        const customNameLabel = document.createElement("span");
+        customNameLabel.className = "module-label";
+        customNameLabel.textContent = "Custom name";
+
+        const customNameInput = document.createElement("input");
+        customNameInput.type = "text";
+        customNameInput.style.width = "200px";
+        customNameInput.value = "(Default)";
+        customNameInput.addEventListener("input", () => {
+          customNameValue = customNameInput.value;
+          updateAll(selectedModules);
+        });
+
+        // Description to the right
+        const customNameDesc = document.createElement("span");
+        customNameDesc.className = "module-description";
+        customNameDesc.textContent = "Type name for chassis or 3 dashes (---) to leave the name blank.";
+
+        customNameContainer.appendChild(customNameLabel);
+        customNameContainer.appendChild(customNameInput);
+        customNameContainer.appendChild(customNameDesc);
+
+        moduleSelectorsDiv.appendChild(customNameContainer);
       }
 
-      initialize();
+      document.getElementById("copyButton").addEventListener("click", () => {
+        const summaryField = document.getElementById("summaryField");
+        summaryField.select();
+        summaryField.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(summaryField.value)
+          .then(() => alert("Order summary copied to clipboard!"))
+          .catch(err => alert("Failed to copy: " + err));
+      });
+
+      (async function(){
+        await initialize();
+      })();
     </script>
   </div>
 </body>
