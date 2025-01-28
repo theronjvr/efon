@@ -355,7 +355,7 @@
         // If chassis only, append product name with (Decoration (chassis))
         let finalName = productName;
         if (chassisOnly) {
-          finalName += " (Decoration (chassis))";
+          finalName += " Decoration (chassis)";
         }
 
         let summaryLine = `I would like to purchase a ${finalName}.`;
@@ -386,10 +386,10 @@
           // Scores
           const scores = updateScores(filtered);
           let scoreParts = [];
-          if (scores.itemStorage > 0) scoreParts.push(`Item Storage +${scores.itemStorage}`);
-          if (scores.handSampling > 0) scoreParts.push(`Hand Sampling +${scores.handSampling}`);
-          if (scores.creatureHarvesting > 0) scoreParts.push(`Creature Harvesting +${scores.creatureHarvesting}`);
-          if (scores.detonation > 0) scoreParts.push(`Detonation +${scores.detonation}`);
+          if (scores.itemStorage > 0) scoreParts.push(`Item Storage:${scores.itemStorage}`);
+          if (scores.handSampling > 0) scoreParts.push(`Hand Sampling Bonus:${scores.handSampling}`);
+          if (scores.creatureHarvesting > 0) scoreParts.push(`Creature Harvesting Bonus:${scores.creatureHarvesting}`);
+          if (scores.detonation > 0) scoreParts.push(`Detonation Power:${scores.detonation}`);
 
           if (moduleList.length > 0) {
             summaryLine += ` Modules: ${moduleList.join(", ")}.`;
