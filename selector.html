@@ -34,26 +34,23 @@
       align-items: center;
       z-index: 9999;
     }
-    #overlay img {
-      margin: 10px;
+   .overlay-content {
+      position: relative;
+      display: inline-block; /* so the image, button can be sized as a block together */
+    }
+   .overlay-content img {
+      margin: 10px; /* 20px total space around image */
       width: auto;
       height: auto;
       border-radius: 5px;
       background: #fff;
     }
-    #overlay .close-btn {
+    .close-btn {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      background-color: #fff;
-      color: #000;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      padding: 5px 10px;
+      top: 10px;
+      right: 10px;
+      /* same styling as before, but no longer anchored to the screen’s corner */
     }
-
     /* Module styling */
     .module-container {
       margin: 10px 0;
