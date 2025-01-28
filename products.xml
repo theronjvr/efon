@@ -276,7 +276,7 @@
         <image>https://theronjvr.github.io/efon/images/Guardian.png</image>
         <type>Combat</type>
         <basePrice>40000</basePrice>
-        <palette>https://theronjvr.github.io/efon/images/color/guardian.png</palette>
+        <palette>https://theronjvr.github.io/efon/images/color/guard.png</palette>
         <chassisPrice>15000</chassisPrice>
         <colorOptions>2</colorOptions>
         <maxModules>
