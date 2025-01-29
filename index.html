@@ -17,12 +17,13 @@
 
         .location-card {
             text-align: center;
+            cursor: pointer;
         }
 
         .location-image {
             width: 380px;
             object-fit: contain;
-            border: 1px solid white; /* Default border color */
+            border: 1px solid white;
             padding: 5px;
             background-color: #fff;
             border-radius: 5px;
@@ -30,8 +31,8 @@
         }
 
         .location-image:hover {
-            transform: scale(1.05); /* Slight zoom effect */
-            border-color: black; /* Change border to black on hover */
+            transform: scale(1.05);
+            border-color: black;
         }
 
         .location-name {
@@ -45,6 +46,44 @@
             color: #555;
             margin-top: 5px;
         }
+
+        /* Full-size overlay styles */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            border: 5px solid white;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            font-size: 24px;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .close-button:hover {
+            background: rgba(255, 0, 0, 0.7);
+        }
     </style>
 </head>
 <body>
@@ -53,7 +92,7 @@
             <a href="https://theronjvr.github.io/efon"><img src="https://theronjvr.github.io/efon/images/title.png"></a>
         </header>
         <h1>These are the droids you're looking for!</h1>
-        <div class="banner-ad"><a href="https://theronjvr.github.io/efon/droidbuilder.html"><img src="https://theronjvr.github.io/efon/images/buildadroid.png" alt="Create a custom order and quote with the new tool from Efon’s Droids! Select your chassis and choose each module for a custom droid thar works for you!"></a>
+        <div class="banner-ad"><a href="https://theronjvr.github.io/efon/droidbuilder.html"><img src="https://theronjvr.github.io/efon/images/buildadroid.png" alt="Create a custom order and quote with the new tool from Efon’s Droids! Select your chassis and choose each module for a custom droid that works for you!"></a>
         </div>
         <h2>Welcome to Efon's Droids!</h2>
         <p>Come see every droid craftable at our showroom due west of Theed (just 786m from Shuttleport B), and browse the largest selection of droids in the galaxy! From max (30 item) storage droids to space and combat droids, we have it all at the best prices on Omega! Send a DM or send a holomail to <b>Efon'Ahazi</b> for special orders or questions.</p>
@@ -61,28 +100,48 @@
 <p>Your source for the finest droids since 2003. See all droids and modules available: <a href="https://theronjvr.github.io/efon/EfonsDroidsModules.pdf">Droid Chart PDF</a></p>
         <h2>Locations</h2>
         <div class="location-grid">
-            <div class="location-card">
+            <div class="location-card" onclick="openOverlay('https://theronjvr.github.io/efon/images/naboo.png')">
                 <img src="https://theronjvr.github.io/efon/images/naboo.png" alt="Theed Location" class="location-image">
                 <div class="location-name">Theed, Naboo</div>
                 <div class="location-wp">/wp Naboo -6638 4254</div>
             </div>
-            <div class="location-card">
+            <div class="location-card" onclick="openOverlay('https://theronjvr.github.io/efon/images/corellia.png')">
                 <img src="https://theronjvr.github.io/efon/images/corellia.png" alt="Stratford Vale Location" class="location-image">
                 <div class="location-name">Stratford Vale, Corellia</div>
                 <div class="location-wp">/wp Corellia 953 -3380</div>
             </div>
-            <div class="location-card">
+            <div class="location-card" onclick="openOverlay('https://theronjvr.github.io/efon/images/tatooine.png')">
                 <img src="https://theronjvr.github.io/efon/images/tatooine.png" alt="New Capitol City Location" class="location-image">
                 <div class="location-name">New Capitol City, Tatooine</div>
                 <div class="location-wp">/wp Tatooine 1065 5401</div>
             </div>
         </div>
         
-        <div id="copyright"> <p>The data used in this website is based on droids and modules available in <a href="https://swglegends.com/">Star Wars Galaxies Legends</a> as of the below copyright date. This is a private fan project and not affiliated with SWG Legends.</p>
-<p>Star Wars Galaxies is a registered trademark of Lucasfilm Entertainment Company Ltd.</p>
-<p>Copyright © 2025 Efon's Droids. All rights reserved.</p>
-<p>Please report bugs and send feedback to Efon'Ahazi in-game or Discord at Efon'Ahazi (lord_theron). </p>
+        <div id="copyright">
+            <p>The data used in this website is based on droids and modules available in <a href="https://swglegends.com/">Star Wars Galaxies Legends</a> as of the below copyright date. This is a private fan project and not affiliated with SWG Legends.</p>
+            <p>Star Wars Galaxies is a registered trademark of Lucasfilm Entertainment Company Ltd.</p>
+            <p>Copyright © 2025 Efon's Droids. All rights reserved.</p>
+            <p>Please report bugs and send feedback to Efon'Ahazi in-game or Discord at Efon'Ahazi (lord_theron).</p>
         </div>
     </div>
+
+    <!-- Full-size image overlay -->
+    <div id="imageOverlay" class="overlay" onclick="closeOverlay()">
+        <button class="close-button" onclick="closeOverlay(); event.stopPropagation();">X</button>
+        <img id="fullSizeImage" src="" alt="Full-size view">
+    </div>
+
+    <script>
+        function openOverlay(imageSrc) {
+            const overlay = document.getElementById("imageOverlay");
+            const fullSizeImage = document.getElementById("fullSizeImage");
+            fullSizeImage.src = imageSrc;
+            overlay.style.display = "flex";
+        }
+
+        function closeOverlay() {
+            document.getElementById("imageOverlay").style.display = "none";
+        }
+    </script>
 </body>
 </html>
