@@ -36,7 +36,7 @@
         <option id="Structure Maintenance MAX" description="Enables maintenance payment for owned structures galaxy wide." price="7500">Structure Maintenance MAX</option>
     </type>
     <type id="Armor">
-        <option id="Armor" description="Increases CL and HP of droid. Select 2 to cap." price="2500">Max Armor</option>
+        <option id="Armor" description="Increases CL and HP of droid. Select 2 to cap." price="4000">Max Armor</option>
         <option id="No Armor" description="No Armor (lower CL)." price="0">No Armor</option>
     </type>
     <type id="Personality">
