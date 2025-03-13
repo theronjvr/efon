@@ -9,7 +9,7 @@
         <option id="Combat - Torture Panel" description="Special toxin darts combat attack. Select 2 to cap level." price="4000">Combat - Torture Panel</option>
     </type>
     <type id="Service">
-        <option id="Item Storage" description="Allows droid to store items. Select one for 10 storage or 2 for cap of 30." price="7500">Item Storage</option>
+        <option id="Item Storage" description="Allows droid to store items. Select one for 10 item storage or 2 for cap of 30." price="7500">Item Storage</option>
         <option id="Hand Sampling (Mining)" description="Increases yield of hand sampled resources by 10. Select 6 to cap." price="5000">Hand Sampling (Mining)</option>
         <option id="Creature Harvest" description="Increases yield of meat/hide/bones by 20. Select 6 to cap." price="5000">Creature Harvest</option>
         <option id="Crafting - Clothing" description="Allows droid owner to craft all known clothing schematics from anywhere." price="5000">Crafting - Clothing</option>
