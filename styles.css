@@ -75,6 +75,9 @@ a.banner-ad {
 #header-id {
   text-align: center; /* Center align content inside body */
 }
+#bottom_nav {
+  text-align: center; /* Center align content inside body */
+}
 
 nav {
     background-color: #333399;
@@ -85,6 +88,7 @@ nav a {
     color: white;
     text-decoration: none;
     font-size: 18px;
+    font-weight: bold;
     margin: 0 15px;
     padding: 10px;
 }
