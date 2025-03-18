@@ -7,17 +7,134 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://use.typekit.net/ara6mwm.css">
     <link rel="icon" type="image/png" href="https://theronjvr.github.io/efon/icon.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .content {
+            width: 80%;
+            margin: auto;
+        }
+        header {
+            text-align: center;
+            padding: 10px 0;
+        }
+        nav {
+            background-color: blue;
+            text-align: center;
+            padding: 10px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 15px;
+            padding: 10px;
+        }
+        nav a:hover {
+            background-color: black;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        p {
+            line-height: 1.6;
+        }
+    </style>
 </head>
 <body>
     <div class="content">
-        <header id="header-id">
-            <a href="https://theronjvr.github.io/efon"><img src="https://theronjvr.github.io/efon/images/title.png"></a>
+        <header>
+            <a href="https://theronjvr.github.io/efon">
+                <img src="https://theronjvr.github.io/efon/images/title.png" alt="Efon's Droids Logo">
+            </a>
         </header>
+        
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="build-a-droid.html">Build-A-Droid</a>
+            <a href="about.html">About</a>
+            <a href="droid-guides.html">Droid Guides</a>
+        </nav>
+        
         <h1>Droid Guides</h1>
         <h2>Combat</h2>
-        <p>Lorem ipsum</p>
+        <p>
+            <img src="commands.png" alt="Commands" style="width: 200px; height: 200px; float: right; margin-left: 10px;"> 
+            Level the playing field with an Efon's Droids sturdy combat droid with a great health pool and solid damage output. You can use a droid with a combat level (CL) up to 5 levels higher than you (e.g. you can use a CL60 droid at level 55). Many of our models also feature such combat specials as self-shielding (Droideka Shield) or repair (Regenerative Plating), or special attacks like Electric Shocker, Flame Jet, Rapid Discharge Battery and/or Torture Panel. Don't be caught without your personal droid bodyguard! NOTE: DROIDS CAPPED AT CL60 FOR COMBAT CLASSES (90s will keep abilities but automatically reset to 60).
+        </p>
+        
+        <p>Using a droid in combat is as simple as calling it from your datapad or toolbar. You can set your droid to group with you (so you can monitor health) and guard you (so it will attack anything that attacks you) using the following macro (where xx is the toolbar slot your droid is and yy is an toolbar slot with any other command you want to setup to start):
+        </p>
+<pre>
+/ui action toolbarSlotxx;
+/pause 2;
+/tellpet guard;
+/pause 1;
+/tellpet group;
+/pause 1;
+/ui action toolbarSlotyy;
+</pre>
+        
+        <p>The above macro assumes that you haven't changed the voice commands for guard and group. If you have, simply match the macro to your droid command (see radial menu > Program). You can also just drag the Droid - Guard command onto your toolbar and click that after calling the droid if you don't want to deal with macros.</p>
+        
         <h2>Utility</h2>
-        <p>Lorem ipsum</p>
+        <p><b>Hand Sampling</b><br />    
+Make the most of your time on Mustafar and beyond with one of Efon's mining droids! Increase your hand sampling haul with our capped 60% sampling bonus and outsample a harvester! Pays for itself in no time! Combine with Hand Sampling entertainer buff and Chandad/jewelry for an even bigger yield. Don't forget extra batteries!
+</p>
+<p><b>Crafting Module</b><br />    
+Create your wares from anywhere with an Efon's Droids crafting companion! Available for all crafting types, pick a precongifured droid or order one for your specific needs. Free yourself from the workshop and go out and see the galaxy! 
+</p>
+<p><b>Inventory</b><br />    
+Always running out of room in your inventory? Let your droid shoulder the weight of your loot and increase your capacity by up to 30 items per droid with a hand-crafted storage droid by Efon's Droids! Hide away your items with our storage droids in almost any droid make you can imagine, and access them by simple selecting "Droid Options" > "Open Droid's Item Storage Compartment" from the radial menu of the droid. When you can own 20 droids (or even 30 with droid upgrade at Mos Eisley), why not buy several?
+</p>
+<p><b>Creature Harvest</b><br />    
+Increase your yield from creatures across the galaxy with a harvester droid from Efon's Droids! Use your droid to automatically collect the resource type you desire (bone, meat, hide) and your little helper will store collect and store the resource directly in your inventory, with a bonus to boot! Includes armor protection to avoid the nicks and scrapes that come out in the field.
+</p>
+<p><b>Data Module (Pilot)</b><br />    
+Survive the most difficult space battles with an astromech or flight computer from Efon's Droids. There's something for everyone from the novice pilot to the ace flyer. Just load them up with life-saving commands and control the stars!
+</p>
+<p><b>Playback</b><br />    
+Give your musician droid accompanyment with the playback module, which allows you to record 30 seconds of music using any instrument, without flourishes. The droid must be grouped with in order for the playback module to play back a song.
+</p>
+<p><b>Barker</b><br />    
+Advertise your wares via a merchant barker droid from Efon's Droids! Customize your message and play it every minute for all nearby. This useful robot will also provide potential customers a waypoint to your shop on request (just load the waypoint from your datapad).
+</p>
+<p><b>Power Droid (innate ability)</b><br />    
+An EG-6 Power Droid from Efon's Droids can recharge other people's droids! Simply program your power droid with the "Recharge" command in the radial menu under "Program",  target the droid you wish to recharge, and speak the command. Help out your fellow droid owners!
+</p>
+<p><b>Detonation Module</b><br />    
+Give your mark an unpleasant surprise with one of Efon's maximum damage detonation droids! Pack the best punch for your credits with one (or a crate) of our MSE Adv models and take advantage of the bonus (+10 per module). Just set to detonate and "follow other" on your target and get ready to pick loot out of what remains. FOR BH/SMUGGLER USE ONLY.
+</p>
+<p><b>Structure Maintenance</b><br />    
+Pay maintenance on your buildings across the galaxy from the comfort of your home with a Structure Manintenance droid from Efon's Droids! To use this module, first assign it to a structure through its structure managemant window. Then you can simply send the droid to perform a run by accessing the droid menu. Up to 10 structures can be selected for the droid to add maintenance to, including those off world.
+</p>
+<p><b>Entertainer Effects</b><br />    
+Dazzle your fans with a R3 Entertainment droid by Efon, with all available special effects modules (Avian, Confetti, Dancing Jawa, Electric Fog, Foam and Mind Bloom) to put on a show that gets noticed -- and tipped! Check out a dance droid module in our accessories vendor for an additional holographic show!
+</p>
+<p><b>Dance Module</b><br />    
+Play the cantina song from any droid, with holographic droid copy effect, with a Droid Dance Module from Efon! Just select "Load Module" from the chip and pick a droid in your datapad. When installed, the "dance" option will appear on the droids radial menu. When the dance option is selected the droid wil perform a short "dance." When dancing, the droid creates two holographic copies of itself and moves around while playing a recording of the Modal Nodes' Cantina song. The performance duration is approx 3 minutes and cannot be stopped once started aside from storing the droid. 
+</p>
+<p><b>Interplanetary Survey Droid</b><br />    
+Find out what minerals are on other planets without leaving your home! Simply plug in the survey tool of the type of resource you want to survey and then choose your desired planet. It will roam around the planet and will send a mail as soon as it gets a complete resource-list for the planet. 
+</p>
+<p><b>Droid Customization Kit</b><br />    
+Allows the user to change the color scheme of their droid. The Mining Droid MK3, Protocol and Battle Droid models cannot be recolored. Most droids have two color schemes, but some only have one. To use, simply target your called droid and select "Use" from the radial menu for the kit in your inventory (or drag to toolbar and use from action button). Select the color for the frame and trim (if applicable) and hit ok if you like the preview.
+</p>
+<p><b>Droid Decal Kit</b><br />    
+Choose from one of a dozen custom paint designs on your Battle or Super Battle Droid with a Droid Decal Kit. To use, simply target your called droid and select "Set Texture" from the radial menu for the kit in your inventory (or drag to toolbar and use from action button). Only works on aformentioned droid models.
+</p>
+<p><b>Unprogrammed Droid Command Module</b><br />    
+These chips are used by all pilots to trade commands to one another. Commands that are natively learned by the pilot do not need to be burned onto these chips in order to program their flight computer/astromech. For instance, if an imperial pilot desires to use the "Weapon Capacitor to Shield Shunt" command, he can have his Neutral buddy burn the Command onto one of these chips and give it to him. Once the command is inserted into the flight computer/astromech, the chip is destroyed.
+</p>
+<p><b>Creature Resource Survey Module</b><br />    
+When used with an Interplanetary Survey Droid, this module can be used like other survey tools to find a planet's organic creature resources.
+</p>
+<p><b>Cybernetic Species Kit</b><br />    
+Medics can change the species and/or gender of other players by using Species Modification Terminals located in the Medical Centers of Mos Entha, Coronet, and Theed. The process uses a Cybernetic Species Kit, which will be consumed by the process. After the transformation, the character will have a randomized appearance for the new species/gender. Visit an Image Designer to customize your appearance further.
+</p>
 
         
         <div id="copyright">
