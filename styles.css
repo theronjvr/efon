@@ -28,7 +28,8 @@ body {
 h1 {
   font-family: "cooper-black-std", Arial, sans-serif;
   font-weight: 400;
-  font-style: italic;
+  font-style: italic;  
+  color: white;
   text-transform: lowercase;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: #333399;
