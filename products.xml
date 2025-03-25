@@ -363,7 +363,7 @@
             <Combat>0</Combat>
             <Service>0</Service>
             <Hybrid>3</Hybrid>
-            <Armor>0</Armor>
+            <Armor>1</Armor>
             <Personality>1</Personality>
         </maxModules>
     </product>
