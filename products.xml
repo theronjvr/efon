@@ -847,4 +847,19 @@
             <Personality>0</Personality>
         </maxModules>
     </product>
-</products>
+    <product id="54">
+        <name>BB Series Droid*</name>
+        <image>https://theronjvr.github.io/efon/images/BB.png</image>
+        <basePrice>150000</basePrice>
+        <type>Utility</type>
+         <palette>https://theronjvr.github.io/efon/images/color/default.png</palette>
+        <chassisPrice>150000</chassisPrice>
+        <colorOptions>0</colorOptions>
+       <maxModules>
+            <Combat>0</Combat>
+            <Service>6</Service>
+            <Hybrid>0</Hybrid>
+            <Armor>2</Armor>
+            <Personality>0</Personality>
+        </maxModules>
+    </product></products>
