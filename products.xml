@@ -867,9 +867,9 @@
         <name>IG-106 Series Droid*</name>
         <image>https://theronjvr.github.io/efon/images/ig106.png</image>
         <basePrice>1500000</basePrice>
-        <palette>https://theronjvr.github.io/efon/images/color/cz.png</palette>
+        <palette>https://theronjvr.github.io/efon/images/color/ig.png</palette>
         <chassisPrice>1500000</chassisPrice>
-        <colorOptions>2</colorOptions>
+        <colorOptions>1</colorOptions>
         <type>Combat</type>
         <maxModules>
             <Combat>9</Combat>
