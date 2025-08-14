@@ -132,7 +132,7 @@
         <image>https://theronjvr.github.io/efon/images/CZ.png</image>
         <basePrice>3000000</basePrice>
         <palette>https://theronjvr.github.io/efon/images/color/cz.png</palette>
-        <chassisPrice>70000</chassisPrice>
+        <chassisPrice>3000000</chassisPrice>
         <colorOptions>2</colorOptions>
         <type>Combat</type>
         <maxModules>
@@ -261,7 +261,7 @@
         <type>Combat</type>
         <basePrice>3000000</basePrice>
         <palette>https://theronjvr.github.io/efon/images/color/fx.png</palette>
-        <chassisPrice>70000</chassisPrice>
+        <chassisPrice>3000000</chassisPrice>
         <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>9</Combat>
@@ -293,7 +293,7 @@
         <basePrice>45000000</basePrice>
         <type>Combat</type>
         <palette>https://theronjvr.github.io/efon/images/color/default.png</palette>
-        <chassisPrice>70000</chassisPrice>
+        <chassisPrice>45000000</chassisPrice>
         <colorOptions>0</colorOptions>
         <maxModules>
             <Combat>9</Combat>
@@ -325,7 +325,7 @@
         <type>Combat</type>
         <basePrice>30000000</basePrice>
         <palette>https://theronjvr.github.io/efon/images/color/default.png</palette>
-        <chassisPrice>70000</chassisPrice>
+        <chassisPrice>30000000</chassisPrice>
         <colorOptions>0</colorOptions>
         <maxModules>
             <Combat>9</Combat>
@@ -850,7 +850,7 @@
     <product id="54">
         <name>BB Series Droid*</name>
         <image>https://theronjvr.github.io/efon/images/BB.png</image>
-        <basePrice>150000</basePrice>
+        <basePrice>150000000</basePrice>
         <type>Utility</type>
          <palette>https://theronjvr.github.io/efon/images/color/default.png</palette>
         <chassisPrice>150000000</chassisPrice>
@@ -868,7 +868,7 @@
         <image>https://theronjvr.github.io/efon/images/ig106.png</image>
         <basePrice>75000000</basePrice>
         <palette>https://theronjvr.github.io/efon/images/color/ig.png</palette>
-        <chassisPrice>150000</chassisPrice>
+        <chassisPrice>75000000</chassisPrice>
         <colorOptions>1</colorOptions>
         <type>Combat</type>
         <maxModules>
