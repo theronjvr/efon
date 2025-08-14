@@ -130,7 +130,7 @@
     <product id="9">
         <name>CZ-Protocol Droid*</name>
         <image>https://theronjvr.github.io/efon/images/CZ.png</image>
-        <basePrice>70000</basePrice>
+        <basePrice>3000000</basePrice>
         <palette>https://theronjvr.github.io/efon/images/color/cz.png</palette>
         <chassisPrice>70000</chassisPrice>
         <colorOptions>2</colorOptions>
@@ -259,7 +259,7 @@
         <name>FX-7 Droid*</name>
         <image>https://theronjvr.github.io/efon/images/FX.png</image>
         <type>Combat</type>
-        <basePrice>70000</basePrice>
+        <basePrice>3000000</basePrice>
         <palette>https://theronjvr.github.io/efon/images/color/fx.png</palette>
         <chassisPrice>70000</chassisPrice>
         <colorOptions>2</colorOptions>
@@ -290,7 +290,7 @@
     <product id="19">
         <name>Guavian Death Gang AT-ST Droid*</name>
         <image>https://theronjvr.github.io/efon/images/ATST.png</image>
-        <basePrice>70000</basePrice>
+        <basePrice>45000000</basePrice>
         <type>Combat</type>
         <palette>https://theronjvr.github.io/efon/images/color/default.png</palette>
         <chassisPrice>70000</chassisPrice>
@@ -323,7 +323,7 @@
         <name>K-2 Droid (Imp/Rebel/Neutral)*</name>
         <image>https://theronjvr.github.io/efon/images/K2.png</image>
         <type>Combat</type>
-        <basePrice>70000</basePrice>
+        <basePrice>30000000</basePrice>
         <palette>https://theronjvr.github.io/efon/images/color/default.png</palette>
         <chassisPrice>70000</chassisPrice>
         <colorOptions>0</colorOptions>
@@ -853,7 +853,7 @@
         <basePrice>150000</basePrice>
         <type>Utility</type>
          <palette>https://theronjvr.github.io/efon/images/color/default.png</palette>
-        <chassisPrice>150000</chassisPrice>
+        <chassisPrice>150000000</chassisPrice>
         <colorOptions>0</colorOptions>
        <maxModules>
             <Combat>0</Combat>
@@ -866,7 +866,7 @@
     <product id="55">
         <name>IG-106 Series Droid*</name>
         <image>https://theronjvr.github.io/efon/images/ig106.png</image>
-        <basePrice>150000</basePrice>
+        <basePrice>75000000</basePrice>
         <palette>https://theronjvr.github.io/efon/images/color/ig.png</palette>
         <chassisPrice>150000</chassisPrice>
         <colorOptions>1</colorOptions>
