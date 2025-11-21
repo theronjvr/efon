@@ -211,9 +211,9 @@
         <name>DZ70 Droid</name>
         <image>https://theronjvr.github.io/efon/images/DZ.png</image>
         <type>Utility</type>
-        <basePrice>10000</basePrice>
+        <basePrice>15000</basePrice>
         <palette>https://theronjvr.github.io/efon/images/color/dz.png</palette>
-        <chassisPrice>10000</chassisPrice>
+        <chassisPrice>15000</chassisPrice>
         <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>0</Combat>
@@ -227,9 +227,9 @@
         <name>DZ70 Droid Advanced</name>
         <image>https://theronjvr.github.io/efon/images/DZ.png</image>
         <type>Utility</type>
-        <basePrice>10000</basePrice>
+        <basePrice>15000</basePrice>
         <palette>https://theronjvr.github.io/efon/images/color/dz.png</palette>
-        <chassisPrice>10000</chassisPrice>
+        <chassisPrice>15000</chassisPrice>
         <colorOptions>1</colorOptions>
       <maxModules>
             <Combat>0</Combat>
@@ -243,9 +243,9 @@
         <name>DZ70 Droid Advanced II</name>
         <image>https://theronjvr.github.io/efon/images/DZ.png</image>
         <type>Combat</type>
-        <basePrice>10000</basePrice>
+        <basePrice>15000</basePrice>
         <palette>https://theronjvr.github.io/efon/images/color/dz.png</palette>
-        <chassisPrice>10000</chassisPrice>
+        <chassisPrice>15000</chassisPrice>
         <colorOptions>1</colorOptions>
         <maxModules>
             <Combat>9</Combat>
@@ -450,10 +450,10 @@
     <product id="29">
         <name>MSE Droid</name>
         <image>https://theronjvr.github.io/efon/images/MSE.png</image>
-        <basePrice>10000</basePrice>
+        <basePrice>15000</basePrice>
         <type>Utility</type>
         <palette>https://theronjvr.github.io/efon/images/color/mse.png</palette>
-        <chassisPrice>7500</chassisPrice>
+        <chassisPrice>10000</chassisPrice>
         <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
@@ -467,9 +467,9 @@
         <name>MSE Droid Advanced</name>
         <image>https://theronjvr.github.io/efon/images/MSE.png</image>
         <type>Utility</type>
-        <basePrice>10000</basePrice>
+        <basePrice>15000</basePrice>
         <palette>https://theronjvr.github.io/efon/images/color/mse.png</palette>
-        <chassisPrice>7500</chassisPrice>
+        <chassisPrice>10000</chassisPrice>
         <colorOptions>2</colorOptions>
         <maxModules>
             <Combat>0</Combat>
