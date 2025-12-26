@@ -850,10 +850,10 @@
     <product id="54">
         <name>BB Series Droid*</name>
         <image>https://theronjvr.github.io/efon/images/BB.png</image>
-        <basePrice>200000000</basePrice>
+        <basePrice>250000000</basePrice>
         <type>Utility</type>
          <palette>https://theronjvr.github.io/efon/images/color/default.png</palette>
-        <chassisPrice>200000000</chassisPrice>
+        <chassisPrice>250000000</chassisPrice>
         <colorOptions>0</colorOptions>
        <maxModules>
             <Combat>0</Combat>
