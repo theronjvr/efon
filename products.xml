@@ -879,4 +879,20 @@
             <Personality>1</Personality>
         </maxModules>
     </product>
+        <product id="56">
+        <name>IC-36 Series Droid*</name>
+        <image>https://theronjvr.github.io/efon/images/ic36.png</image>
+        <basePrice>200000000</basePrice>
+        <palette>https://theronjvr.github.io/efon/images/color/default.png</palette>
+        <chassisPrice>200000000</chassisPrice>
+        <colorOptions>0</colorOptions>
+        <type>Combat</type>
+        <maxModules>
+            <Combat>9</Combat>
+            <Service>0</Service>
+            <Hybrid>3</Hybrid>
+            <Armor>2</Armor>
+            <Personality>1</Personality>
+        </maxModules>
+    </product>
 </products>
