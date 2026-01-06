@@ -6,28 +6,53 @@
     <title>Efon's Droids - Guides</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://use.typekit.net/ara6mwm.css">
-    <link rel="icon" type="image/png" href="https://theronjvr.github.io/efon/icon.png">
+    <link rel="icon" type="image/png" href="icon.png">
 </head>
 <body>
     <div class="content">
-        <header>
-            <a href="https://theronjvr.github.io/efon">
-                <img src="https://theronjvr.github.io/efon/images/title.png" alt="Efon's Droids Logo">
-            </a>
-        </header>
-        
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="droidbuilder.html">Build-A-Droid</a>
-            <a href="about.html">About</a>
-            <a href="guides.html">Droid Guides</a>
-        </nav>
-        
+<div id="site-header"></div>
+<script src="/header.js"></script>
+
         <h1>Droid Guides</h1>
+        
+       <h2>Droid Naming</h2>
+        <p>Droids have a very restricted name filter. Their names must be one word (no spaces), and have no numbers or other special characters in them (yes, this means R2-D2 is out, unfortunately). You may use capital letters, but bear in mind that their names are case-sensitive so please remember to enter them in exactly the same way each time.</p>
+
+<p>You rename your droid by training it with at least four different commands with the droid's name first, and then the command with a space between. For example:</p></p>
+<img
+  src="images/droid_rename.png"
+  alt="Droid renaming"
+  class="guide-float-image"
+  onclick="openOverlay('images/droid_rename.png')"><div id="imageOverlay" class="overlay" onclick="closeOverlay()">
+  <button class="close-button" onclick="closeOverlay(); event.stopPropagation();">X</button>
+  <img id="fullSizeImage" src="" alt="Full-size view">
+</div>
+<ul><li> Select Program from the droid's radial menu, and select "Attack".<br /><br /></li>
+<li> Droid indicates it is ready with a question mark floating above its head "?".<br /><br /></li>
+<li> Say the name that you'd like the droid to be called, followed by a space and then the command, eg "KayTwo attack"<br /><br /></li>
+<li> Droid responds to indicate that it has learnt that command by an exclamation mark floating above its head "!".<br /><br /></li>
+<li> Repeat three more times with different commands:<br /><br /></li>
+<li> Select Program from the droid's radial menu, and select "Guard".<br /><br /></li>
+<li> "?"<br /><br /></li>
+<li> "KayTwo guard"<br /><br /></li>
+<li> "!"<br /><br /></li>
+<li> Select Program from the droid's radial menu, and select "Stay".<br /><br /></li>
+<li> "?"<br /><br /></li>
+<li> "KayTwo stay"<br /><br /></li>
+<li> "!"<br /><br /></li>
+<li> Select Program from the droid's radial menu, and select "Follow Me".<br /><br /></li>
+<li> "?"<br /><br /></li>
+<li> "KayTwo heel"<br /><br /></li>
+<li> "!"<br /><br /></li>
+<li> Droid now produces a thought chat bubble, "KayTwo&#160;?" indicating that it has learned its name and the name above the droid's body change.<br /><br /></li>
+<li> You can now go back and retrain those four commands however you'd like (without the droids name in), if you like.<br /><br /></li></ul>
         <h2>Combat</h2>
-        <p>
-            <img src="images/commands.png" alt="Commands" style="width: 400px; height: 400px; float: right; margin-left: 10px;"> 
-            Level the playing field with an Efon's Droids sturdy combat droid with a great health pool and solid damage output. You can use a droid with a combat level (CL) up to 5 levels higher than you (e.g. you can use a CL60 droid at level 55). Many of our models also feature such combat specials as self-shielding (Droideka Shield) or repair (Regenerative Plating), or special attacks like Electric Shocker, Flame Jet, Rapid Discharge Battery and/or Torture Panel. Don't be caught without your personal droid bodyguard! NOTE: DROIDS CAPPED AT CL60 FOR COMBAT CLASSES (90s will keep abilities but automatically reset to 60).
+<img
+  src="images/commands.png"
+  alt="Droid command list"
+  class="guide-float-image"
+  onclick="openOverlay('images/commands.png')">
+            <p> Level the playing field with an Efon's Droids sturdy combat droid with a great health pool and solid damage output. You can use a droid with a combat level (CL) up to 5 levels higher than you (e.g. you can use a CL60 droid at level 55). Many of our models also feature such combat specials as self-shielding (Droideka Shield) or repair (Regenerative Plating), or special attacks like Electric Shocker, Flame Jet, Rapid Discharge Battery and/or Torture Panel. Don't be caught without your personal droid bodyguard! NOTE: DROIDS CAPPED AT CL60 FOR COMBAT CLASSES (90s will keep abilities but automatically reset to 60).
         </p>
         
         <p>Using a droid in combat is as simple as calling it from your datapad or toolbar. You can set your droid to group with you (so you can monitor health) and guard you (so it will attack anything that attacks you) using the following macro (where xx is the toolbar slot your droid is and yy is an toolbar slot with any other command you want to setup to start):
@@ -111,5 +136,18 @@ Medics can change the species and/or gender of other players by using Species Mo
             <p>Please report bugs and send feedback to Efon'Ahazi in-game or Discord at Efon'Ahazi (punkrockies).</p>
         </div>
     </div>
+    
+        <script>
+        function openOverlay(imageSrc) {
+            const overlay = document.getElementById("imageOverlay");
+            const fullSizeImage = document.getElementById("fullSizeImage");
+            fullSizeImage.src = imageSrc;
+            overlay.style.display = "flex";
+        }
+
+        function closeOverlay() {
+            document.getElementById("imageOverlay").style.display = "none";
+        }
+    </script>
 </body>
 </html>
